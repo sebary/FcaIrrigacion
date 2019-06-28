@@ -1,0 +1,372 @@
+---
+title: "Metodologías de análisis propuestas para revisión del Fondo Potrerillos y posibles extensiones"
+author: Dr. Sebastián Riera
+#- name: Sebastián Riera
+#  email: sebary@gmail.com
+#  affiliation: FcaUncuyo
+#  footnote: Corresponding Author
+#- name: Alejandro J. Gennari
+#  email: ajgennari@hotmail.com
+#  affiliation: FcaUncuyo
+address: Departmento de Economía y Política Agraria. Facultad de Ciencias Agrarias. Universidad Nacional de Cuyo
+#  - code: FcaUncuyo
+#    address: Departmento de Economía y Política Agraria. Facultad de Ciencias Agrarias. Universidad Nacional de Cuyo
+#abstract: 
+documentclass: elsarticle
+bibliography: FcaIrrigacion.bib
+#output: rticles::elsevier_article
+output:
+  pdf_document:
+    fig_caption: yes
+    #includes: null
+  number_sections: yes
+geometry: left=2.1cm,right=2.1cm,top=1.8cm,bottom=1.5cm
+cls: elsarticle.cls #cas-sc.cls
+header-includes:
+- \renewcommand{\baselinestretch}{1.5} #{1.2} # Testing for double-space
+- \usepackage{placeins} # ensure that tbales and figures remain in the corresponding section
+- \usepackage{fancyhdr}
+- \usepackage{setspace}
+- \let\counterwithout\relax
+- \let\counterwithin\relax
+- \usepackage{chngcntr} # activates counting within sections
+- \setlength{\abovecaptionskip}{0pt plus 0pt minus 2pt}
+- \usepackage{lmodern}
+- \usepackage{booktabs}
+- \setlength{\floatsep}{-.5pt}
+- \usepackage{amsmath,mathtools}
+- \usepackage[bottom]{footmisc}
+- \usepackage[export]{adjustbox} # loads also graphicx
+- \usepackage{multirow}
+- \usepackage{float}
+- \usepackage{longtable}
+- \usepackage{array}
+- \usepackage{wrapfig}
+- \usepackage{colortbl,xcolor}
+- \usepackage{pdflscape}
+- \usepackage{tabu}
+- \usepackage{threeparttable,threeparttablex}
+- \usepackage[normalem]{ulem}
+- \usepackage{makecell}
+- \usepackage{pgfplots,tikz}
+---
+
+```{r setup2, include=FALSE, results='hide'}
+knitr::read_chunk("RegulatoryEffort.R")
+knitr::opts_chunk$set(fig.cap="",fig.pos="h", warning= FALSE, cache = FALSE, message = FALSE, echo = FALSE)
+options(scipen=999) # disable scientific notation
+```
+
+```{r SetUpPC2, results="hide"}
+```
+\vspace{-1cm}
+
+\begin{center} \textbf{Dr. Sebastián Riera}
+\end{center}
+
+Las dificultades de manejo del recurso hídrico se acentúan en situaciones de escasez y requieren un análisis profundo de las circunstancias que permita avanzar hacia un sistema resiliente a estos fenómenos cada vez más frecuentes.
+Considerando las caracterísitcas del sistema de riego de la provincia de Mendoza y la relevancia del Departamento General de Irrigación (DGI), 
+el presente trabajo se orienta en los ámbitos económicos y jurídicos para revisar la metodología del _Fondo Potrerillos_ y sus posibles extensiones.
+El análisis económico permite el diseño de herramientas eficientes para mejorar la gobernanza del agua en contexto de conflicto de intereses y altos costos de transacción [@Gomez2018].
+Los instrumentos económicos no siempre se adaptan al manejo de activos tan complejos como el agua para riego; 
+al ser originalmente diseñados para otro tipo de activos y enfocados en conceptos de bienestar con preferencias claramente definidas.
+
+Sin embargo, es deseable considerar _herramientas integrales_ desde el punto de vista económico y jurídico que apunten a solucionar el desafío de dotación de agua con demandas crecientes en períodos de escasez en climas áridos y semi-áridos.
+Entre los objetivos del presente proyecto, se destaca la estimación del costo de ahorro de agua por la inversión en infraestructura de riego, validado considerando las demandas específicas del recurso hídrico por zona de análisis.
+De esta forma, se logra una estimación del rango de valores aceptables de acuerdo a las características productivas, usos del suelo y sistemas de riego asociados.
+
+\vspace{-.5cm}
+\section{Estimación de oferta hídrica}
+\vspace{-.5cm}
+
+Considerando el promedio de años de escasez, se inicia la traza de la curva de oferta de agua $\mathbb{A}_i^O$ específica para una región de análisis ($i$).
+El análisis de las inversiones recientes y la estimación de las inversiones necesarias se ordenan en la curva de oferta de acuerdo a la priorización de obras de infraestructura y el volumen adicional de agua para riego ahorrado.
+
+\vspace{-.5cm}
+\begin{equation}
+\mathbb{A}_i^O = g (\bar{\mathbb{A}}^O, N_i, I_i, m_i^3, OF_i)
+\end{equation}
+
+donde $\bar{\mathbb{A}}^O$ es el promedio de agua entregada por el sistema durante los años de escasez,
+$N_i$ es el volumen de nieve,
+$I_i$ representa las inversiones realizadas en infraestructura con el fin de aumentar la oferta hídrica,
+$m_i^3$ son los metros cúbicos _adicionales_ o _ahorrados_ por la ejecución de las obras,
+$OF_i$ representan otros factores relevantes pero no contemplados hasta el momento.
+La inversión en infraestructura y beneficio de la ejecución se interpreta como extensión de la oferta de agua para riego con pendiente positiva en relación al costo asociado.
+
+\begin{center} \begin{tikzpicture}[scale=1.0544]\small
+\begin{axis}[axis line style=gray,
+	samples=120,
+	width=9.0cm,height=6.4cm,
+	xmin=0, xmax=5,
+	ymin=0, ymax=5,
+	restrict y to domain=1:8,
+	ytick={},
+	xtick={},
+	axis equal,
+	axis x line=center,
+	axis y line=center,
+	xlabel=$Hm^3 aplicados$,ylabel=$P_{Hm^3}$]
+\addplot[red,domain=1.5:6,semithick]{exp(x-3)/2+1.9};
+\addplot[black, domain=0:1.5]{2};
+\addplot[] coordinates {(1,2.5)} node{$\mathbb{A}_0^O$};
+\addplot[red] coordinates {(5,4)} node{$\mathbb{A}_1^O$};
+\path (axis cs:0,0) node [anchor=north west,yshift=0.7cm] {0};
+\end{axis} \end{tikzpicture} \\
+Representación de la oferta de agua $\mathbb{A}_i^O$
+\end{center}
+
+\vspace{-.5cm}
+\section{Estimación de demanda de agua para riego}
+\vspace{-.5cm}
+
+Se propone derivar un esquema integral que permita el análisis de efectos de medidas de política hídrica y económica [@Lago2015; @Gruere2018].
+Esto incluye alteraciones en la demanda y oferta del recurso hídrico para riego agrícola por factores endógenos y exógenos.
+Endógenos o propios de la unidad productiva como por ejemplo: las decisiones productivas como tipo de cultivo, sistema de riego, tecnología existente en la finca.
+A su vez, se consideran factores exógenos que pueden modificar las necesidades de riego. 
+_e.g.:_ contingencias climáticas, política fiscal y/o económica, etc.
+
+La derivación de las curvas de demanda de agua $\mathbb{A}_i^D$ se puede realizar teniendo acceso a los datos específicos de la zona de análisis.
+Inicialmente, puede derivarse la estimación en base a @Riera2018 realizada para el cultivo de vid en la margen derecha de Luján de Cuyo.
+
+\vspace{-.5cm}
+\begin{equation}
+\mathbb{A}_i^D = f (Sup_i, C_i, F_i, P_X)
+\end{equation}
+
+Donde $Sup_i$ es la superficie empadronada para riego (ha), 
+$C_i$ es el vector de cultivos en la finca, 
+$F_i$ es la fuente de agua para riego y
+$P_X$ es el precio de mercado del cultivo.
+La consideración de características de suelo en términos de salinidad, drenaje y otras opciones será considerada de acuerdo a la disponibilidad de datos.
+La demanda de agua para riego debe tener una pendiente negativa respecto al precio que paga el productor y es posible que sea inelástica en un segmento determinado.
+Es decir, que el cultivo requiere un mínimo de agua cualquiera sea el precio para seguir produciendo.
+Además de la estimación tradicional de la demanda, se pretende estimar la productividad marginal del agua _efectivamente_ utilizada [@Gomez2018].
+
+\vspace{-.5cm}
+\begin{equation}
+\mathbb{AE}_i^D = f (Sup_i^{*}, C_i, F_i , S_i, P_X, ET_C, T_i)
+\end{equation}
+
+Esta estimación considera, implícitamente, las (d)eficiencias inherentes a la tecnología de riego utilizada en la finca ($S_i^{*}$);
+como así también, las características naturales del suelo y condicionamientos climáticos específicos.
+$ET_C$ es la evapotranspiración de los cultivos en la finca y 
+$T_i$ es una aproximación del estado del tiempo en el período bajo análisis.
+Las demandas para riego están sujetas a cambios en la restricción presupuestaria del productor, cambios en el ingreso agrícola o también a _shocks_ externos como cambios en la estructura fiscal.
+
+\begin{center} \begin{tikzpicture}[scale=1.0544]\small
+\begin{axis}[axis line style=gray,
+	samples=120,
+	width=9.0cm,height=6.4cm,
+	xmin=0, xmax=5,
+	ymin=0, ymax=4.5,
+	restrict y to domain=-5:5.5,
+	ytick={},
+	xtick={},
+	axis equal,
+	axis x line=center,
+	axis y line=center,
+	xlabel=$Hm^3 aplicados$,ylabel=$P_{Hm^3}$]
+\addplot[blue,domain=0:6,semithick]{(x-8)^2/6};
+\addplot[black, domain=0:6]{(x-6)^2/6};
+\addplot[] coordinates {(5,.5)} node{$\mathbb{A}_0^D$};
+\addplot[blue] coordinates {(6,1.3)} node{$\mathbb{AE}_1^D$};
+\path (axis cs:0,0) node [anchor=north west,yshift=0.7cm] {0};
+\end{axis} \end{tikzpicture} \\
+Representación de la demanda de agua y agua efectiva $\mathbb{A}_0^D \ y \ \mathbb{AE}_1^D$
+\end{center}
+
+
+La eficiencia del riego intra-finca está caraterizada por el _paquete tecnológico_ del productor y las herramientas que utiliza para la producción agrícola.
+En otras palabras, la tecnología disponible en la finca como sistema de riego, sistema de conducción de cultivo y prácticas agrícolas (entre otros) determina la efectividad del agua para riego.
+Es posible estimar el volumen mínimo de riego de acuerdo a las caracterísiticas de la finca y el uso del mejor paquete tecnológico disponible.
+A su vez, esta estimación permite calcular el precio correcto (teórico) del agua para riego. 
+El mismo puede ajustarse a valores referenciales de la finca y ajustarse cambios en la disponibilidad del recurso hídrico.
+ 
+ 
+ 
+\begin{center} \begin{tikzpicture}[scale=1.0544]\small
+\begin{axis}[axis line style=gray,
+	samples=120,
+	width=18.0cm,height=12.8cm,
+	xmin=-5, xmax=5,
+	ymin=-4.5, ymax=4.5,
+	restrict y to domain=-5.5:5.5,
+	ytick={},
+	xtick={},
+	axis equal,
+	axis x line=center,
+	axis y line=center,
+	xlabel=$Hm^3 aplicados$,ylabel=$P_{Hm^3}$]
+\addplot[blue,domain=0:6,semithick]{(x-8)^2/6};
+\addplot[black, domain=0:6]{(x-6)^2/6};
+\addplot[] coordinates {(5,.5)} node{$\mathbb{A}_0^D$};
+\addplot[blue] coordinates {(6,1.3)} node{$\mathbb{AE}_1^D$};
+\addplot[red,domain=1.5:6,semithick]{exp(x-3)/2+1.9};
+\addplot[black, domain=0:1.5]{2};
+\addplot[] coordinates {(1,2.2)} node{$\mathbb{A}_0^O$};
+\addplot[red] coordinates {(5,4)} node{$\mathbb{A}_1^O$};
+\addplot[gray, domain=-5:5]{-x};
+\addplot[green, domain=-5:0]{-1/35*(x+6)^(3)-0.5};
+\addplot[green] coordinates {(-6,-.7)} node{$PMg_i^{AE}$};
+\addplot[black] coordinates {(-6,.4)} node{$CMg_{Agua}$};
+\addplot[black] coordinates {(1,-4)} node{$Hm^3 \ efectivos$};
+\path (axis cs:0,0) node [anchor=north west,yshift=0.7cm] {0};
+\end{axis} \end{tikzpicture} \\
+Representación de cambios en la demanda de agua $\mathbb{A}_i^D$ acorde a la expansión de la oferta de riego $\mathbb{A}_1^S$
+\end{center}
+
+$PMg_i^{AE}$ es el producto marginal del agua efectivamente irrigada.
+
+ 
+ 
+ 
+ 
+<!--
+https://tex.s2cms.com/g/
+
+\xymatrix{
+  A \ar[r]^f \ar[d]_g &
+  B \ar[d]^{g'} \\
+  D \ar[r]_{f'} &
+  C
+}
+
+\begin{picture}(76,20)
+\put(0,0){$A$}
+\put(69,0){$B$}
+\put(14,3){\line(1,0){50}}
+\put(39,3){\vector(0,1){15}}
+\put(14,3){\circle*{2}}
+\put(64,3){\circle*{2}}
+\end{picture}
+
+\vspace{-.3cm}
+\begin{equation}
+\begin{aligned}
+Water \space Balance_{i} & = Water \space Supply_{i} \space - Water \space Demand_{i} \\
+ & = (irrigation + AW_{i} + rain) - (dep_{i} - ET_{0} \times K_{c} \times days \times hail)
+\end{aligned}
+\end{equation}
+
+Calculations were made for every month from August until March and included adjustments for rainfall and available water in the soil ($AW_{i}$)[^1].
+The estimation of water demanded by the vines considered density, training system, evapotranspiration ($ET_{0}$), plant transpiration ($K_{c}$), soil percolation requirements, and the use of hail protection nets for grapevines. 
+The calculated variable is a realiable approximation of the water usage and consumption relationship based on the available information.
+
+[^1]: The formula for available water is $$AW_{i} = CR_{i} \times H_{i} \times IT_{i} \times CA_{i} \times SS_{i}$$ The variables and their values in the Carrizal ecosystem are: 
+$CR_{i}$ represents the soil retention capacity (0.12-0.17mm);
+$H_{i}$ the depth of explorable soil by the vine roots (530-780 mm); 
+$IT_{i}$ is the irrigation threshold and represents the drainage capacity values (0.5-0.8);
+$CA_{i}$ is the percentage of covered area by irrigation (30-100%); 
+$SS_{i}$ represents the stone share in the soil (50-100%) [@Crescimanno2013;@Hernandez2012;@Maffei2003; @Maas1990].
+
+
+``` {r GraphTest, fig.width=8, fig.height=4, warning=FALSE, eval=TRUE, message=FALSE, tidy=TRUE, dev='png', echo=FALSE, fig.show='hold', fig.align='center'}
+dat <- data.frame(x=c(1:10),y=c(11:20),z=c(21:30),name=rep(c("a","b"),each=5))
+
+ex <- function(data){
+  p1 <- ggplot(data=data, aes(x=x,y=y))
+  p1 <- p1+geom_point()
+  return(p1) 
+}
+
+for (i in 1:2){
+plot(ex(dat))
+}
+```
+
+
+-->
+
+\vspace{-.5cm}
+\subsection{Modelo económico aplicado}
+
+El presente es una adaptación de la teoría económica clásica incorporando aspectos técnicos de política económica en el manejo del agua.
+Se presenta en un gráfico de cuatro (4) cuadrantes. 
+El Primero y el tercero reflejan la tecnología de riego representativa de la explotación agrícola.
+En el segundo cuadrante se ubica la demanda de agua para riego $\mathbb{A}_i^D$ y en el cuarto cuadrante la demanda efectiva de riego o productividad marginal $\mathbb{AE}_i^D$.
+Cambios o adaptaciones tecnológicas generan efectos en las demandas de riego que, identificándose correctamente, muestra el valor real de la productividad marginal del agua.
+
+\vspace{3.5cm}
+esto lo voy a sacar, es una idea a futuro.
+
+
+\section{Esfuerzos de regulación con efectos de spill-over}
+
+\vspace{-.5cm}
+ 
+[Modelo de línea base - Versión estática](https://www.rpubs.com/tanglePillowHolder/315910): 
+Se consideran _n_ sectores que interactúan entre ellos $\imath \space \in \{1,\dots,n\}$ y cada uno posee un nivel de calidad ambiental, $s_{i} > 0$.
+Simultáneamente, cada sector elige un nivel de esfuerzo $e_{i} \geq 0$ en orden de equilibrar sus costos y beneficios marginales.
+Inicialmente, se consideran costos cuasi-lineales $c_{i}: \mathbb{R}_i \rightarrow \mathbb{R}_i$, 
+los cuales están relacionados con el nivel de esfuerzo $c_{i}(e_{i}) = \beta_{i} ( \frac{e_i^2}{n} + e_{i})$
+
+Los beneficios por la mejora la calidad ambiental se estiman en dos pasos.
+En primer lugar, hay una recompensa por mejorar la mejora ambiental provocada por el sistema de riego 
+$log(1 + \frac{e_{i}}{s_{i}}+\gamma_{i}e_{j})$.
+La razón $\frac{e_{i}}{s_{i}}$ emula el beneficio marginal de las mejoras ambientales cuando la calidad ambiental ($s_{i}$) se encuentra en un nivel alto.
+El término $(\gamma_{i}e_{j})$ interpreta la externalidad generada por la mejora ambiental del vecino ($\gamma_{i} \geq 0$);
+cuando las mejoras ambientales no estén relacionadas entre las partes $\gamma_{i} = 0$.
+Es posible que un agente _i_ sea beneficiado por los esfuerzos generales consumados ($\frac{e_{1}+\dots+e_{n}}{n}$).
+Luego, los beneficios totales serán
+
+\begin{equation}
+\alpha_{i} \Big( \lambda \quad log(1 + \frac{e_{i}}{s_{i}} + \gamma_{i}e_{j})+ \frac{(1-\lambda)e_{1}+\dots+e_{n}}{n} \Big)
+\end{equation}
+
+donde $\lambda \in [0,1]$ revela sobre las combinaciones convexas que relacionan los dos tipos de beneficios y $\alpha_{i} >0$ representa una escala de los beneficios en relación a los costos.
+Por lo tanto, la función de utilidad final es:
+
+\begin{equation}
+u_{i}(e, s;\alpha_{i},\beta_{i},\gamma_{i},\lambda) =
+\alpha_{i} \Big( \lambda log(1 + \frac{e_{i}}{s_{i}} + \gamma_{i}e_{j})+ \frac{(1-\lambda)e_{1}+\dots+e_{n}}{n} \big) 
+- \beta_{i} \big(\frac{e_i^2}{n} + e_{i}\big)\Big) 
+\end{equation}
+
+En el caso que $\lambda \approx 1$, el enfoque se aproxima a un análisis costo-beneficio; mientras que, si $\lambda \approx 0$ el enfoque se asimila a la provisión de bienes públicos.
+Cada agente enfrenta un problema de optimización,
+\begin{equation}
+\max_{e_i \geq 0} u_i(e, s; \alpha_i, \beta_i, \gamma_i, \lambda),
+\end{equation}
+
+bajo las condiciones Karush-Kuhn-Tucker para cada sector/agente:
+
+\begin{equation}
+ \begin{aligned} \alpha_i\left(\frac{\lambda}{s_i\left(1 + \frac{e_i}{s_i} + \gamma_ie_j\right)} + 
+\frac{(1-\lambda)}{2}\right) - \beta_i(1+e_i) + \kappa_i &= 0 \\
+\kappa_ie_i &= 0, \\ 
+\kappa_i &\geq 0, \\ 
+e_i &\geq 0, 
+  \end{aligned}
+\end{equation}
+
+<!-- # C_i(e_i) = Beta_i (e_iˆ2/n + e_i)
+
+# Benefits for improving quality
+#  = log(1 + \frac{e_{i}}{s_{i}} + \gamma_{i} \times e_{j})
+#           - marginal improvement when + spill-over effect
+
+
+A fortiori, it is quasi-concave; in particular, it is either decreasing everywhere (so that \(e_i^* = 0\)) or it is increasing and then decreasing. Either implies the existence of some \(\overline{e}_i\) such that \(u_i\) is decreasing in \(e_i\) for all \(e_i > \overline{e}_i\). We therefore remove no candidate solutions by focusing only on the Euclidean compactum \([0,\overline{e}_i]\). \(u_i\) being continuous and quasi-concave, and the modified set of alternatives being a Euclidean compactum, the Debreu-Glicksberg-Fan theorem applies, so an equilibrium exists in pure strategies.
+
+
+\(\alpha_i\) and \(\beta_i\). Let’s see how things change across values of \(\alpha_1\).
+
+eqByPar() that reads in an exogenous parameter, a proposed parameter to take values across, a range, and a length for the sequence. It spits out a graph. We can just run the function rather simply to think about comparative statics across interesting values of the parameter. 
+
+# Total benefit 
+
+# throughout, we will have the endogeneous vector (Effort), e, and
+# the exogenous parameters, th.
+This is an R Markdown format used for publishing markdown documents to GitHub. When you click the **Knit** button all R code chunks are run and a markdown file (.md) suitable for publishing to GitHub is generated.
+-->
+
+\section{Referencias bibliográficas}
+
+
+
+
+
+
+
+
