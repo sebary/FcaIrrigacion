@@ -59,10 +59,20 @@ options(scipen=999) # disable scientific notation
 
 ```{r SetUpPC2, results="hide"}
 ```
+
+\pagestyle{fancy}
+\fancyhead[RE,LO]{Dr. Sebastián Riera}
+\fancyhead[LE,RO]{Metodología de investigación proyecto FCA-Irrigación}
+
+
 \vspace{-1cm}
 
 \begin{center} \textbf{Dr. Sebastián Riera}
 \end{center}
+
+\vspace{-.5cm}
+\section{Resumen}
+\vspace{-.5cm}
 
 Las dificultades de manejo del recurso hídrico se acentúan en situaciones de escasez y requieren un análisis profundo de las circunstancias que permita avanzar hacia un sistema resiliente a estos fenómenos cada vez más frecuentes.
 Considerando las caracterísitcas del sistema de riego de la provincia de Mendoza y la relevancia del Departamento General de Irrigación (DGI), 
@@ -75,9 +85,37 @@ Sin embargo, es deseable considerar _herramientas integrales_ desde el punto de 
 Entre los objetivos del presente proyecto, se destaca la estimación del costo de ahorro de agua por la inversión en infraestructura de riego, validado considerando las demandas específicas del recurso hídrico por zona de análisis.
 De esta forma, se logra una estimación del rango de valores aceptables de acuerdo a las características productivas, usos del suelo y sistemas de riego asociados.
 
+\vspace{-.3cm}
+\subsection{Aspectos económicos}
+\vspace{-.3cm}
+
+Desde la perspectiva económica se propone identificar los efectos y mejorar la estimación de los resultados productivos y de gobernanza del agua. En particular,
+\begin{enumerate}
+\item Los efectos de las inversiones sobre la productividad de los cultivos actuales y futuros.
+\item Estimación de productividad marginal del agua
+\item Aproximación al costo de oportunidad (económico)
+\item Efectos de la tecnificación en riego en valores económicos
+\end{enumerate}
+
+\vspace{-.3cm}
+\subsection{Aspectos jurídicos}
+\vspace{-.3cm}
+
+Revisión de los antecedentes jurídicos que dan sustento a las resoluciones R576/00 HTA, R34/01 HTA, R945/06 HTA, R299/07 HTA.
+
+\newpage
+
 \vspace{-.5cm}
-\section{Estimación de oferta hídrica}
+\section{Modelo económico integral}
 \vspace{-.5cm}
+
+Este marco teórico aplicado toma en cuenta los cambios en la disponibilidad de agua para riego e interactúa con las necesidades reales para riego.
+La correcta estimación, aplicación e interpretación del mismo da lugar al sustento económico-productivo del costo de oportunidad del agua.
+Los incrementos reales de disponibilidad de agua para riego requiere una inversión en infraestructura cuya valoración se detalla a continuación.
+
+
+\subsection{\textbf{Estimación de oferta hídrica}}
+\vspace{-.3cm}
 
 Considerando el promedio de años de escasez, se inicia la traza de la curva de oferta de agua $\mathbb{A}_i^O$ específica para una región de análisis ($i$).
 El análisis de las inversiones recientes y la estimación de las inversiones necesarias se ordenan en la curva de oferta de acuerdo a la priorización de obras de infraestructura y el volumen adicional de agua para riego ahorrado.
@@ -94,7 +132,7 @@ $m_i^3$ son los metros cúbicos _adicionales_ o _ahorrados_ por la ejecución de
 $OF_i$ representan otros factores relevantes pero no contemplados hasta el momento.
 La inversión en infraestructura y beneficio de la ejecución se interpreta como extensión de la oferta de agua para riego con pendiente positiva en relación al costo asociado.
 
-\begin{center} \begin{tikzpicture}[scale=1.0544]\small
+\begin{figure}[H] \begin{center} \begin{tikzpicture}[scale=1.0544]\small
 \begin{axis}[axis line style=gray,
 	samples=120,
 	width=9.0cm,height=6.4cm,
@@ -107,18 +145,22 @@ La inversión en infraestructura y beneficio de la ejecución se interpreta como
 	axis x line=center,
 	axis y line=center,
 	xlabel=$Hm^3 aplicados$,ylabel=$P_{Hm^3}$]
-\addplot[red,domain=1.5:6,semithick]{exp(x-3)/2+1.9};
-\addplot[black, domain=0:1.5]{2};
+\addplot[red,domain=1.5:6,ultra thick]{exp(x-3)/2+1.9};
+\addplot[ultra thick,black, domain=0:1.5]{2};
 \addplot[] coordinates {(1,2.5)} node{$\mathbb{A}_0^O$};
 \addplot[red] coordinates {(5,4)} node{$\mathbb{A}_1^O$};
 \path (axis cs:0,0) node [anchor=north west,yshift=0.7cm] {0};
 \end{axis} \end{tikzpicture} \\
-Representación de la oferta de agua $\mathbb{A}_i^O$
+\caption{\label{OfertaAgua}Representación de la oferta de agua $\mathbb{A}_i^O$}
 \end{center}
+\end{figure}
+
+El cálculo de inversión por hectómetro cúbico adicional ($Hm^3$) se realiza contemplando las estimaciones de necesidades de infraestructura y diseño de obras futuras, cómo así también realizadas en un período de 5 años.
+Obteniendo un cálculo referencial de costo en dólares por hectómetro cúbico ($USD/Hm^3$).
 
 \vspace{-.5cm}
-\section{Estimación de demanda de agua para riego}
-\vspace{-.5cm}
+\subsection{\textbf{Estimación de demanda de agua para riego}}
+\vspace{-.3cm}
 
 Se propone derivar un esquema integral que permita el análisis de efectos de medidas de política hídrica y económica [@Lago2015; @Gruere2018].
 Esto incluye alteraciones en la demanda y oferta del recurso hídrico para riego agrícola por factores endógenos y exógenos.
@@ -153,29 +195,31 @@ como así también, las características naturales del suelo y condicionamientos
 $ET_C$ es la evapotranspiración de los cultivos en la finca y 
 $T_i$ es una aproximación del estado del tiempo en el período bajo análisis.
 Las demandas para riego están sujetas a cambios en la restricción presupuestaria del productor, cambios en el ingreso agrícola o también a _shocks_ externos como cambios en la estructura fiscal.
+En la estimación se busca además considerar los incrementos de demanda por mayor disponibilidad de agua, ya sea por cultivos con mayor requerimiento hídrico o aumento de superficie.
+Este fenómeno es también conocido como el _paradigma de Jevons_ [@Alcott2005] o principio de marginalidad equivalente [@Lago2015].
 
-\begin{center} \begin{tikzpicture}[scale=1.0544]\small
+\begin{figure} \begin{center} \begin{tikzpicture}[scale=1.0544]\small
 \begin{axis}[axis line style=gray,
 	samples=120,
 	width=9.0cm,height=6.4cm,
 	xmin=0, xmax=5,
 	ymin=0, ymax=4.5,
-	restrict y to domain=-5:5.5,
+	restrict y to domain=.5:5.5,
 	ytick={},
 	xtick={},
 	axis equal,
 	axis x line=center,
 	axis y line=center,
 	xlabel=$Hm^3 aplicados$,ylabel=$P_{Hm^3}$]
-\addplot[blue,domain=0:6,semithick]{(x-8)^2/6};
-\addplot[black, domain=0:6]{(x-6)^2/6};
-\addplot[] coordinates {(5,.5)} node{$\mathbb{A}_0^D$};
-\addplot[blue] coordinates {(6,1.3)} node{$\mathbb{AE}_1^D$};
+\addplot[ultra thick, blue,domain=0:6]{(x-8)^2/6};
+\addplot[ultra thick,black, domain=0:6]{(x-6)^2/6};
+\addplot[] coordinates {(4.5,1)} node{$\mathbb{A}_0^D$};
+\addplot[blue] coordinates {(5.8,1.3)} node{$\mathbb{AE}_1^D$};
 \path (axis cs:0,0) node [anchor=north west,yshift=0.7cm] {0};
 \end{axis} \end{tikzpicture} \\
-Representación de la demanda de agua y agua efectiva $\mathbb{A}_0^D \ y \ \mathbb{AE}_1^D$
+\caption{\label{DemandaAgua}Representación de la demanda de agua y agua efectiva $\mathbb{A}_0^D \ y \ \mathbb{AE}_1^D$}
 \end{center}
-
+\end{figure}
 
 La eficiencia del riego intra-finca está caraterizada por el _paquete tecnológico_ del productor y las herramientas que utiliza para la producción agrícola.
 En otras palabras, la tecnología disponible en la finca como sistema de riego, sistema de conducción de cultivo y prácticas agrícolas (entre otros) determina la efectividad del agua para riego.
@@ -184,7 +228,21 @@ A su vez, esta estimación permite calcular el precio correcto (teórico) del ag
 El mismo puede ajustarse a valores referenciales de la finca y ajustarse cambios en la disponibilidad del recurso hídrico.
  
  
+
  
+ 
+
+\vspace{-.5cm}
+\subsection{\textbf{Modelo económico aplicado}}
+
+El presente es una adaptación de la teoría económica clásica incorporando aspectos técnicos de política económica en el manejo del agua.
+Se presenta en un gráfico de cuatro (4) cuadrantes. 
+El Primero y el tercero reflejan la tecnología de riego representativa de la explotación agrícola.
+En el segundo cuadrante se ubica la demanda de agua para riego $\mathbb{A}_i^D$ y en el cuarto cuadrante la demanda efectiva de riego o productividad marginal $\mathbb{AE}_i^D$.
+Cambios o adaptaciones tecnológicas generan efectos en las demandas de riego que, identificándose correctamente, muestra el valor real de la productividad marginal del agua.
+
+
+\begin{figure}[h]
 \begin{center} \begin{tikzpicture}[scale=1.0544]\small
 \begin{axis}[axis line style=gray,
 	samples=120,
@@ -198,30 +256,104 @@ El mismo puede ajustarse a valores referenciales de la finca y ajustarse cambios
 	axis x line=center,
 	axis y line=center,
 	xlabel=$Hm^3 aplicados$,ylabel=$P_{Hm^3}$]
-\addplot[blue,domain=0:6,semithick]{(x-8)^2/6};
-\addplot[black, domain=0:6]{(x-6)^2/6};
+\addplot[ultra thick,blue,domain=0:6]{(x-8)^2/6};
+\addplot[ thick,black, domain=0:6]{(x-6)^2/6};
 \addplot[] coordinates {(5,.5)} node{$\mathbb{A}_0^D$};
 \addplot[blue] coordinates {(6,1.3)} node{$\mathbb{AE}_1^D$};
-\addplot[red,domain=1.5:6,semithick]{exp(x-3)/2+1.9};
-\addplot[black, domain=0:1.5]{2};
+\addplot[ultra thick,red,domain=1.5:6]{exp(x-3)/2+1.9};
+\addplot[ thick,black, domain=0:1.5]{2};
 \addplot[] coordinates {(1,2.2)} node{$\mathbb{A}_0^O$};
 \addplot[red] coordinates {(5,4)} node{$\mathbb{A}_1^O$};
-\addplot[gray, domain=-5:5]{-x};
-\addplot[green, domain=-5:0]{-1/35*(x+6)^(3)-0.5};
-\addplot[green] coordinates {(-6,-.7)} node{$PMg_i^{AE}$};
+\addplot[brown, thick, domain=-5:5]{-x};
+\addplot[ultra thick, teal, domain=-5:0]{-1/35*(x+6)^(3)-0.5};
+\addplot[teal] coordinates {(-6,-.7)} node{$PMg_i^{AE}$};
 \addplot[black] coordinates {(-6,.4)} node{$CMg_{Agua}$};
 \addplot[black] coordinates {(1,-4)} node{$Hm^3 \ efectivos$};
+\addplot[brown] coordinates {(5.3,-4)} node{$tecnología \ riego$};
 \path (axis cs:0,0) node [anchor=north west,yshift=0.7cm] {0};
 \end{axis} \end{tikzpicture} \\
-Representación de cambios en la demanda de agua $\mathbb{A}_i^D$ acorde a la expansión de la oferta de riego $\mathbb{A}_1^S$
+\caption{\label{Modelo}Representación de cambios en la demanda de agua $\mathbb{A}_i^D$ acorde a la expansión de la oferta de riego $\mathbb{A}_1^S$}
 \end{center}
+\end{figure}
 
 $PMg_i^{AE}$ es el producto marginal del agua efectivamente irrigada.
+Inicialmente, su estimación se realizará en base a la demanda efectiva de agua adaptando los cambios en precios de mercado de los productos agrícolas.
+Este análisis en conjunto busca mejorar la interpretación del paradigma de eficiencia de riego [@Grafton2018].
+ 
+\vspace{-.2cm}
+\section{Información necesaria}
+\vspace{-.5cm}
+
+Un detalle completo de la información solicitada se encuentra en el siguiente [link. ![]("/Users/SebastianRiera/Google Drive/Laboro/LinkJpg1".png)](https://docs.google.com/spreadsheets/d/1rKCaHeRMpwR0M2NwEQ8US5PhWzLmjBk8p1piFmwWNHk/edit?usp=sharing)
+
+\begin{table}[h]
+\centering
+\begin{tabular}{|l|l|l|}
+Infraestructura & Productiva &  Impactos inversión  \\ 
+Inversión       & Superficie cultivada & Superficie incremental   \\
+Volumen de agua & Distribución del agua &  Ahorro de agua  \\
+Impermeabilización de canales          & Tipo de cultivos &  Ahorro de energía \\ \bottomrule
+\end{tabular}
+\caption{\label{tab:Info}Información requerida}
+\end{table}
+
+
+
+
+\section{Esfuerzos de regulación con efectos de spill-over}
+\vspace{-.5cm}
+
+Esta sección representa otra etapa de la investigación con posterioridad a la determinación del costo marginal y costo de oportunidad del agua para riego.
+Busca analizar las interacciones entre los agentes de riego y las instituciones que administran el recurso.
 
  
- 
- 
- 
+[Modelo de línea base - Versión estática](https://www.rpubs.com/tanglePillowHolder/315910): 
+Se consideran _n_ sectores que interactúan entre ellos $\imath \space \in \{1,\dots,n\}$ y cada uno posee un nivel de calidad ambiental, $s_{i} > 0$.
+Simultáneamente, cada sector elige un nivel de esfuerzo $e_{i} \geq 0$ en orden de equilibrar sus costos y beneficios marginales.
+Inicialmente, se consideran costos cuasi-lineales $c_{i}: \mathbb{R}_i \rightarrow \mathbb{R}_i$, 
+los cuales están relacionados con el nivel de esfuerzo $c_{i}(e_{i}) = \beta_{i} ( \frac{e_i^2}{n} + e_{i})$
+
+Los beneficios por la mejora la calidad ambiental se estiman en dos pasos.
+En primer lugar, hay una recompensa por mejorar la mejora ambiental provocada por el sistema de riego 
+$log(1 + \frac{e_{i}}{s_{i}}+\gamma_{i}e_{j})$.
+La razón $\frac{e_{i}}{s_{i}}$ emula el beneficio marginal de las mejoras ambientales cuando la calidad ambiental ($s_{i}$) se encuentra en un nivel alto.
+El término $(\gamma_{i}e_{j})$ interpreta la externalidad generada por la mejora ambiental del vecino ($\gamma_{i} \geq 0$);
+cuando las mejoras ambientales no estén relacionadas entre las partes $\gamma_{i} = 0$.
+Es posible que un agente _i_ sea beneficiado por los esfuerzos generales consumados ($\frac{e_{1}+\dots+e_{n}}{n}$).
+Luego, los beneficios totales serán
+
+\begin{equation}
+\alpha_{i} \Big( \lambda \quad log(1 + \frac{e_{i}}{s_{i}} + \gamma_{i}e_{j})+ \frac{(1-\lambda)e_{1}+\dots+e_{n}}{n} \Big)
+\end{equation}
+
+donde $\lambda \in [0,1]$ revela sobre las combinaciones convexas que relacionan los dos tipos de beneficios y $\alpha_{i} >0$ representa una escala de los beneficios en relación a los costos.
+Por lo tanto, la función de utilidad final es:
+
+\begin{equation}
+u_{i}(e, s;\alpha_{i},\beta_{i},\gamma_{i},\lambda) =
+\alpha_{i} \Big( \lambda log(1 + \frac{e_{i}}{s_{i}} + \gamma_{i}e_{j})+ \frac{(1-\lambda)e_{1}+\dots+e_{n}}{n} \big) 
+- \beta_{i} \big(\frac{e_i^2}{n} + e_{i}\big)\Big) 
+\end{equation}
+
+En el caso que $\lambda \approx 1$, el enfoque se aproxima a un análisis costo-beneficio; mientras que, si $\lambda \approx 0$ el enfoque se asimila a la provisión de bienes públicos.
+Cada agente enfrenta un problema de optimización,
+\begin{equation}
+\max_{e_i \geq 0} u_i(e, s; \alpha_i, \beta_i, \gamma_i, \lambda),
+\end{equation}
+
+bajo las condiciones Karush-Kuhn-Tucker para cada sector/agente:
+
+\begin{equation}
+ \begin{aligned} \alpha_i\left(\frac{\lambda}{s_i\left(1 + \frac{e_i}{s_i} + \gamma_ie_j\right)} + 
+\frac{(1-\lambda)}{2}\right) - \beta_i(1+e_i) + \kappa_i &= 0 \\
+\kappa_ie_i &= 0, \\ 
+\kappa_i &\geq 0, \\ 
+e_i &\geq 0, 
+  \end{aligned}
+\end{equation}
+
+
+
 <!--
 https://tex.s2cms.com/g/
 
@@ -277,69 +409,6 @@ plot(ex(dat))
 
 
 -->
-
-\vspace{-.5cm}
-\subsection{Modelo económico aplicado}
-
-El presente es una adaptación de la teoría económica clásica incorporando aspectos técnicos de política económica en el manejo del agua.
-Se presenta en un gráfico de cuatro (4) cuadrantes. 
-El Primero y el tercero reflejan la tecnología de riego representativa de la explotación agrícola.
-En el segundo cuadrante se ubica la demanda de agua para riego $\mathbb{A}_i^D$ y en el cuarto cuadrante la demanda efectiva de riego o productividad marginal $\mathbb{AE}_i^D$.
-Cambios o adaptaciones tecnológicas generan efectos en las demandas de riego que, identificándose correctamente, muestra el valor real de la productividad marginal del agua.
-
-\vspace{3.5cm}
-esto lo voy a sacar, es una idea a futuro.
-
-
-\section{Esfuerzos de regulación con efectos de spill-over}
-
-\vspace{-.5cm}
- 
-[Modelo de línea base - Versión estática](https://www.rpubs.com/tanglePillowHolder/315910): 
-Se consideran _n_ sectores que interactúan entre ellos $\imath \space \in \{1,\dots,n\}$ y cada uno posee un nivel de calidad ambiental, $s_{i} > 0$.
-Simultáneamente, cada sector elige un nivel de esfuerzo $e_{i} \geq 0$ en orden de equilibrar sus costos y beneficios marginales.
-Inicialmente, se consideran costos cuasi-lineales $c_{i}: \mathbb{R}_i \rightarrow \mathbb{R}_i$, 
-los cuales están relacionados con el nivel de esfuerzo $c_{i}(e_{i}) = \beta_{i} ( \frac{e_i^2}{n} + e_{i})$
-
-Los beneficios por la mejora la calidad ambiental se estiman en dos pasos.
-En primer lugar, hay una recompensa por mejorar la mejora ambiental provocada por el sistema de riego 
-$log(1 + \frac{e_{i}}{s_{i}}+\gamma_{i}e_{j})$.
-La razón $\frac{e_{i}}{s_{i}}$ emula el beneficio marginal de las mejoras ambientales cuando la calidad ambiental ($s_{i}$) se encuentra en un nivel alto.
-El término $(\gamma_{i}e_{j})$ interpreta la externalidad generada por la mejora ambiental del vecino ($\gamma_{i} \geq 0$);
-cuando las mejoras ambientales no estén relacionadas entre las partes $\gamma_{i} = 0$.
-Es posible que un agente _i_ sea beneficiado por los esfuerzos generales consumados ($\frac{e_{1}+\dots+e_{n}}{n}$).
-Luego, los beneficios totales serán
-
-\begin{equation}
-\alpha_{i} \Big( \lambda \quad log(1 + \frac{e_{i}}{s_{i}} + \gamma_{i}e_{j})+ \frac{(1-\lambda)e_{1}+\dots+e_{n}}{n} \Big)
-\end{equation}
-
-donde $\lambda \in [0,1]$ revela sobre las combinaciones convexas que relacionan los dos tipos de beneficios y $\alpha_{i} >0$ representa una escala de los beneficios en relación a los costos.
-Por lo tanto, la función de utilidad final es:
-
-\begin{equation}
-u_{i}(e, s;\alpha_{i},\beta_{i},\gamma_{i},\lambda) =
-\alpha_{i} \Big( \lambda log(1 + \frac{e_{i}}{s_{i}} + \gamma_{i}e_{j})+ \frac{(1-\lambda)e_{1}+\dots+e_{n}}{n} \big) 
-- \beta_{i} \big(\frac{e_i^2}{n} + e_{i}\big)\Big) 
-\end{equation}
-
-En el caso que $\lambda \approx 1$, el enfoque se aproxima a un análisis costo-beneficio; mientras que, si $\lambda \approx 0$ el enfoque se asimila a la provisión de bienes públicos.
-Cada agente enfrenta un problema de optimización,
-\begin{equation}
-\max_{e_i \geq 0} u_i(e, s; \alpha_i, \beta_i, \gamma_i, \lambda),
-\end{equation}
-
-bajo las condiciones Karush-Kuhn-Tucker para cada sector/agente:
-
-\begin{equation}
- \begin{aligned} \alpha_i\left(\frac{\lambda}{s_i\left(1 + \frac{e_i}{s_i} + \gamma_ie_j\right)} + 
-\frac{(1-\lambda)}{2}\right) - \beta_i(1+e_i) + \kappa_i &= 0 \\
-\kappa_ie_i &= 0, \\ 
-\kappa_i &\geq 0, \\ 
-e_i &\geq 0, 
-  \end{aligned}
-\end{equation}
-
 <!-- # C_i(e_i) = Beta_i (e_iˆ2/n + e_i)
 
 # Benefits for improving quality
