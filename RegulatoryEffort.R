@@ -7,7 +7,7 @@
 # http://economics.mit.edu/files/12082
 
 ## @knitr SetUpPC2
-RegulatoryEffort <- c("tidyverse","foreach","rootSolve","ggthemes","ggplot2")
+RegulatoryEffort <- c("tidyverse","foreach","rootSolve","ggthemes") # included in tidyverse: "dplyr","tidyr","ggplot2"
 library(rmsfuns)
 load_pkg(RegulatoryEffort)
 
@@ -88,4 +88,37 @@ foc2 <- function (e, th)
 model <- function (e, th)
   c(F1 = foc1(e, th),
     f2 = foc2(e, th))
+
+
+## @knitr DataObras
+
+Dgi2018 <- read.csv("DgiData/DgiObras2018.csv", sep = ";") #, header = TRUE, sep=",")
+view(Dgi2018)
+
+Dgi2018$metros <- as.numeric(Dgi2018$LONGITUD)
+
+#replace(Dgi2018$MONTO, "Esperando cierre contable (90 dias)","0")
+#Dgi2018$Inversion <- as.numeric(Dgi2018$MONTO) #replace(Dgi2018$Inversion, "Esperando cierre contable (90 dias)","NA")
+
+Dgi2018 %>%
+  filter(metros != "global" & metros!="-" & metros!="a determinar") %>%
+  select(Codigo, Subdelegacion, hectareas, Padrones, Inversion, metros) %>%
+  mutate(InvMetro = Inversion/metros) %>%
+  mutate(paste0(InvMetro," pesos por c/metro revestido")) %>%
+  arrange(InvMetro)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
