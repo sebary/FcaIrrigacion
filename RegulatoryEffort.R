@@ -90,7 +90,7 @@ model <- function (e, th)
     f2 = foc2(e, th))
 
 
-## @knitr DataObras
+## @knitr DataObras18
 
 Dgi2018 <- read.csv("DgiData/DgiObras2018.csv", sep = ";") #, header = TRUE, sep=",")
 view(Dgi2018)
@@ -98,17 +98,35 @@ view(Dgi2018)
 Dgi2018$metros <- as.numeric(Dgi2018$LONGITUD)
 
 #replace(Dgi2018$MONTO, "Esperando cierre contable (90 dias)","0")
-#Dgi2018$Inversion <- as.numeric(Dgi2018$MONTO) #replace(Dgi2018$Inversion, "Esperando cierre contable (90 dias)","NA")
+Dgi2018$Inversion <- as.numeric(Dgi2018$MONTO) #replace(Dgi2018$Inversion, "Esperando cierre contable (90 dias)","NA")
 
+## @knitr Ver2018
 Dgi2018 %>%
   filter(metros != "global" & metros!="-" & metros!="a determinar") %>%
   select(Codigo, Subdelegacion, hectareas, Padrones, Inversion, metros) %>%
-  mutate(InvMetro = Inversion/metros) %>%
-  mutate(paste0(InvMetro," pesos por c/metro revestido")) %>%
-  arrange(InvMetro)
+  mutate(InvMt18 = Inversion/metros,  
+         coment= paste0(InvMt18," $/metro revestido 2018")) %>%
+  arrange(InvMt18)
 
 
 
+## @knitr DataObras19
+
+Dgi2019 <- read.csv("DgiData/DgiObras2019.csv", sep = ";") #, header = TRUE, sep=",")
+view(Dgi2019)
+
+Dgi2019$metros <- as.numeric(Dgi2019$Metros)
+
+#replace(Dgi2018$MONTO, "Esperando cierre contable (90 dias)","0")
+Dgi2019$Inversion <- as.numeric(Dgi2019$Inversion) #replace(Dgi2018$Inversion, "Esperando cierre contable (90 dias)","NA")
+
+## @knitr Ver2019
+Dgi2019 %>%
+  filter((metros != "global" & metros!="-" & metros!="a determinar") | (Inversion!="" & Inversion!="-")) %>%
+  select(Codigo, Subdelegacion, Inversion, metros) %>% #, hectareas, Padrones
+  mutate(InvMt19 = Inversion/metros,  
+         coment= paste0(InvMt19," $/metro revestido 2019")) %>%
+  arrange(InvMt19)
 
 
 
