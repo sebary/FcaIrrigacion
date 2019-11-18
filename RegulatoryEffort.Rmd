@@ -49,16 +49,36 @@ header-includes:
 - \usepackage[normalem]{ulem}
 - \usepackage{makecell}
 - \usepackage{pgfplots,tikz}
+- \usepackage{inputenc}
 ---
 
 ```{r setup2, include=FALSE, results='hide'}
 knitr::read_chunk("RegulatoryEffort.R")
-knitr::opts_chunk$set(fig.cap="",fig.pos="h", warning= FALSE, cache = FALSE, message = FALSE, echo = FALSE)
+knitr::opts_chunk$set(fig.cap="",fig.pos="h", warning= FALSE, cache = FALSE, message = FALSE, echo = FALSE,comment = NA, prompt = FALSE, results = 'asis')
 options(scipen=999) # disable scientific notation
+#options(tinytex.verbose = TRUE) #Debugging control
 ```
 
-```{r SetUpPC2, results="hide"}
+```{r SetUp2, include=FALSE, results='hide'}
+SetUp2
 ```
+
+```{r DataObras18, results="hide"}
+```
+
+```{r OtherSum18}
+```
+
+```{r SummaryBase, results='hide'}
+```
+
+```{r DataObras19, results='hide'}
+```
+
+```{r MainTables, results='hide'}
+```
+
+<!--- \DeclareUnicodeCharacter{^}{\power} -->
 
 \pagestyle{fancy}
 \fancyhead[RE,LO]{Dr. Sebastián Riera}
@@ -144,7 +164,7 @@ La inversión en infraestructura y beneficio de la ejecución se interpreta como
 	axis equal,
 	axis x line=center,
 	axis y line=center,
-	xlabel=$Hm^3 aplicados$,ylabel=$P_{Hm^3}$]
+	xlabel=$Hm^{3} aplicados$,ylabel=$P_{Hm^{3}}$]
 \addplot[red,domain=1.5:6,ultra thick]{exp(x-3)/2+1.9};
 \addplot[ultra thick,black, domain=0:1.5]{2};
 \addplot[] coordinates {(1,2.5)} node{$\mathbb{A}_0^O$};
@@ -158,8 +178,53 @@ La inversión en infraestructura y beneficio de la ejecución se interpreta como
 El cálculo de inversión por hectómetro cúbico adicional ($Hm^3$) se realiza contemplando las estimaciones de necesidades de infraestructura y diseño de obras futuras, cómo así también realizadas en un período de 5 años.
 Obteniendo un cálculo referencial de costo en dólares por hectómetro cúbico ($USD/Hm^3$).
 
+
+\subsubsection{Metodología}
+
+Considerando las inversiones en infraestructura de riego estrictamente en impermeabilización de canales de los años 2018 y 2019, 
+se preparó una base de datos que incluye los montos de inversión mencionados y datos actualizados del _Balance Hídrico_ sobre manejo del recurso y eficiencia en la distribución.
+La misma permite la estimación del ahorro de agua por la ejecución de obras de infraestructura acompañando de información monetaria para la valorización económica del recurso.
+La información tiene dos fuentes principales: una estrictamente referida al estado de la infraestructura existente y otra relacionada con las inversiones realizadas.
+
+El caudal medio (litros/seg/ha) según el balance hídrico se ve mejorado por menores pérdidas en la distribución del agua como consecuencia de la ejecución de obras.
+Esa mejora o _ahorro de agua_ se estima considerando los metros de canal revestido, los porcentajes de pérdida por unidad de manejo y la valoración de la eficiencia en la distribución.
+La pérdida por infiltración se calcula en base al _Criterio de Moritz_[^1],
+el cual considera las características del terreno, altura del canal y área irrigada para estimar la pérdida en $m^3/seg$ en la longitud del cauce.
+El ahorro de agua se calcula siguiendo la siguiente fórmula,
+
 \vspace{-.5cm}
-\subsection{\textbf{Estimación de demanda de agua para riego}}
+\begin{equation}
+\mathbb{A}_i^{O} = Q_{m^{3}/año} \times Ef.Cond_j \times \left[ metros \times \left( 1 - F_{m^{3}/s/km} \right) \right] 
+\end{equation}
+
+El ahorro de agua del año i ($\mathbb{A}_i^O$) equivale al caudal adicional por las obras de infraestructura, el mismo es calculado considerando el caudal promedio mensual por cauce ($j$) ponderado por la eficiencia en la conducción ($Ef.Cond_j$) y las pérdidas por infiltración.
+
+```{r Revestimiento, results='asis'}
+```
+
+En el caso del Río Mendoza, durante el 2018 y 2019 se revistieron 
+`r Revestimiento[[4,3]]` metros,
+`r Revestimiento[[4,1]]` en el 2018 y
+`r Revestimiento[[4,2]]` 2019, respectivamente.
+
+
+
+[^1]: Pérdida por infiltración se calcula con la siguiente fórmula: $F_{m^3/s/km} = \frac{0.018 \times C \times B \times \sqrt{h}}{{\sqrt[4]{\omega}}}$, donde $C$ indica el tipo de terreno y adquiere valores entre 0.30 y 0.49.
+$B$ representa el ancho superficial del canal y $h$ la altura. 
+El área irrigada en $m^2$ es el valor de $\omega$.
+
+
+```{r Sum18, results='asis'}
+``` 
+
+```{r PrintSumBase18}
+```
+
+
+
+
+\vspace{-.5cm}
+\subsection{ \textbf{Estimación de demanda de agua para riego}}
 \vspace{-.3cm}
 
 Se propone derivar un esquema integral que permita el análisis de efectos de medidas de política hídrica y económica [@Lago2015; @Gruere2018].
@@ -210,7 +275,7 @@ Este fenómeno es también conocido como el _paradigma de Jevons_ [@Alcott2005] 
 	axis equal,
 	axis x line=center,
 	axis y line=center,
-	xlabel=$Hm^3 aplicados$,ylabel=$P_{Hm^3}$]
+	xlabel=$ Hm^{3} \space aplicados$, ylabel= $P_{Hm^{3}}$ ]
 \addplot[ultra thick, blue,domain=0:6]{(x-8)^2/6};
 \addplot[ultra thick,black, domain=0:6]{(x-6)^2/6};
 \addplot[] coordinates {(4.5,1)} node{$\mathbb{A}_0^D$};
@@ -228,10 +293,6 @@ A su vez, esta estimación permite calcular el precio correcto (teórico) del ag
 El mismo puede ajustarse a valores referenciales de la finca y ajustarse cambios en la disponibilidad del recurso hídrico.
  
  
-
- 
- 
-
 \vspace{-.5cm}
 \subsection{\textbf{Modelo económico aplicado}}
 
@@ -255,7 +316,7 @@ Cambios o adaptaciones tecnológicas generan efectos en las demandas de riego qu
 	axis equal,
 	axis x line=center,
 	axis y line=center,
-	xlabel=$Hm^3 aplicados$,ylabel=$P_{Hm^3}$]
+	xlabel=$ Hm^{3} \space aplicados$, ylabel= $P_{Hm^{3}}$]
 \addplot[ultra thick,blue,domain=0:6]{(x-8)^2/6};
 \addplot[ thick,black, domain=0:6]{(x-6)^2/6};
 \addplot[] coordinates {(5,.5)} node{$\mathbb{A}_0^D$};
