@@ -223,7 +223,7 @@ El área irrigada en $m^2$ es el valor de $\omega$.
 
 
 
-\vspace{-.5cm}
+\vspace{-.3cm}
 \subsection{ \textbf{Estimación de demanda de agua para riego}}
 \vspace{-.3cm}
 

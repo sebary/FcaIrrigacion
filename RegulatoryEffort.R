@@ -8,7 +8,7 @@ load_pkg(RegulatoryEffort)
 # Valores de eficiencia en distribución ####
 
 # Río Mendoza
-{EfMendoza <- as.data.frame(rbind(
+{EfMendozaBalance <- as.data.frame(rbind(
                   c("Compuertas Vistalba", 55.1, 95.9, 52.9),
                   c("Chacras de Coria",45.0, 78.0, 35.1),
                   c("Margen Derecha", 58.1 ,71.5 ,41.6),
@@ -36,17 +36,22 @@ load_pkg(RegulatoryEffort)
                   c("ACRE Campo Espejo", 47.0 ,85.0 ,40.0),
                   c("ACRE Paramillo" ,47.0 ,83.0, 39.0)
 ))
-colnames(EfMendoza) <- c("UAM","EfApl","EfCond","EfGlob")
-EfMendoza[,"EfApl"]   <- as.numeric(as.character(EfMendoza[,"EfApl"]))
-EfMendoza[,"EfCond"]   <- as.numeric(as.character(EfMendoza[,"EfCond"]))
-EfMendoza[,"EfGlob"]   <- as.numeric(as.character(EfMendoza[,"EfGlob"]))
-sapply(EfMendoza,class)
-view(EfMendoza)
+colnames(EfMendozaBalance) <- c("UAM","EfApl","EfCond","EfGlob")
+EfMendozaBalance[,"EfApl"]   <- as.numeric(as.character(EfMendozaBalance[,"EfApl"]))
+EfMendozaBalance[,"EfCond"]   <- as.numeric(as.character(EfMendozaBalance[,"EfCond"]))
+EfMendozaBalance[,"EfGlob"]   <- as.numeric(as.character(EfMendozaBalance[,"EfGlob"]))
+sapply(EfMendozaBalance,class)
+#view(EfMendozaBalance)
 
 # Caudal m3/segundo
 CaudalMen <- c(16.4, 18.5, 17.5, 26.3, 26.5, 39.9, 66.4, 61.2, 43.2, 26.1, 21.1, 16.9, 31.7)
 names(CaudalMen) <- c("Jul","Ago","Sep","Oct","Nov","Dic","Ene","Feb","Mar","Abr","May","Jun","Módulo")
 sapply(CaudalMen, class)
+
+EfMendoza <- read.csv("DgiData/EfCond.csv", sep = ";") #, header = TRUE, sep=",")
+indxx <- c("TierraQ0","TierraQ0rep","TierraQ0medio","TierraQl","TierraQlrep","TierraQlmedio","Distancia","KmInvert","EfcTierra","LongMedia","EfTierraLong","EfCanales","EfHijuelas","KmCanales")
+EfMendoza[indxx] <- lapply(EfMendoza[indxx], function(x) as.numeric(as.character(x)))
+view(EfMendoza)
 }
 
 Caudal19 <- c(590,490,140,850,460,460)
@@ -79,7 +84,7 @@ Dgi2018$metros
 
 Dgi2018$InvMt    <- as.numeric(round(Dgi2018$inversion/Dgi2018$metros, digits = 0))
 Dgi2018$InvUsd   <- as.numeric(round(Dgi2018$inversion/27.425, digits = 1)) # $Ars/Usd 27.425
-Dgi2018$InvMtUsd <- as.numeric(round(Dgi2018$InvMt/27.425, digits = 1))
+Dgi2018$InvMtUsd <- as.numeric(round(Dgi2018$InvUsd/Dgi2018$metros, digits = 1))
 
 
 #Dgi2018 %>%
@@ -224,21 +229,18 @@ Dgi2019 <- read.csv("DgiData/DgiObras2019.csv", sep = ";", stringsAsFactors=FALS
 
 Dgi2019$metros <- as.numeric(as.character(Dgi2019$Metros))
 
-#replace(Dgi2019$Inversion, "-","NA")
-#replace(Dgi2019$Inversion, " ","NA")
-
-Dgi2019$inversion <- as.numeric(as.character(Dgi2019$Inversion)) #replace(Dgi2018$Inversion, "Esperando cierre contable (90 dias)","NA")
+Dgi2019$inversion <- as.numeric(as.character(Dgi2019$Inversion)) 
+Dgi2019$InvMt     <- as.numeric(round(Dgi2019$inversion/Dgi2019$metros, digits = 1))
+Dgi2019$InvUsd   <- as.numeric(round(Dgi2019$inversion/43.8, digits = 1)) # $Ars/Usd 43.8
+Dgi2019$InvMtUsd <- as.numeric(round(Dgi2019$InvUsd/Dgi2019$metros, digits = 1))
 view(Dgi2019)
 
 ## @knitr Ver2019
 Dgi2019 %>%
   filter((metros!="NA") & (inversion!="NA")) %>% #(Inversion!="" & Inversion!="-")) %>%
-  select(Codigo, Subdelegacion, inversion, metros) %>% #, hectareas, Padrones
-  mutate(InvMt = round(inversion/metros, digits = 0),  
-         InvUsd = round(inversion/43.8, digits = 1), # $Ars/Usd 43.8
-         InvMtUsd = round(InvMt/43.8, digits = 1),
-         coment= paste0(InvMtUsd," U$S/metro revestido 2019")) %>%
-  arrange(InvMt)
+  select(Codigo, Subdelegacion, Cauce, Inspeccion,Obra,inversion, metros, Tipologia,InvMtUsd) %>% #, hectareas, Padrones
+  mutate(coment= paste0(InvMtUsd," U$S/metro revestido 2019")) %>%
+  arrange(InvMtUsd)
 
 ## @knitr Sum2019
 print(qwraps2::summary_table(
@@ -249,10 +251,49 @@ rtitle = "Resumen de obras 2019",
 cnames = c("Atuel", "Diamante", "Malargüe","Mendoza","Tunuyán Inf.","Tunuyán Sup.")
 )
 
+# Obras 2017 ####
+
+## @knitr DataObras17
+
+Dgi2017 <- read.csv("DgiData/DgiObras2017.csv", sep = ";") #, header = TRUE, sep=",")
+head(Dgi2017)
+indxx <- c("Metros","MetrosAvance","CodigoCauce","CodigoCauceAlt","Codigo","Obra","inversion")
+Dgi2017[indxx] <- lapply(Dgi2017[indxx], function(x) as.numeric(as.character(x)))
+
+class(Dgi2017$inversion)
+
+Dgi2017$metros <- ifelse(Dgi2017$MetrosAvance > Dgi2017$Metros, Dgi2017$MetrosAvance, Dgi2017$Metros)
+
+Dgi2017$InvMt    <- as.numeric(round(Dgi2017$inversion/Dgi2017$metros, digits = 0))
+Dgi2017$InvUsd   <- as.numeric(round(Dgi2017$inversion/17, digits = 1)) # $Ars/Usd 17
+Dgi2017$InvMtUsd <- as.numeric(round(Dgi2017$InvUsd/Dgi2017$metros, digits = 1))
+
+options(qwraps2_markup = "latex")
+Obras17 <- as.data.frame(Dgi2017)
+
+## @knitr Ver2017
+Dgi2017 %>%
+  filter(metros!= "global" | metros!="-" | metros!="a determinar" | metros!="NA" & Status!="No se ejecuta") %>%
+  select(CodigoCauce, Subdelegacion, inversion, metros, InvMt, InvMtUsd) %>% #, hectareas, Padrones
+  mutate(coment= paste0(InvMtUsd," U$S/metro revestido 2017")) %>% #InvMt18 = round(inversion/metros, digits = 2),  
+  arrange(InvMt) 
+
 # from qwraps to kable
 #qable(x, rtitle, rgroup, rnames = rownames(x), cnames = colnames(x),
  #     markup = getOption("qwraps2_markup", "latex")#, other table components
   #    )
+
+
+
+# Mendoza ####
+
+## @knitr MdzEf
+Dgi2018 %>%
+  filter(metros!= "Global" | metros!="-" | metros!="a determinar" | metros!="NA" & Subdelegacion=="Mendoza") %>%
+  select(Codigo, hectareas, inversion, metros, InvMt, InvMtUsd, Nombre_Obra) %>% #, Padrones
+  #mutate(coment= paste0(InvMtUsd," U$S/metro revestido 2018")) %>% #InvMt18 = round(inversion/metros, digits = 2),  
+  arrange(InvMtUsd) 
+
 
 
 # General Summary table ####
@@ -261,7 +302,7 @@ cnames = c("Atuel", "Diamante", "Malargüe","Mendoza","Tunuyán Inf.","Tunuyán 
 
 #Rev2015 <- aggregate(Dgi2015$metros, by= list(Dgi2015$Subdelegacion), FUN=sum, na.rm= TRUE)
 #Rev2016 <- aggregate(Dgi2016$metros, by= list(Dgi2016$Subdelegacion), FUN=sum, na.rm= TRUE)
-#Rev2017 <- aggregate(Dgi2017$metros, by= list(Dgi2017$Subdelegacion), FUN=sum, na.rm= TRUE)
+Rev2017 <- aggregate(Dgi2017$metros, by= list(Dgi2017$Subdelegacion), FUN=sum, na.rm= TRUE)
 Rev2018 <- aggregate(Dgi2018$metros, by= list(Dgi2018$Subdelegacion), FUN=sum, na.rm= TRUE)
 Rev2019 <- aggregate(Dgi2019$metros, by= list(Dgi2019$Subdelegacion), FUN=sum, na.rm= TRUE)
 
@@ -271,13 +312,13 @@ FormatoNum <- number_format(big.mark = ",", decimal.mark = ".")
 Revestimiento <- data.frame(
   #`2015`=            FormatoNum(Rev2015$x),
   #`2016`=            FormatoNum(Rev2016$x),
-  #`2017`=            FormatoNum(Rev2017$x),
+  `2017`=            FormatoNum(Rev2017$x),
   `2018`=            FormatoNum(Rev2018$x),
   `2019`=            FormatoNum(Rev2019$x),
-  `Total`=           FormatoNum(Rev2018$x +Rev2019$x),#colSums(Revestimiento[,1:2])),
+  `Total`=           FormatoNum(Rev2017$x + Rev2018$x + Rev2019$x),#colSums(Revestimiento[,1:2])),
   `Ef.Cond.`=        FormatoNum(round(c(80,80,80,mean(EfMendoza[["EfCond"]]),80,80),digits = 1)),
   `Q_m3.año`=        FormatoNum(c(0,0,0,sum(CaudalMen),0,0)),
-  `Ahorro_Hm3.año`= FormatoNum(round((Rev2018$x + Rev2019$x)* mean(EfMendoza[["EfCond"]])* sum(CaudalMen)/1000000,digits=0))
+  `Ahorro_Hm3.año`= FormatoNum(round((Rev2017$x + Rev2018$x + Rev2019$x)* mean(EfMendoza[["EfCond"]])* sum(CaudalMen)/1000000,digits=0))
 )
 #colnames(Revestimiento) <- c(#"Subdelegacion", "2015","2016","2017",   "2018","2019","Total","Ef.Cond.","Q_(m3/año)","Ahorro (Hm3/año)")
 rownames(Revestimiento) <- c("Atuel", "Diamante", "Malargüe","Mendoza","Tun. Inferior","Tun. Superior")
@@ -287,7 +328,7 @@ Revestimiento
 
 Revestimiento[1:6,] %>% 
   kable("latex",caption = "\\label{Revestimiento}Ahorro estimado y metros revestidos por cuenca", align = c("l", rep("r", 6)),
-        row.names = TRUE, booktabs = TRUE, col.names = c("2018","2019","Total","Ef.Cond.","Q (m3/año)","A (Hm3/año)") 
+        row.names = TRUE, booktabs = TRUE, col.names = c("2017","2018","2019","Total","Ef.Cond.","Q (m3/año)","A (Hm3/año)") 
         ) %>%
   kable_styling(latex_options = c("HOLD_position"), position = "center", full_width = FALSE, font_size=10) %>%
   footnote( general = "Elab. propia. Datos de caudal del Río Mendoza extrapolados", general_title = "Fuente: ", title_format = "italic",
