@@ -12,13 +12,14 @@ address: Departmento de Economía y Política Agraria. Facultad de Ciencias Agra
 #  - code: FcaUncuyo
 #    address: Departmento de Economía y Política Agraria. Facultad de Ciencias Agrarias. Universidad Nacional de Cuyo
 #abstract: 
+#date:  "`r format(Sys.time(), '%d %B, %Y')`"
 documentclass: elsarticle
 bibliography: FcaIrrigacion.bib
-#output: rticles::elsevier_article
-output:
+output: # rticles::elsevier_article
   pdf_document:
     fig_caption: yes
-    #includes: null
+#    includes:         
+#      in_header: 'PreambleFcaIrrigacion.tex'
   number_sections: yes
 geometry: left=2.1cm,right=2.1cm,top=1.8cm,bottom=1.5cm
 cls: elsarticle.cls #cas-sc.cls
@@ -47,9 +48,10 @@ header-includes:
 - \usepackage{tabu}
 - \usepackage{threeparttable,threeparttablex}
 - \usepackage[normalem]{ulem}
-- \usepackage{makecell}
 - \usepackage{pgfplots,tikz}
 - \usepackage{inputenc}
+- \usepackage{makecell}
+#- \usepackage{caption} # to facilitate a linebrake within tables
 ---
 
 ```{r setup2, include=FALSE, results='hide'}
@@ -63,20 +65,30 @@ options(scipen=999) # disable scientific notation
 SetUp2
 ```
 
+```{r DataObras17, results='hide'}
+```
+
 ```{r DataObras18, results="hide"}
 ```
 
-```{r OtherSum18}
-```
-
-```{r SummaryBase, results='hide'}
+```{r OtherSum18,results='hide'}
 ```
 
 ```{r DataObras19, results='hide'}
 ```
 
+```{r SummaryBase, results='hide'}
+```
+
 ```{r MainTables, results='hide'}
 ```
+
+```{r MendozaTable, results='hide'}
+```
+
+```{r MendozaPlots, results='hide'}
+```
+
 
 <!--- \DeclareUnicodeCharacter{^}{\power} -->
 
@@ -190,29 +202,38 @@ El caudal medio (litros/seg/ha) según el balance hídrico se ve mejorado por me
 Esa mejora o _ahorro de agua_ se estima considerando los metros de canal revestido, los porcentajes de pérdida por unidad de manejo y la valoración de la eficiencia en la distribución.
 La pérdida por infiltración se calcula en base al _Criterio de Moritz_[^1],
 el cual considera las características del terreno, altura del canal y área irrigada para estimar la pérdida en $m^3/seg$ en la longitud del cauce.
-El ahorro de agua se calcula siguiendo la siguiente fórmula,
+El ahorro de agua se calcula siguiendo la siguiente fórmula[^2],
 
 \vspace{-.5cm}
 \begin{equation}
-\mathbb{A}_i^{O} = Q_{m^{3}/año} \times Ef.Cond_j \times \left[ metros \times \left( 1 - F_{m^{3}/s/km} \right) \right] 
+\mathbb{A}_i^{O} = \sum_{j=1}^{n} \Delta metros \times Q_{m^{3}/año} \times \Delta pérdida
 \end{equation}
 
-El ahorro de agua del año i ($\mathbb{A}_i^O$) equivale al caudal adicional por las obras de infraestructura, el mismo es calculado considerando el caudal promedio mensual por cauce ($j$) ponderado por la eficiencia en la conducción ($Ef.Cond_j$) y las pérdidas por infiltración.
 
 ```{r Revestimiento, results='asis'}
 ```
 
-En el caso del Río Mendoza, durante el 2018 y 2019 se revistieron 
-`r Revestimiento[[4,3]]` metros,
-`r Revestimiento[[4,1]]` en el 2018 y
-`r Revestimiento[[4,2]]` 2019, respectivamente.
+El ahorro de agua del año i ($\mathbb{A}_i^O$) equivale al caudal adicional por las obras de infraestructura, el mismo es calculado considerando los metros lineales de revestimiento, el caudal promedio mensual por cauce ($j$) ponderado por la ganancia, en términos de eficiencia en la conducción ($Ef.Cond_j$).
+Los valores de eficiencia de conducción fueron obtenidos de distintos estudios realizados por el DGI y fueron estimados considerando los volúmenes de caudal, pérdidas por infiltración y características del cauce [@Cuneo2016].
+En el caso del Río Mendoza, desde 2017 se revistieron 
+`r Revestimiento[[4,4]]` metros.
 
+```{r MzaTableLandscape, results='asis'}
+```
+
+
+```{r MzaTable, results='asis'}
+```
+
+```{r AhorroMza, results='asis'}
+```
 
 
 [^1]: Pérdida por infiltración se calcula con la siguiente fórmula: $F_{m^3/s/km} = \frac{0.018 \times C \times B \times \sqrt{h}}{{\sqrt[4]{\omega}}}$, donde $C$ indica el tipo de terreno y adquiere valores entre 0.30 y 0.49.
 $B$ representa el ancho superficial del canal y $h$ la altura. 
 El área irrigada en $m^2$ es el valor de $\omega$.
 
+[^2]: La estimación de la disminución del agua perdida se realiza considerando las diferencias en la eficiencia de conducción anterior y posterior al relevamiento. Se toma como base los valores de los estudios de aforo y eficiencia en conducción ordenados en la siguiente fórmula: $Pérdida = \frac{Ef.Cond_{1} - Ef.Cond_{0}}{distancia aforo}$
 
 ```{r Sum18, results='asis'}
 ``` 
