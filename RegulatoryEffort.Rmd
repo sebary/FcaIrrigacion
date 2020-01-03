@@ -90,8 +90,6 @@ SetUp2
 ```
 
 
-<!--- \DeclareUnicodeCharacter{^}{\power} -->
-
 \pagestyle{fancy}
 \fancyhead[RE,LO]{Dr. Sebastián Riera}
 \fancyhead[LE,RO]{Metodología de investigación proyecto FCA-Irrigación}
@@ -198,7 +196,7 @@ se preparó una base de datos que incluye los montos de inversión mencionados y
 La misma permite la estimación del ahorro de agua por la ejecución de obras de infraestructura acompañando de información monetaria para la valorización económica del recurso.
 La información tiene dos fuentes principales: una estrictamente referida al estado de la infraestructura existente y otra relacionada con las inversiones realizadas.
 
-El caudal medio (litros/seg/ha) según el balance hídrico se ve mejorado por menores pérdidas en la distribución del agua como consecuencia de la ejecución de obras.
+El caudal medio ($m^3/año$) según el balance hídrico se ve mejorado por menores pérdidas en la distribución del agua como consecuencia de la ejecución de obras.
 Esa mejora o _ahorro de agua_ se estima considerando los metros de canal revestido, los porcentajes de pérdida por unidad de manejo y la valoración de la eficiencia en la distribución.
 La pérdida por infiltración se calcula en base al _Criterio de Moritz_[^1],
 el cual considera las características del terreno, altura del canal y área irrigada para estimar la pérdida en $m^3/seg$ en la longitud del cauce.
@@ -213,8 +211,9 @@ El ahorro de agua se calcula siguiendo la siguiente fórmula[^2],
 ```{r Revestimiento, results='asis'}
 ```
 
-El ahorro de agua del año i ($\mathbb{A}_i^O$) equivale al caudal adicional por las obras de infraestructura, el mismo es calculado considerando los metros lineales de revestimiento, el caudal promedio mensual por cauce ($j$) ponderado por la ganancia, en términos de eficiencia en la conducción ($Ef.Cond_j$).
-Los valores de eficiencia de conducción fueron obtenidos de distintos estudios realizados por el DGI y fueron estimados considerando los volúmenes de caudal, pérdidas por infiltración y características del cauce [@Cuneo2016].
+El ahorro de agua del año i ($\mathbb{A}_i^O$) equivale a la disminución de las pérdidas por infiltración por las obras de infraestructura. 
+El mismo es calculado considerando los metros lineales de revestimiento, el caudal promedio anual por cauce ($j$) ponderado por el cambio en el volumen perdido.
+Los valores de eficiencia de conducción ($Ef.Cond_j$) corresponde a información secundaria de relevamientos y aforos realizados por el DGI donde se consideraron los volúmenes de caudal, pérdidas por infiltración y características del cauce [@Cuneo2016].
 En el caso del Río Mendoza, desde 2017 se revistieron 
 `r Revestimiento[[4,4]]` metros.
 

@@ -249,33 +249,59 @@ Los valores de eficiencia de conducción ($EfC_j$) corresponde a información se
 En el caso del Río Mendoza, desde 2017 se revistieron 
 `r Revestimiento[[4,4]]` metros.
 
+<!--
 ```{r MendozaInvTables, results='hide'}
 ``` 
 
+
 ```{r MzaTable, results='asis'}
 ```
+-->
 
-```{r AhorroMzaUm, results='asis',fig.show='hold', fig.height=4.5, fig.width=11, fig.cap="\\label{AhorroMzaUm}Curva de ahorro de agua por menores filtraciones",out.extra="", fig.align='center'}
+```{r AhorroMza, results='asis',fig.show='hold', fig.height=4.5, fig.width=11, fig.cap="\\label{AhorroMza}Curva de ahorro de agua enfoque eficiencia de conducción",out.extra="", fig.align='center'}
+```
+
+Si bien las curvas de ahorro de agua por menor filtración parecen similares,
+existe una diferencia en el valor medio entre ambas metodologías.
+El enfoque de ahorro de agua por diferencias en la eficiencia de conducción, el precio medio por $USD/m^3$ es
+`r round(mean(Mendoza$UsdM3Ef), digits=2)`;
+mientras que el precio medio en el enfoque de pérdidas asciende a
+`r round(mean(Mendoza$UsdM3Perd), digits=2)`.
+Esta diferencia se explica porque el enfoque de eficiencias de conducción discrimina (dentro de los cauces de tierra) entre canales e hijuelas.
+
+
+
+En términos generales el enfoque de eficiencias de conducción es superador ya que discrimina entre los distintos tipos de cauces revestidos ($j$), asignando el valor de $EfC_{j}$ según el estudio de @Cuneo2016 para la subdelegación del río Mendoza.
+Esto permitiría acercarce aún más al valor real del costo marginal de ampliar la oferta de riego.
+Por otro lado, el denominado enfoque de pérdidas considera el valor de eficiencia de conducción en canales de tierra calculado para cada unidad de manejo;
+este cálculo generaliza los valores de $EfC_{j}$ posiblemente subestimando el desempeño de la unidad de manejo (UM).
+
+\begin{equation*}
+\textrm{Eficiencias de Conducción} \quad = \frac{EfC_{j}}{longitud \: tipo \:de \: cauce_{j}} \quad \textrm{pérdida} \quad = \frac{EfC_{tierra}}{longitud \: cauces \:de \: tierra}  
+\end{equation*}
+
+```{r AhorroMzaPerd, results='asis',fig.show='hold', fig.height=4.5, fig.width=11, fig.cap="\\label{AhorroMzaPerd}Curva de ahorro de agua enfoque pérdidas",out.extra="", fig.align='center'}
 ```
 
 En base a los resultados de la estimación realizada
 `r OfertaMza$Cauce[[1]]` representa la mayor _disminución_ _de_ _pérdidas_ por filtración por dólar invertido desde el 2017.
 Según los cálculos realizados, la realización de esta obra de revestimiento diminuye las pérdidas anuales por filtración en 
-`r round(OfertaMza$AAcumUm[[1]]/1000, digits=0)` miles de metros cúbicos (m$^3$). 
+`r round(OfertaMza$AAcum[[1]]/1000, digits=0)` miles de metros cúbicos (m$^3$). 
 
+<!--
 ```{r MendozaInv}
 ``` 
 
 \vspace{-.15cm}
 La tabla anterior expresa valores promedio de las inversiones realizadas para esta cuenca en los años relevados y de las menores pérdidas por filtración en miles de metros cúbicos.
+Según la información disponible, el mínimo de inversión necesaria para disminuir las pérdidas por filtración en 1 hectómetro cúbico (Hm3) fue 
+`r round(OfertaMzaInv$InvAcum[[9]], digits = 0)`.
+-->
 
 
-
-<!--
-```{r MzaTableLandscape, results='asis'}
+```{r MzaTableComparacion, results='asis'}
 ```
 
--->
 
 
 
@@ -299,6 +325,58 @@ La información aquí presentada puede ser considerada como soporte para las dec
 Es decir que, en esta etapa de análisis no es conveniente relegar inversiones que apunten a mejorar la eficiencia en distribución por obras de revestimiento debido a que no hemos alcanzado el desarrollo de una metodología de valoración de las inversiones inclusiva para los tres conceptos de eficiencia.
 Es deseable continuar la investigación y evaluación de obras de revestimiento en otras subdelegaciones para profundizar el conocimiento del costo marginal del ahorro de agua por eficiencia de conducción.
 El trabajo realizado durante el 2019 permitió el esclarecimiento de una metodología de trabajo que brindará resultados con mayor celeridad.
+
+\vspace{-.3cm}
+# \textbf{Modelo integral}
+\vspace{-.2cm}
+El presente es una adaptación de la teoría económica clásica incorporando aspectos técnicos de política económica en el manejo del agua.
+Se presenta en un gráfico de cuatro (4) cuadrantes. 
+El Primero y el tercero reflejan la tecnología de riego representativa de la explotación agrícola.
+En el segundo cuadrante se ubica la demanda de agua para riego $\mathbb{A}_i^D$ y en el cuarto cuadrante la demanda efectiva de riego o productividad marginal $\mathbb{AE}_i^D$.
+Cambios o adaptaciones tecnológicas generan efectos en las demandas de riego que, identificándose correctamente, muestra el valor real de la productividad marginal del agua.
+
+\begin{figure}[H]
+\begin{center} \begin{tikzpicture}[scale=.85]\small
+\begin{axis}[axis line style=gray,
+	samples=120,
+	width=18.0cm,height=12.8cm,
+	xmin=-5, xmax=5,
+	ymin=-4.5, ymax=4.5,
+	restrict y to domain=-5.5:5.5,
+	ytick={},
+	xtick={},
+	axis equal,
+	axis x line=center,
+	axis y line=center,
+	xlabel=$m^{3} \space aplicados$, ylabel= $P_{m^{3}}$]
+\addplot[ultra thick,blue,domain=0:6]{(x-8)^2/6};
+\addplot[ thick,black, domain=0:6]{(x-6)^2/6};
+\addplot[] coordinates {(5,.5)} node{$\mathbb{A}_0^D$};
+\addplot[blue] coordinates {(6,1.3)} node{$\mathbb{AE}_1^D$};
+\addplot[ultra thick,red,domain=1.5:6]{exp(x-3)/2+1.9};
+\addplot[ thick,black, domain=0:1.5]{2};
+\addplot[] coordinates {(1,2.2)} node{$\mathbb{A}_0^O$};
+\addplot[red] coordinates {(5,4)} node{$\mathbb{A}_1^O$};
+\addplot[brown, very thick, domain=-5:5]{-x};
+\addplot[purple, very thick, domain=-5:5]{-x/3};
+\addplot [<-, thick, magenta] (4,-3) ++ (5,-2) node{$\uparrow EfAplicación$};
+\addplot[ultra thick, teal, domain=-5:0]{-1/35*(x+6)^(3)-0.5};
+\addplot[teal] coordinates {(-6,-.7)} node{$PMg_i^{AE}$};
+\addplot[black] coordinates {(-6,.4)} node{$CMg_{Agua}$};
+\addplot[black] coordinates {(1,-4)} node{$m^3 \ efectivos$};
+\addplot[brown] coordinates {(5.3,-4)} node{$tecnología \ riego$};
+\path (axis cs:0,0) node [anchor=north west,yshift=0.7cm] {0};
+\end{axis} \end{tikzpicture} \\
+\caption{\label{Modelo}Representación de cambios en la demanda de agua $\mathbb{A}_i^D$ acorde a la expansión de la oferta de riego $\mathbb{A}_1^S$}
+\end{center}
+\end{figure}
+
+La eficiencia del riego intra-finca está caraterizada por el _paquete tecnológico_ del productor y las herramientas que utiliza para la producción agrícola.
+En otras palabras, la tecnología disponible en la finca como sistema de riego, sistema de conducción de cultivo y prácticas agrícolas (entre otros) determina la efectividad del agua para riego.
+Es posible estimar el volumen mínimo de riego de acuerdo a las caracterísiticas de la finca y el uso del mejor paquete tecnológico disponible.
+A su vez, esta estimación permite calcular el precio correcto (teórico) del agua para riego. 
+El mismo puede ajustarse a valores referenciales de la finca y ajustarse cambios en la disponibilidad del recurso hídrico.
+ 
 
 <!--
 
@@ -573,7 +651,7 @@ eqByPar() that reads in an exogenous parameter, a proposed parameter to take val
 This is an R Markdown format used for publishing markdown documents to GitHub. When you click the **Knit** button all R code chunks are run and a markdown file (.md) suitable for publishing to GitHub is generated.
 -->
 \vspace{-.3cm}
-\section{Referencias bibliográficas}
+# Referencias bibliográficas
 \vspace{-.1cm}
 
 
