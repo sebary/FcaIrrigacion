@@ -1,8 +1,9 @@
 
 
 ## @knitr SetUp2
-RegulatoryEffort <- c("foreach","rootSolve","ggthemes","kableExtra","qwraps2","tidyverse","data.table","scales","matrixStats","readr","directlabels","dplyr","janitor","lubridate") 
-# included in tidyverse: "dplyr","tidyr","ggplot2","pandoc","table1", "summarytools"
+RegulatoryEffort <- c("foreach",#"rootSolve",
+                      "ggthemes","kableExtra","qwraps2","tidyverse","data.table",
+                      "utils","scales","matrixStats","readr","directlabels","dplyr","janitor","lubridate")  # included in tidyverse: "dplyr","tidyr","ggplot2","pandoc","table1", "summarytools"
 library(rmsfuns)
 load_pkg(RegulatoryEffort)
 
@@ -140,9 +141,12 @@ CaudalWeb %>%
 
 ## @knitr DataObras17
 
-Dgi2017 <- read.csv("DgiData/DgiObras2017.csv", sep = ";") #, header = TRUE, sep=",")
+Dgi2017a <- read.csv("DgiData/DgiObras2017.csv", sep = ";") #, header = TRUE, sep=",")
+Dgi2017 <- read.csv("DgiData/DgiObras2017inventario.csv", sep = ",") 
 head(Dgi2017,3)
-indxx <- c("Codigo","Metros","MetrosAvance","CodigoCauce","CodigoCauceAlt","NumObra","inversion","Ano")
+glimpse(Dgi2017)
+indxx <- c("NumObra","Expediente","CodigoCauce","inversion","Metros","MetrosAvance","Ano",
+           "CaudalDiseno","Superficie","bm","Bm","Hm") # "CodigoCauceAlt",
 Dgi2017[indxx] <- lapply(Dgi2017[indxx], function(x) as.numeric(as.character(x)))
 
 class(Dgi2017$inversion)
@@ -164,24 +168,31 @@ Dgi2017 %>%
 
 Mza17 <- as.data.table(Dgi2017 %>%
            filter(Subdelegacion=="Mendoza" & (metros!= "global" | metros!="-" | metros!="a determinar" | metros!="NA")) %>%
-           select(Codigo, CodigoCauce, Cauce,inversion, metros, InvUsd,InvMtUsd,Ano, Modalidad,Obra) %>% # , CodigoCauceAlt
+           select(CodigoCauce, Cauce,inversion, metros, InvUsd,InvMtUsd,Ano, Modalidad,Obra, CaudalDiseno) %>% #
            arrange(CodigoCauce)) 
+
+tSup17 <- as.data.table(Dgi2017 %>%
+           filter(Subdelegacion=="Tunuyán Superior" & (metros!= "global" | metros!="-" | metros!="a determinar" | metros!="NA")) %>%
+           select(CodigoCauce, Cauce,inversion, metros, InvUsd,InvMtUsd,Ano, Modalidad,Obra, CaudalDiseno) %>% # 
+           arrange(CodigoCauce)) 
+
 
 # Obras 2018 ####
 
 ## @knitr DataObras18
 
-Dgi2018 <- read.csv("DgiData/DgiObras2018.csv", sep = ";") #, header = TRUE, sep=",")
+Dgi2018 <- read.csv("DgiData/DgiObras2018.csv", sep = ",") #, header = TRUE, sep=",")
 
-indxx <- c("Codigo","MONTO","MONTO.CONTRATO","hectareas","Padrones","LONGITUD","Ano") # Convert many columns in numeric #https://stackoverflow.com/questions/27528907/how-to-convert-data-frame-column-from-factor-to-numeric
+indxx <- c("hectareas","Padrones","LONGITUD","MONTO","MONTO.CONTRATO","Inversion","Ano") # Convert many columns in numeric #https://stackoverflow.com/questions/27528907/how-to-convert-data-frame-column-from-factor-to-numeric
 Dgi2018[indxx] <- lapply(Dgi2018[indxx], function(x) as.numeric(as.character(x)))
 
 class(Dgi2018$MONTO)
 
-Dgi2018$inversion <- ifelse(is.na(Dgi2018$MONTO),
+Dgi2018$inversion <- as.numeric(ifelse(is.na(Dgi2018$MONTO),
                             ifelse(is.na(Dgi2018$MONTO.CONTRATO),
                               ifelse(is.na(Dgi2018$Presupuesto), " ", Dgi2018$Presupuesto),
-                              Dgi2018$MONTO.CONTRATO),Dgi2018$MONTO)
+                              Dgi2018$MONTO.CONTRATO),Dgi2018$Inversion))
+summary(Dgi2018$Inversion, na.rm=T)
 # Rename
 #Dgi2018       <- Dgi2018 %>% rename(metros = LONGITUD) #, Inversion = MONTO)
 names(Dgi2018)[12]<-"metros"
@@ -226,8 +237,12 @@ Dgi2018 %>%
 
 Mza18 <- as.data.table(Dgi2018 %>%
               filter(Subdelegacion=="Mendoza" & ESTADO!="NO EJECUTADA" & (metros!= "global" | metros!="-" | metros!="a determinar" | metros!="NA")) %>%
-              select(Codigo, CodigoCauce,Cauce,inversion, metros, InvUsd,InvMtUsd,Ano, Modalidad, Obra,Tipologia) %>% # , CodigoCauceAlt
+              select(CodigoCauce,Cauce,inversion, metros, InvUsd,InvMtUsd,Ano, Modalidad, Obra,Tipologia,CaudalDiseno) %>% # , CodigoCauceAlt
               arrange(CodigoCauce)) 
+tSup18 <- as.data.table(Dgi2018 %>%
+             filter(Subdelegacion=="Tunuyán Sup." & ESTADO!="NO EJECUTADA" & (metros!= "global" | metros!="-" | metros!="a determinar" | metros!="NA")) %>%
+             select(CodigoCauce,Cauce,inversion, metros, InvUsd,InvMtUsd,Ano, Modalidad, Obra,Tipologia,CaudalDiseno) %>% # , CodigoCauceAlt
+             arrange(CodigoCauce)) 
 
 #Mza18 <- merge(x= Mza18, y= EfMendoza[ , c(2,6,9,12,15,18:19,24,27) ], by= c("CodigoCauce"), all.x= TRUE)
 
@@ -280,7 +295,7 @@ AltSum18
 # Obras 2019 ####
 ## @knitr DataObras19
 
-Dgi2019 <- read.csv("DgiData/DgiObras2019.csv", sep = ";", stringsAsFactors=FALSE) #, header = TRUE, sep=",")
+Dgi2019 <- read.csv("DgiData/DgiObras2019.csv", sep = ",", stringsAsFactors=FALSE) # 
 
 Dgi2019$metros <- as.numeric(as.character(Dgi2019$Metros))
 
@@ -292,14 +307,20 @@ view(Dgi2019)
 
 Dgi2019 %>%
   filter((metros!="NA") & (inversion!="NA") & Status!="No se ejecuta") %>% #(Inversion!="" & Inversion!="-")) %>%
-  select(Codigo,CodigoCauce, Subdelegacion, Cauce, Inspeccion,Obra,inversion, metros, Tipologia,InvMtUsd,Ano) %>% #, hectareas, Padrones
+  select(CodigoCauce, Subdelegacion, Cauce, Inspeccion,Obra,inversion, metros, Tipologia,InvMtUsd,Ano) %>% #, hectareas, Padrones
   mutate(coment= paste0(InvMtUsd," USD/metro revestido 2019")) %>%
   arrange(CodigoCauce)
 
 Mza19 <- as.data.table(Dgi2019 %>%
                filter(Subdelegacion=="Mendoza" & Status!="No se ejecuta" &( metros!= "global" | metros!="-" | metros!="a determinar" | metros!="NA")) %>%
-               select(Codigo,CodigoCauce, Cauce,inversion, metros, InvUsd,InvMtUsd,Ano, Modalidad, Obra,Tipologia) %>% # , CodigoCauceAlt
+               select(CodigoCauce, Cauce,inversion, metros, InvUsd,InvMtUsd,Ano, Modalidad, Obra,Tipologia,CaudalDiseno) %>% # , CodigoCauceAlt
                arrange(CodigoCauce)) 
+
+tSup19 <- as.data.table(Dgi2019 %>%
+           filter(Subdelegacion=="T. Superior" & Status!="No se ejecuta" &( metros!= "global" | metros!="-" | metros!="a determinar" | metros!="NA")) %>%
+           select(CodigoCauce, Cauce,inversion, metros, InvUsd,InvMtUsd,Ano, Modalidad, Obra,Tipologia,CaudalDiseno) %>% # , CodigoCauceAlt
+           arrange(CodigoCauce)) 
+
 
 ## @knitr Sum2019
 print(qwraps2::summary_table(
@@ -374,7 +395,7 @@ Mendoza <- rbind(Mza17,Mza18,Mza19, fill=TRUE)
 Mendoza <- merge(x= Mendoza,
                y= EfMendoza[ , c(2:4,6,13,15,17:21,24:29) ], 
                by= c("CodigoCauce"), all.x=TRUE)
-arrange(Mendoza,Codigo)
+arrange(Mendoza,CodigoCauce)
 #Mendoza <- Mendoza[-c(11,13),] # Canal Lunlunta duplicado
 
 # Eficiencia post entubamiento ==1 & revestimiento 0.99

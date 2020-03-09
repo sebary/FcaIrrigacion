@@ -1,0 +1,56 @@
+﻿NumObra,Obra,Expediente,Subdelegacion,Modalidad,Cauce,CodigoCauce,inversion,Tipologia,Metros,Status,MetrosAvance,Ano,Superficie,Padron,Diametro,bm,Bm,Hm,CaudalDiseno
+15,Revestimiento Hij. 2º Vistalba,710148,Mendoza,Inspección,Luján Oeste,1011,1300000,H° A° Sección Rectangular,340,Finalizada,340,2017,572,,-,1.1,1.1,1.1,3.7
+10,Revestimiento Canal San Alberto,748714,Mendoza,Inspección,San Alberto y Uspallata,1812,600000,Empedrado,1000,En Ejecución,,2017,4000,,,1.3,2,0.6,
+1,Entubamiento Hij. Chacras de Coria,753654,Mendoza,Inspección,Luján Oeste,1012,1800000,Entubado,565,Finalizada,565,2017,,,,,,,
+21,Revestimiento Hijuela Las Rosas,756445,Tunuyán Superior,Inspección,A°  Guiñazu ,9700,611800,H° A° Trapecial,600,Finalizada,600,2017,350,,,0.9,2.1,0.6,0.36
+7,Mantenimiento de tomas directas sobre Hij. Santa Rita,759152,Mendoza,Inspección,Hijuela Santa Rita,,144279,Mantenimiento y  Reparación,-,Apta para Ejecución,,2017,1000,120,,,,,
+9,Reconstrucción comparto Ramo Nº 3 de Hij. Villanueva,758662,Mendoza,Inspección,Hijuela Villanueva,,237569,Mantenimiento y  Reparación,-,Finalizada,,2017,1700,219,-,3.13,3.13,1.7,4.6
+24,Entubado Canal Matriz Este,756812,Tunuyán Superior,Inspección,Matriz Este Unificado,9710,2000000,Entubado ,1000,Apta para Ejecución,,2017,900,,0.6,,,,0.9
+11,Canales en 2ª Zona de Riego (se agregan),No posee,Mendoza,Inspección,(No especificado),,Monto a Definir,Revestimiento (?),,Etapa Proyecto,,2017,,,,,,,
+13,Bacheo 1º y 2º tramos Cl. San Martín,757507,Mendoza,DGI,Subdelegación,,1200000,Mantenimiento,-,Finalizada,,2017,48186,,,,,,
+14,Mantenimiento de juntas y losas en 5º y  6º tramos Cl. San Martín,757926,Mendoza,DGI,Subdelegación,,1000000,Mantenimiento,-,Finalizada,,2017,48186,,,,,,
+4,Revestimiento Canal Lunlunta 2,757510,Mendoza,Inspección,Canal Matriz Lunlunta,1285,600000,H° A° Sección Rectangular,189,Finalizada,189,2017,1700,350,,,,,
+3,Entubamiento Hij. Mirasso,757533,Mendoza,Inspección,Naciente Chachingo-Primavera Pedregal Unificadas,1141,900000,Entubado,1500,Finalizada,1500,2017,1540,190,0.6,,-,-,0.6
+66,Impermeabilización de 30m Hijuela Santa Rita y adpatación de derivaciones existentes.,758815,Mendoza,Inspección,Hijuela Santa Rita,1271,249370,H° A° Sección Rectangular,30,En Ejecución,,2017,1200,166,-,1.7,1.7,1.5,2.85
+16,Unificación hijuelas Simonovich- Nueva Florida,754101,Tunuyán Superior,Inspección,Yaucha-Aguanda,5701,1822000,H° A° Sección Rectangular,1300,En Ejecución,,2017,266,55,,0.8,0.8,0.7,
+17,Unificacion y Revestimiento  Hijuelas Silva- 5001,754315,Tunuyán Superior,Inspección,Canal Manzano,5001,700000,Cuneta tipo Municipal,340,En Ejecución,320,2017,,,,,,,
+18,Revestimiento Canal Capacho,757027,Tunuyán Superior,Inspección,Canal El Capacho,5012,250000,H° A° Sección Rectangular,100,Finalizada,100,2017,1006,,-,2,2,0.55,0.9
+19,Impermeabilización Canal Vista Flores,753901,Tunuyán Superior,Inspección,Canal Vista Flores,5006,1220000,H° A° Sección Tolva,1400,Finalizada,1400,2017,900,,1.2,,,0.6,0.9
+20,Descargador Hijuela Silvestri - Reparación y colocación de tomas principales.,754036,Tunuyán Superior,Inspección,A° Claro,,350000,Mejoramiento de Operación,-,Finalizada,,2017,,,,,,,
+65,Reparación tramo Hijuela Progreso Santa Rita,758908,Mendoza,Inspección,Hij. Progreso,1271,264532,H° A° Sección Rectangular,35,Finalizada,,2017,2500,270,-,2.36,2.36,1.5,4.25
+22,Mejoramiento manejo operativo Canal Rincón,754582,Tunuyán Superior,Inspección,Canal Rincón,5014,150000,-,200,Inst. Administrativa,,2017,861,,,0.8,0.8,1.2,
+23,Cruce Calle La Costa - Hijuela Palma,754086,Tunuyán Superior,Inspección,El Peral ,9731,250000,Entubado,600,Inst. Administrativa,,2017,,,,,,,
+5,Impermeabilización Hij. Esteban,No posee,Mendoza,Inspección,Hijuela Esteban,1278,150000,Revestimiento Membrana 240mm,150,Finalizada,,2017,,,,,,,
+25,Refuerzo estructural Sifon Cnl Esquina Tupungato - Cauce aluvional,757519,Tunuyán Superior,Subdelegación,,,500000,Reparaciones,-,Etapa Proyecto,,2017,,,,,,,
+26,Revestimiento Canal Norte,753186,Tunuyán Inferior,Inspección,Cnl. Norte,2623,1500000,H° A° Sección Rectangular,600,Finalizada,600,2017,2400,,-,2.2,2.2,1.3,2.6
+27,Revestimiento Canal Nuevo Gil - Hijuela Nº 2,753447,Tunuyán Inferior,Inspección,Cnl. Nuevo Gil,2434,1000000,H° A° Sección Rectangular,610,Finalizada,610,2017,865,,,1,1,1,0.6
+28,Revestimiento Canal Norte Alto Verde + Ampliación,753328,Tunuyán Inferior,Inspección,Cnl. Norte Alto Verde,2271,2500000,H° A° Sección Rectangular,2065,Finalizada,2075,2017,5800,,,2,2,1.1,2.4
+29,Revestimiento Canal Norte Catitas (Mayorga) + Ampliación,755551,Tunuyán Inferior,Inspección,Cnl. Norte Catitas,2564,1300000,H° A° Trapecial,1037,Finalizada,1037,2017,875,,,0.5,2.3,0.9,0.8
+30,Canal Chacabuco (año 2016),,Tunuyán Inferior,Inspección,Cnl. Chacabuco - Árboles,2397,1396310,H° A° Sección Rectangular,730,Finalizada,730,2017,,,,,,,
+31,Canal Montecaseros  Entubamiento Hijuela 3º Salvador Etapa III,752938,Tunuyán Inferior,Inspección,Cnl. Rama Montecaseros,2194,750000,H° A° Rectangular (premoldeado),640,En Ejecución,,2017,829,,,0.93,0.93,0.97,0.6
+33,Reparaciones Losas Canal Matriz Reducción + Ampliación ,754762,Tunuyán Inferior,DGI,Subdelegación,,1108471,Reparaciones,-,Finalizada,,2017,13922,,,,,,
+34,Hijuela Los Yoles (años 2016),,Tunuyán Inferior,Inspección,Cnl. Nuevo Gil,2081,752630,H° A° Sección Rectangular,416,Finalizada,416,2017,,,,,,,
+35,Canal Pavez - Revestimiento Tramo Calle Tirasso,756382,Diamante,Inspección,Primera Diamante,4017,1696800,H° A° Sección Rectangular,500,Finalizada,673,2017,2254,,,2,2,0.9,1.9
+36,Canal Cuadro Nacional - Revestimiento de un Tramo - 3° Etapa,756164,Diamante,Inspección,Primera Diamante,4042,597084,H° A° Sección Tolva,500,Finalizada,500,2017,1200,,,2,3,0.7,1.2
+37,Canal Vila - Hijuela N°7 - Revestimiento de un Tramo,756072,Diamante,Inspección,Canal Vila,4145,335954,H° A° Sección Tolva,500,Finalizada,500,2017,254,,,0.5,1,0.5,0.25
+38,Canal Vila - Hijuela N°1 ,756830,Diamante,Inspección,Canal Vila,4145,46675,H° A°  Sección Trapecial,60,Finalizada,60,2017,25,,,0.6,1.4,0.4,0.28
+40,Hijuela Pampita - Revestimiento y Construcción Comparto,755986,Diamante,Inspección,El Cerrito Unificada,4153,629047,H° A° Sección Tolva,270,Finalizada,270,2017,1500,,,0.8,1.78,0.7,1.31
+41,Canal Matriz Goudge - Rama Sur - Revestimiento de un Tramo,756590,Diamante,Inspección,Matriz Goudge,4091,1590150,H° A° Sección Rectangular,650,Finalizada,724,2017,1539,,,1.4,1.4,0.9,1.02
+42,Canal Rama Caida - Colocación Chapas Móviles en Compartos de tomas hijuelas 2 a 10.,756547,Diamante,Inspección,Rama Caida Unificada,,179900,Compuertas,-,Finalizada,,2017,1445,440,,,,,
+43,Canal Rama Caida Gonzalez - Hijuela N°6 - Revestimiento de un Tramo - 2° Etapa,756188,Diamante,Inspección,Santa Maria del Vencedor,4060,567851,H° A° Sección Trapecial,1000,Finalizada,1000,2017,166,,,0.5,1,0.5,0.15
+44,Canal Marginal Izquierdo - Reparación terraplenes,757140,Diamante,Emergencia,Subdelegación,,261820,Reparación y Reconstrucción,,Finalizada,,2017,,,,,,,
+45,Canal Socavon Frugoni Marco - Callejón Piola - Reparación Hijuela,756869,Diamante,Emergencia,Subdelegación,4003,29295,Revestimiento y Reparación,50,En Ejecución,50,2017,,,,,,,
+46,Recrecimiento Compuerta Desripiadora y Compuerta Canal Villa,757986,Diamante,Gener.  Hidroeléctrica,Subdelegación,,186661,Recrecimiento Compuerta,,Finalizada,,2017,,,,,,,
+47,Mantenimiento Preventivo Dique Galileo Vitali,-,Diamante,Gener.  Hidroeléctrica,Subdelegación,,98000,,,Etapa Proyecto,,2017,,,,,,,
+48,Instalaciones Eléctricas en Viviendas,-,Diamante,Gener.  Hidroeléctrica,Subdelegación,,145000,Reparaciones,,Etapa Proyecto,,2017,,,,,,,
+49,Puntos de Medicion Cuenca Alta,-,Diamante,Gener.  Hidroeléctrica,Subdelegación,,465000,,,Etapa Proyecto,,2017,,,,,,,
+54,C.M. Real del Padre - rama 1 - revestimiento de un tramo - ampliación y elementos mejora manejo del riego,753781,Atuel,Inspección,Cnl. Real del Padre,3075,252455,Revestimiento,70,Finalizada,70,2017,,,,,,,
+55,Canal Ole Aaset - hijuela 6 -revestimiento y modificación sistema de riego,748365,Atuel,Inspección,Cnl. Olé Aset,3132,1262300,H° A° Sección Trapecial,1170,Finalizada,1180,2017,394,,-,0.5,1.5,0.7,0.25
+56,Canal Rama 3 - Canal Ing. Lange - revestimiento de un tramo 2da etapa,755814,Atuel,Inspección,Cnl. M.N.Alvear,3090,2593638,H° A° Sección Trapecial,1632,Finalizada,1670,2017,1364,,,0.7,2.3,1,0.7
+57,C. M. Perrone - Reparación de un tramo de revestimiento zona escuela el escorial – 2da etapa,753480,Atuel,Inspección,Cnl. Perrone,,991980,H° A° Sección Rectangular,,Apta para Ejecución,,2017,5334,,,4.1,4.1,1.36,3.5
+58,Rama Moss-Los Ángeles-recrecimiento de un tramo,758397,Atuel,Inspección,Cnl. Rama Moss - Los Angeles,3112,253000,Recrecimiento H°A°,300,En Ejecución,250,2017,2179,,,2.5,3.75,0.9,0.8
+59,Canal Matriz San Pedro- reparación partidor automatico volpara-viney,758398,Atuel,Inspección,Cnl San Pedro,3070,82000,Reparaciones,10,Finalizada,10,2017,1863,,,0.94,0.94,0.8,
+60,C. M. Perrone - construcción 18 Secciones de Aforo,755339,Atuel,Subdelegación,Cnl. Perrone,,653273,-,,En Ejecución,,2017,,,,,,,
+61,Obra: Obras de medicion y de Distribucion Parcelaria La Junta,755296,Malargüe,Jefatura de Zona,La Junta Cohihueco y El Sosneado,,461700,-,-,Finalizada,,2017,1373,,,,,,
+62,"Rama Centro Unificado, Cambio de Traza y Unificacion",756426,Malargüe,Inspección,Cnl. Cañada Colorada,8234,2099130,H° A° Sección Rectangular,1530,En Ejecución,150,2017,,,,,,,
+63,Revestimiento Rama Molino y Cambio de Traza - 1er Tramo,756447,Malargüe,Inspección,Cnl. Cañada Colorada,8234,1576300,H° A° Sección Rectangular,1000,Apta para Ejecución,,2017,,,,,,,
