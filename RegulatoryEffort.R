@@ -95,13 +95,16 @@ CaudalWeb <- read.csv("DgiData/CaudalWeb.csv", sep = ",")
 CaudalWeb <-
   CaudalWeb %>%
   clean_names() %>%
-  as_tibble() %>%
+  #as_tibble() %>%
   mutate(fecha_desde = ymd(fecha_desde)) %>%
   mutate(fecha_fin = ymd(fecha_fin))
 glimpse(CaudalWeb)
 
+colnames(CaudalWeb)[2] <- "CodigoCauce"
 
-#CaudalWeb$Qanual <- aggregate(CaudalWeb$valor_promedio_relevado, by=list(CaudalWeb$codigo_punto_medicion), FUN=sum, na.rm=T)
+CaudalWebQ <- aggregate(CaudalWeb$valor_promedio_relevado/1000, by=list(CaudalWeb$CodigoCauce), FUN=sum, na.rm=T)
+colnames(CaudalWebQ) <- c("CodigoCauce","Q0") # m3/s
+
 #var <- "Qanual"
 #summarise(CaudalWeb, avg = mean(.data[[var]], na.rm = TRUE))
 #CaudalWeb %>% 
@@ -151,7 +154,7 @@ Dgi2017[indxx] <- lapply(Dgi2017[indxx], function(x) as.numeric(as.character(x))
 
 class(Dgi2017$inversion)
 
-Dgi2017$metros <- ifelse(Dgi2017$MetrosAvance > Dgi2017$Metros, Dgi2017$MetrosAvance, Dgi2017$Metros)
+Dgi2017$metros <- ifelse(!is.na(Dgi2017$MetrosAvance) & (Dgi2017$MetrosAvance > Dgi2017$Metros), Dgi2017$MetrosAvance, Dgi2017$Metros)
 
 Dgi2017$InvMt    <- as.numeric(round(Dgi2017$inversion/Dgi2017$metros, digits = 0))
 Dgi2017$InvUsd   <- as.numeric(round(Dgi2017$inversion/17, digits = 1)) # $Ars/Usd 17
@@ -436,11 +439,11 @@ arrange(Mendoza,CodigoCauce)
 #Mendoza <- Mendoza[-c(11,13),] # Canal Lunlunta duplicado
 
 # Eficiencia post entubamiento ==1 & revestimiento 0.99
-Mendoza$EfPost     <- Mendoza[, ifelse(grepl("Entubado | Entubamiento | entubado | entubamiento | ENTUBADO | ENTUBAMIENTO", Mendoza$Obra), 1,
-                                ifelse(grepl("Revestimiento | revestimiento | Canalización | REVESTIMIENTO", Mendoza$Obra), 0.99,
+Mendoza$EfPost     <- Mendoza[, ifelse(grepl("Ent. | Entubado | Entubamiento | entubado | entubamiento | ENTUBADO | ENTUBAMIENTO", Mendoza$Obra), 1,
+                                ifelse(grepl("Rev. | Revestimiento | revestimiento | Canalización | REVESTIMIENTO", Mendoza$Obra), 0.99,
                                                0.98))]
-Mendoza$EfAnte     <- Mendoza[, ifelse(!is.na(EfCanales) & grepl("Canal | Canales | Can. | Canal. | Cl | canal", Mendoza$Obra), EfCanales,
-                                ifelse(!is.na(EfHijuelas) & grepl("Hijuela | Hij. | Hij | Hj | hijuela | HIJUELA | HIJ.", Mendoza$Obra), EfHijuelas,
+Mendoza$EfAnte     <- Mendoza[, ifelse(!is.na(EfCanales) & grepl("C. | Canal | Canales | Can. | Canal. | Cl | canal", Mendoza$Obra), EfCanales,
+                                ifelse(!is.na(EfHijuelas) & grepl("H. | Hijuela | Hij. | Hij | Hj | hijuela | HIJUELA | HIJ.", Mendoza$Obra), EfHijuelas,
                                        EfUnidadManejo))]
 
 
@@ -459,11 +462,15 @@ Mendoza$DeltaPerdida      <- round(Mendoza[, (PerdidaxKm * EfPost * metros/1000 
 #Mendoza$ACaudalAnual  <- round(Mendoza[, (Q0) * (EfPost - EfAnte) / (Distancia)  *  metros/1000 * 2764800], digits=1) 
 
 # 2do Cálculo ahorro Valores de Ef.Conducción de Unidad de Manejo
-Mendoza$ACaudalUm       <- round(Mendoza[, ifelse(!is.na(EfCanales) & !is.na(KmCanales) & grepl("Canal | Canales | Can. | Canal. | Cl | canal", Mendoza$Obra),
+Mendoza$ACaudalUm       <- round(Mendoza[, ifelse(!is.na(EfCanales) & !is.na(KmCanales) & grepl("Canal | Canales | Can. | Canal. | Cl | canal | C.", Mendoza$Obra),
                                                    (Q0) * (EfPost - EfAnte) / (KmCanales),
-                                            ifelse(!is.na(KmHijuela) & grepl("Hijuela | Hij. | Hij | Hj | hijuela", Mendoza$Obra),
+                                            ifelse(!is.na(KmHijuela) & grepl("Hijuela | Hij. | Hij | Hj | hijuela | H.", Mendoza$Obra),
                                                    (Q0) * (EfPost - EfAnte) / (KmHijuela),
                                                    (Q0) * EfTierraLong / KmTierra ))], digits = 3) # KmTierra # total inspección 
+# Obra Compuertas
+Mendoza$ACaudalUm       <- round(ifelse( Mendoza$inversion == 845000,       
+                                (Mendoza$Q0) * (Mendoza$EfPost - Mendoza$EfAnte) / (Mendoza$KmCanales), Mendoza$ACaudalUm), digits = 3) # KmTierra # total inspección 
+
 
 Mendoza$ACaudalAnualUm  <- round(Mendoza[, ACaudalUm * metros/1000 * 2764800], digits=0) 
 
@@ -489,21 +496,21 @@ Mendoza <- Mendoza[order(Ano,valueEfBis)]
 write_csv(Mendoza, 'DgiData/Estimaciones/MzaAhorro.csv', na = "NA", append = FALSE, quote_escape = "double")
 
 
-MzaTableComparacion <- as.data.frame(Mendoza[ c(1:23), c(9,12,8,4:5,29,28,31,33:37)]) %>% #   Mendoza[c(1:18), c(2,12,4,6,16,28,25,29,31,30,32:34)]) %>% # 
+MzaTableComparacion <- as.data.frame(Mendoza[ c(1:7,9:27), c(9,12,8,4:5,29,28,31,33:37)]) %>% #   Mendoza[c(1:18), c(2,12,4,6,16,28,25,29,31,30,32:34)]) %>% # 
   mutate_all(linebreak) %>%
   kable(format = "latex",caption = "\\label{tab:MzaTableComparacion}Río Mendoza - Comparación metodologías", align = c("l", "c",rep("r", 12)),
         row.names = FALSE, booktabs = TRUE,  
         col.names = c("Obra","Zona","Modalidad","Metros","USD/mt","ex-ante","ex-post","Delta pérdida","Delta EfC","Pérdida","EfC","Pérdida","EfC")) %>%
   kable_styling(latex_options = c("HOLD_position","scale_down"), position = "center", full_width = FALSE, font_size=11) %>% # latex_options = c("striped", "scale_down")
   add_header_above(c(" "=5,"Ef.Conducción" =2, "Ahorro m3/km" = 2, "USD/m3" = 2, "USD/m3 (ajuste)" = 2)) %>%
-  pack_rows("2017", 1,4) %>%
-  pack_rows("2018", 5,7) %>%
-  pack_rows("2019", 8,13) %>%
-  pack_rows("2020", 14,23) %>%
+  pack_rows("2017", 1,7) %>%
+  pack_rows("2018", 8,10) %>%
+  pack_rows("2019", 11,16) %>%
+  pack_rows("2020", 17,26) %>%
   footnote( general = "Elab. propia en base DGI (2020).", general_title = "Fuente: ", title_format = "italic", 
             footnote_as_chunk=TRUE, escape=FALSE,threeparttable = T) 
 
-MzaTable <- Mendoza[ c(1:23), c(3,12,5:6,29,28,32:33,7,35)] %>% 
+MzaTable <- Mendoza[ c(1:7,9:27), c(3,12,5:6,29,28,32:33,7,35)] %>% 
   mutate_all(linebreak) %>%
   kable(format = "latex",caption = "\\label{tab:MzaTable}Río Mendoza - Valores por obra de revestimiento ejecutada", align = c("l", "c",rep("r", 8)),
         row.names = FALSE, booktabs = TRUE,  col.names = c("Cauce","Zona","Metros","Inv.(USD)","EfC(0)","EfC(1)","A(m3/seg)", "A(m3/Obra)","Inv.(USD/mt)","USD/m3")
@@ -511,10 +518,10 @@ MzaTable <- Mendoza[ c(1:23), c(3,12,5:6,29,28,32:33,7,35)] %>%
          #           align = "c", linebreaker = "\n", double_escape = F) #,"Ef.Cond.","Q (m3/año)","A (Hm3/año)") 
   ) %>%
   kable_styling(latex_options = c("HOLD_position","scale_down"), position = "center", full_width = FALSE, font_size=10) %>% # latex_options = c("striped", "scale_down")
-  pack_rows("2017", 1,4) %>%
-  pack_rows("2018", 5,7) %>%
-  pack_rows("2019", 8,13) %>%
-  pack_rows("2020", 14,23) %>%
+  pack_rows("2017", 1,7) %>%
+  pack_rows("2018", 8,10) %>%
+  pack_rows("2019", 11,16) %>%
+  pack_rows("2020", 17,26) %>%
   footnote( general = "Elab. propia en base DGI (2020).", general_title = "Fuente: ", title_format = "italic", #Datos de caudal del Río Mendoza extrapolados
             footnote_as_chunk=TRUE, escape=FALSE,threeparttable = T) #, longtable=T
 
@@ -551,7 +558,7 @@ AhorroMza + theme(axis.text.x = element_text(size = 9, angle=75, vjust = .4),
             axis.text.y = element_text(size = 10),
             panel.background = element_rect(fill = "white"), 
             axis.title = element_text(size = 9)) + 
-            scale_y_continuous(breaks = c(seq(0,50,5))) + 
+            scale_y_continuous(breaks = c(seq(0,80,5))) + 
   theme(axis.line = element_line(colour = "grey50")) +
   #geom_text(nudge_x = -.1, nudge_y = 0.2) +
   xlab("Metros cúbicos anuales ('000)") + ylab("Dólares por m3 anual ahorrado")  # Hm^{3}
@@ -568,18 +575,6 @@ AhorroMza1 + theme(axis.text.x = element_text(size = 9, angle=75, vjust = .4),
   xlab("Metros cúbicos anuales ('000)") + ylab("Dólares por m3 anual ahorrado")  # Hm^{3}
 ggsave('DgiData/Graphs/OfertaMzaPerd.png', height = 4, width = 12)
 
-## @knitr AhorroMzaUm
-AhorroMza + 
-  geom_text(label = OfertaMza$Obra, angle=0, nudge_x = -30, nudge_y = 0.75, 
-            vjust=3, hjust=-.2, size=3, check_overlap = T, inherit.aes = T) + #  
-  theme(axis.text.x = element_text(size = 9, angle=75, vjust = .5), 
-                  axis.text.y = element_text(size = 9), panel.background = element_rect(fill = "white"), 
-                  axis.title = element_text(size = 9), axis.line = element_line(colour = "grey50")) +
-                  xlab("Metros cúbicos anuales ('000)") + ylab(expression("Dólares por m3 ahorrado")) + 
-  scale_x_continuous(breaks= round(OfertaMza$AAcumUm/1000, digits = 0)) + 
-  scale_y_continuous(breaks = c(seq(0,60,5)))
-
-## @knitr AhorroMzaGraphs
 
 ## @knitr MendozaInvTables
 OfertaMzaInv          <- as.data.frame(OfertaMza[order(AAcum)])
@@ -612,18 +607,216 @@ MzaSum %>%
             footnote_as_chunk=TRUE, escape=FALSE, threeparttable = T)
 
 
+
+# T.Superior ####
+
+## @knitr SupEf
+
+EfSuperior <- as.data.frame(read.csv("DgiData/EfConduccion/TunuyanSuperior/EfCondTunSup.csv", sep = ",")) #, header = TRUE, sep=",")
+indxx <- c("CodigoCauce","Superficie","LongTotal","LongRevest","EfRevest","LongHijuelas","PorcRevest","EfTierra",
+           "EfGlobal","Caudal","CoefMoritz","PerdidaPorcentaje","TiempoMojado","PerdidaTiempo","EfUM")
+EfSuperior[indxx] <- lapply(EfSuperior[indxx], function(x) as.numeric(as.character(x)))
+
+## @knitr SuperiorTable
+
+Superior <- rbind(tSup17,tSup18[c(1:9,11),],tSup19[c(1:9,11),],tSup20, fill=TRUE)
+Superior <- Superior[ !is.na(CodigoCauce),]
+Superior <- merge(x= Superior,
+                 y= EfSuperior[ , c(1:8,10:14,17) ], 
+                 by= c("CodigoCauce"), all.x=TRUE)
+arrange(Superior,CodigoCauce)
+Superior <- Superior %>% select(everything()) %>% distinct(inversion, Obra, .keep_all = TRUE)
+#Superior %>% filter(is.na(EfRevest))
+
+# Eficiencia post entubamiento ==1 & revestimiento 0.99
+Superior$EfPost     <- Superior[, ifelse(grepl("Ent. | Entubado | Entubamiento | entubado | entubamiento | ENTUBADO | ENTUBAMIENTO", Superior$Obra), 1,
+                                       ifelse(grepl("Rev. | Revestimiento | revestimiento | Canalización | REVESTIMIENTO", Superior$Obra), 0.99,
+                                              0.98))]
+Superior$EfAnte     <- ifelse(!is.na(Superior$EfTierra),Superior$EfTierra,Superior$EfGlobal)
+Superior$EfAnte     <- round(ifelse(is.na(Superior$EfAnte),mean(Superior$EfAnte,na.rm = T),Superior$EfAnte), digits = 2)
+
+#[, ifelse(!is.na(EfCanales) & grepl("C. | Canal | Canales | Can. | Canal. | Cl | canal", Superior$Obra), EfCanales,ifelse(!is.na(EfHijuelas) & grepl("H. | Hijuela | Hij. | Hij | Hj | hijuela | HIJUELA | HIJ.", Superior$Obra), EfHijuelas, EfUM))]
+
+
+# Cálculo en base a "Pérdida x km": 
+# Diferencia de caudales en la distancia medida ponderada x la eficiencia de la UM en cauces revestidos
+# 1ro: Ganancia de caudal en la distancia relevada con la EfC de revestimiento
+Superior <- merge(x= Superior,                   y= CaudalWebQ,                   by= c("CodigoCauce"), all.x=TRUE)
+#glimpse(Superior)
+Superior$Q0               <- Superior$Caudal
+Superior$Q0               <- ifelse(is.na(Superior$Caudal) & !is.na(Superior$CaudalDiseno),Superior$CaudalDiseno/1000,Superior$Q0)
+# reemplazamos el caudal x la media!
+Superior$Q0               <- ifelse(is.na(Superior$Caudal),mean(Superior$Q0,na.rm = T),Superior$Caudal) 
+summary(Superior$Q0)
+
+Superior$PerdidaxKm        <- round(Superior[, (Q0) * EfAnte/LongTotal ], digits = 3) # EfTierraLong/KmTierra es eficienci x kilómetro en la UM
+Superior$DeltaPerdida      <- round(Superior[, (PerdidaxKm * EfPost * metros/1000 * 1036800)], digits=0) # segundos al ano (2 turnos mensuales x 8 meses) / conversión a '000)]
+
+# Cálculo en base a EfC
+# 1ro: Caudal de entrada x (ganancia de eficiencia) / distancia del aforo en km
+# 2do: kilómetros revestidos (metros/1000)
+# 3ro: x segundos anuales de riego (1 turno semanal durante 8 meses)
+#Superior$ACaudal       <- round(Superior[, (Q0) * (EfPost - EfAnte) / (Distancia)], digits = 2) # KmTierra # total inspección 
+#Superior$ACaudalAnual  <- round(Superior[, (Q0) * (EfPost - EfAnte) / (Distancia)  *  metros/1000 * 2764800], digits=1) 
+
+# 2do Cálculo ahorro Valores de Ef.Conducción de Unidad de Manejo
+Superior$ACaudalUm       <- round(Superior[, Q0 * ((EfRevest * LongRevest) + (EfTierra * LongHijuelas))/ (LongRevest + LongHijuelas) ], digits = 3)
+summary(Superior$ACaudalUm)
+
+#ifelse(!is.na(EfCanales) & !is.na(KmCanales) & grepl("Canal | Canales | Can. | Canal. | Cl | canal | C.", Superior$Obra),
+ #(Q0) * (EfPost - EfAnte) / (KmCanales),ifelse(!is.na(KmHijuela) & grepl("Hijuela | Hij. | Hij | Hj | hijuela | H.", Superior$Obra),
+#(Q0) * (EfPost - EfAnte) / (KmHijuela),(Q0) * EfTierraLong / KmTierra ))], digits = 3) # KmTierra # total inspección 
+
+Superior$ACaudalAnualUm  <- round(Superior[, ACaudalUm * metros/1000 * 1036800], digits=0) 
+
+Superior$valuePerd  <- round(Superior[, InvUsd / DeltaPerdida], digits = 2)
+Superior$valueEf    <- round(Superior[, InvUsd / ACaudalAnualUm], digits = 2)
+
+Superior$valuePerdBis <- round(Superior[, ifelse(Modalidad=="Lic." | Modalidad=="Licitación" | Modalidad=="Licitacion" | Modalidad=="LICITADA",
+                                                valuePerd, valuePerd * 1.32)], digits = 2)
+
+Superior$valueEfBis <- round(Superior[, ifelse(Modalidad=="Lic." | Modalidad=="Licitación" | Modalidad=="Licitacion" | Modalidad=="LICITADA", #grepl("Licitacion | Licitación | LICITADA", Superior$Modalidad),
+                                             valueEf, valueEf * 1.32)], digits = 2)
+
+#Superior %>%  select(Obra,Cauce, PerdidaxKm, ACaudalUm, DeltaPerdida,valuePerd,valueEf,Modalidad,Ano,valuePerdBis,valueEfBis) %>% arrange(Modalidad, valuePerdBis,valuePerd)
+# Q0, EfcTierra, ,ACaudalAnualUm,
+
+
+Superior <- Superior[order(Ano,valueEfBis)]
+
+write_csv(Superior, 'DgiData/Estimaciones/SupAhorro.csv', na = "NA", append = FALSE, quote_escape = "double")
+
+
+SupTableComparacion <- as.data.frame(Superior[ ,c(9,8,4,6,26,25,29,31:35) ]) %>%
+  mutate_all(linebreak) %>%
+  kable(format = "latex",caption = "\\label{tab:SupTableComparacion}Tunuyán Superior - Comparación metodologías", align = c("l", "c",rep("r", 12)),
+        row.names = FALSE, booktabs = TRUE,  
+        col.names = c("Obra","Modalidad","Metros","USD/mt","ex-ante","ex-post","Delta pérdida","Delta EfC","Pérdida","EfC","Pérdida","EfC")) %>%
+  kable_styling(latex_options = c("HOLD_position","scale_down"), position = "center", full_width = FALSE, font_size=11) %>% # latex_options = c("striped", "scale_down")
+  add_header_above(c(" "=4,"Ef.Conducción" =2, "Ahorro m3/km" = 2, "USD/m3" = 2, "USD/m3 (ajuste)" = 2), align = "c") %>%
+  pack_rows("2017", 1,7) %>%
+  pack_rows("2018", 8,11) %>%
+  pack_rows("2019", 12,14) %>%
+  pack_rows("2020", 15,19) %>%
+  footnote( general = "Elab. propia en base DGI (2020).", general_title = "Fuente: ", title_format = "italic", 
+            footnote_as_chunk=TRUE, escape=FALSE,threeparttable = T) 
+
+SupTable <- Superior[ , c(9,4,5,26,25,30,31,6,35) ] %>% 
+  mutate_all(linebreak) %>%
+  kable(format = "latex",caption = "\\label{tab:SupTable}Tunuyán Superior - Valores por obra de revestimiento ejecutada", align = c("l", "c",rep("r", 8)),
+        row.names = FALSE, booktabs = TRUE,  col.names = c("Obra","Metros","Inv.(USD)","EfC(0)","EfC(1)","A(m3/seg)", "A(m3/Obra)","Inv.(USD/mt)","USD/m3")) %>%
+  kable_styling(latex_options = c("HOLD_position","scale_down"), position = "center", full_width = FALSE, font_size=10) %>% # latex_options = c("striped", "scale_down")
+  pack_rows("2017", 1,7) %>%
+  pack_rows("2018", 8,11) %>%
+  pack_rows("2019", 12,14) %>%
+  pack_rows("2020", 15,19) %>%
+  footnote( general = "Elab. propia en base DGI (2020).", general_title = "Fuente: ", title_format = "italic", #Datos de caudal del Río Superior extrapolados
+            footnote_as_chunk=TRUE, escape=FALSE,threeparttable = T) 
+
+## @knitr SupTableComparacion
+SupTableComparacion %>% landscape()
+
+## @knitr SupTable
+SupTable
+
+## @knitr SupTableLandscape
+SupTable %>% 
+  landscape()
+
+## @knitr SuperiorPlots
+OfertaSup <- Superior[order(valueEfBis)]
+OfertaSup$AAcum   <- cumsum((OfertaSup$ACaudalAnual)) 
+OfertaSup1 <- Superior[order(valuePerdBis)]
+OfertaSup1$AAcum   <- cumsum((OfertaSup$DeltaPerdida)) 
+#require(greppel)
+AhorroSup <- ggplot(OfertaSup) + # , color=Zona
+  geom_step(aes(y= valueEfBis, x=AAcum/10000),color = "#0073D9", size = 1) + 
+  geom_text(aes(y= valueEfBis, x=AAcum/10000, label = Obra, angle=0), # , sprintf('\u2191') # trying to add an arrow
+            vjust=3, hjust=.2, size=3, check_overlap = T, inherit.aes = T,nudge_x = -10, nudge_y = 0) +
+  scale_x_continuous(breaks= round(OfertaSup$AAcum/10000, digits = 0)) #+ #c(2,4,6,8,10,12,14) ) + # OfertaSup$AhAcum
+
+AhorroSup1 <- ggplot(OfertaSup1) + # , color=Zona
+  geom_step(aes(y= valuePerdBis, x=AAcum/10000),color = "#0073D9", size = 1) + 
+  geom_text(aes(y= valuePerdBis, x=AAcum/10000, label = Obra, angle=0), # , sprintf('\u2191') # trying to add an arrow
+            vjust=3, hjust=-.2, size=3, check_overlap = T, inherit.aes = T,nudge_x = -10, nudge_y = 0) +
+  scale_x_continuous(breaks= round(OfertaSup1$AAcum/10000, digits = 0)) #+ #c(2,4,6,8,10,12,14) ) + # OfertaSup$AhAcum
+
+## @knitr AhorroSup
+AhorroSup + theme(axis.text.x = element_text(size = 9, angle=75, vjust = .4), 
+                  axis.text.y = element_text(size = 10),
+                  panel.background = element_rect(fill = "white"), 
+                  axis.title = element_text(size = 9)) + 
+#  scale_y_continuous(breaks = c(seq(0,80,5))) + 
+  theme(axis.line = element_line(colour = "grey50")) +
+  #geom_text(nudge_x = -.1, nudge_y = 0.2) +
+  xlab("Metros cúbicos anuales ('000)") + ylab("Dólares por m3 anual ahorrado")  # Hm^{3}
+ggsave('DgiData/Graphs/OfertaSup.png', height = 4, width = 12)
+
+## @knitr AhorroSupPerd
+AhorroSup1 + theme(axis.text.x = element_text(size = 9, angle=75, vjust = .4), 
+                   axis.text.y = element_text(size = 10),
+                   panel.background = element_rect(fill = "white"), 
+                   axis.title = element_text(size = 9)) + 
+  scale_y_continuous(breaks = c(-5,seq(0,12,3),20,30,40,50,60)) + 
+  theme(axis.line = element_line(colour = "grey50")) +
+  #geom_text(nudge_x = -.1, nudge_y = 0.2) +
+  xlab("Metros cúbicos anuales ('000)") + ylab("Dólares por m3 anual ahorrado")  # Hm^{3}
+ggsave('DgiData/Graphs/OfertaSupPerd.png', height = 4, width = 12)
+
+
+# General Summary table ####
+
+## @knitr MainTables
+
+#Rev2015 <- aggregate(Dgi2015$metros, by= list(Dgi2015$Subdelegacion), FUN=sum, na.rm= TRUE)
+#Rev2016 <- aggregate(Dgi2016$metros, by= list(Dgi2016$Subdelegacion), FUN=sum, na.rm= TRUE)
+Rev2017 <- aggregate(Dgi2017$metros, by= list(Dgi2017$Subdelegacion), FUN=sum, na.rm= TRUE)
+Rev2018 <- aggregate(Dgi2018$metros, by= list(Dgi2018$Subdelegacion), FUN=sum, na.rm= TRUE)
+Rev2019 <- aggregate(Dgi2019$metros, by= list(Dgi2019$Subdelegacion), FUN=sum, na.rm= TRUE)
+Rev2020 <- aggregate(Dgi2020$metros, by= list(Dgi2020$Subdelegacion), FUN=sum, na.rm= TRUE)
+#Rev2020 <- Rev2020[-1,]
+  
+#library(scales)
+FormatoNum <- number_format(big.mark = ".", decimal.mark = ",")
+
+Revestimiento <- data.frame(
+  #`2015`=            FormatoNum(Rev2015$x),
+  #`2016`=            FormatoNum(Rev2016$x),
+  `2017`=            FormatoNum(Rev2017$x),
+  `2018`=            FormatoNum(Rev2018$x),
+  `2019`=            FormatoNum(Rev2019$x),`2020`= FormatoNum(Rev2020$x),
+  `Total`=           FormatoNum(Rev2017$x + Rev2018$x + Rev2019$x + Rev2020$x)#,#colSums(Revestimiento[,1:2])),
+  #`Ef.Cond.`=        FormatoNum(round(c(80,80,80,round(mean(EfMendoza[["EfUnidadManejo"]],na.rm = T),digits=2),80,80),digits = 3)),
+  #`Q_m3.año`=        FormatoNum(c(0,0,0,sum(CaudalMen),0,0)),
+  #`Ahorro_Hm3.año`= FormatoNum(round((Rev2017$x + Rev2018$x + Rev2019$x)* mean(EfMendoza[["EfUnidadManejo"]], na.rm = T)* sum(CaudalMen)/1000000,digits=3))
+)
+#colnames(Revestimiento) <- c(#"Subdelegacion", "2015","2016","2017",   "2018","2019","Total","Ef.Cond.","Q_(m3/año)","Ahorro (Hm3/año)")
+rownames(Revestimiento) <- c("Atuel", "Diamante", "Malargüe","Mendoza","Tun. Inferior","Tun. Superior")
+
+
+## @knitr Revestimiento
+
+Revestimiento[1:6,] %>% 
+  kable("latex",caption = "\\label{Revestimiento}Metros revestidos por cuenca", align = c("l", rep("r", 6)),
+        row.names = TRUE, booktabs = TRUE, col.names = c("2017","2018","2019","2020","Total") #,"Ef.Cond.","Q (m3/año)","A (Hm3/año)") 
+        ) %>%
+  kable_styling(latex_options = c("HOLD_position"), position = "center", full_width = FALSE, font_size=10) %>%
+  footnote( general = "Elab. propia en base a DGI (2020)", general_title = "Fuente: ", title_format = "italic", #Datos de caudal del Río Mendoza extrapolados
+            footnote_as_chunk=TRUE, escape=FALSE,threeparttable = T)
+
+
 ## @knitr GraphStuff
 layout(title = "Main Source for News", xaxis = xaxis, yaxis = yaxis, margin = margin,
        autosize = FALSE,
        showlegend = FALSE,
        annotations = television_1)
- labs(title = "Mileage by engine displacement",
-       subtitle = "Data from 1999 and 2008",
-       caption = "Source: EPA (http://fueleconomy.gov)",
-       x = "Hectómetros cúbicos anuales",
-       y = "Dólares por Hm3 ahorrado", axis(OfertaMza$AhObraAnual)
-      ) + 
-x <- seq(0.01, .99, length.out = 100)
+labs(title = "Mileage by engine displacement",
+     subtitle = "Data from 1999 and 2008",
+     caption = "Source: EPA (http://fueleconomy.gov)",
+     x = "Hectómetros cúbicos anuales",
+     y = "Dólares por Hm3 ahorrado", axis(OfertaMza$AhObraAnual)
+) + 
+  x <- seq(0.01, .99, length.out = 100)
 df <- data.frame(
   x = rep(x, 2),
   y = c(qlogis(x), 2 * qlogis(x)),
@@ -673,48 +866,6 @@ p <- plot_ly(x = ~x) %>%
 chart_link = api_create(p, filename="line-interp")
 chart_link
 ## @knitr MendozaPlot
-
-
-
-# General Summary table ####
-
-## @knitr MainTables
-
-#Rev2015 <- aggregate(Dgi2015$metros, by= list(Dgi2015$Subdelegacion), FUN=sum, na.rm= TRUE)
-#Rev2016 <- aggregate(Dgi2016$metros, by= list(Dgi2016$Subdelegacion), FUN=sum, na.rm= TRUE)
-Rev2017 <- aggregate(Dgi2017$metros, by= list(Dgi2017$Subdelegacion), FUN=sum, na.rm= TRUE)
-Rev2018 <- aggregate(Dgi2018$metros, by= list(Dgi2018$Subdelegacion), FUN=sum, na.rm= TRUE)
-Rev2019 <- aggregate(Dgi2019$metros, by= list(Dgi2019$Subdelegacion), FUN=sum, na.rm= TRUE)
-Rev2020 <- aggregate(Dgi2020$metros, by= list(Dgi2020$Subdelegacion), FUN=sum, na.rm= TRUE)
-#Rev2020 <- Rev2020[-1,]
-  
-#library(scales)
-FormatoNum <- number_format(big.mark = ".", decimal.mark = ",")
-
-Revestimiento <- data.frame(
-  #`2015`=            FormatoNum(Rev2015$x),
-  #`2016`=            FormatoNum(Rev2016$x),
-  `2017`=            FormatoNum(Rev2017$x),
-  `2018`=            FormatoNum(Rev2018$x),
-  `2019`=            FormatoNum(Rev2019$x),`2020`= FormatoNum(Rev2020$x),
-  `Total`=           FormatoNum(Rev2017$x + Rev2018$x + Rev2019$x + Rev2020$x)#,#colSums(Revestimiento[,1:2])),
-  #`Ef.Cond.`=        FormatoNum(round(c(80,80,80,round(mean(EfMendoza[["EfUnidadManejo"]],na.rm = T),digits=2),80,80),digits = 3)),
-  #`Q_m3.año`=        FormatoNum(c(0,0,0,sum(CaudalMen),0,0)),
-  #`Ahorro_Hm3.año`= FormatoNum(round((Rev2017$x + Rev2018$x + Rev2019$x)* mean(EfMendoza[["EfUnidadManejo"]], na.rm = T)* sum(CaudalMen)/1000000,digits=3))
-)
-#colnames(Revestimiento) <- c(#"Subdelegacion", "2015","2016","2017",   "2018","2019","Total","Ef.Cond.","Q_(m3/año)","Ahorro (Hm3/año)")
-rownames(Revestimiento) <- c("Atuel", "Diamante", "Malargüe","Mendoza","Tun. Inferior","Tun. Superior")
-
-
-## @knitr Revestimiento
-
-Revestimiento[1:6,] %>% 
-  kable("latex",caption = "\\label{Revestimiento}Metros revestidos por cuenca", align = c("l", rep("r", 6)),
-        row.names = TRUE, booktabs = TRUE, col.names = c("2017","2018","2019","2020","Total") #,"Ef.Cond.","Q (m3/año)","A (Hm3/año)") 
-        ) %>%
-  kable_styling(latex_options = c("HOLD_position"), position = "center", full_width = FALSE, font_size=10) %>%
-  footnote( general = "Elab. propia en base a DGI (2020)", general_title = "Fuente: ", title_format = "italic", #Datos de caudal del Río Mendoza extrapolados
-            footnote_as_chunk=TRUE, escape=FALSE,threeparttable = T)
 
 # Arranging Data              ####
 

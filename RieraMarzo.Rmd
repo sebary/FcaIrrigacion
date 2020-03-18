@@ -315,7 +315,46 @@ El área irrigada en $m^2$ es el valor de $\omega$.
 
 [^2]: La estimación de la disminución del agua perdida se realiza considerando las diferencias en la eficiencia de conducción anterior y posterior al relevamiento. Se toma como base los valores de los estudios de aforo y eficiencia en conducción ordenados en la siguiente fórmula: $\Delta Pérdida = \frac{EfC_{1} - EfC_{0}}{distancia \: media}$
 
+# \textbf{Subdelegación Tunuyán Superior}
 
+```{r SupEf, results='hide'}
+```
+
+```{r SuperiorTable, results='hide'}
+```
+
+```{r SuperiorPlots, results='hide'}
+```
+
+
+```{r AhorroSup, results='asis',fig.show='hold', fig.height=4.5, fig.width=11, fig.cap="\\label{AhorroSup}Curva de ahorro de agua enfoque eficiencia de conducción",out.extra="", fig.align='center'}
+```
+
+Si bien las curvas de ahorro de agua por menor filtración parecen similares,
+existe una diferencia en el valor medio entre ambas metodologías.
+El enfoque de ahorro de agua por diferencias en la eficiencia de conducción, el precio medio por $USD/m^3$ es
+`r round(mean(Superior$valueEfBis, na.rm=T), digits=2)`;
+mientras que el precio medio en el enfoque de pérdidas asciende a
+`r round(mean(Superior$valuePerdBis, na.rm=T), digits=2)`.
+Esta diferencia se explica porque el enfoque de eficiencias de conducción discrimina (dentro de los cauces de tierra) entre canales e hijuelas.
+
+
+
+En términos generales el enfoque de eficiencias de conducción es superador ya que discrimina entre los distintos tipos de cauces revestidos ($j$), asignando el valor de $EfC_{j}$ según el estudio de @Cuneo2016 para la subdelegación del río Mendoza.
+Esto permitiría acercarce aún más al valor real del costo marginal de ampliar la oferta de riego.
+Por otro lado, el denominado enfoque de pérdidas considera el valor de eficiencia de conducción en canales de tierra calculado para cada unidad de manejo;
+este cálculo generaliza los valores de $EfC_{j}$ posiblemente subestimando el desempeño de la unidad de manejo (UM).
+
+\begin{equation*}
+\textrm{Eficiencias de Conducción} \quad = \frac{EfC_{j}}{longitud \: tipo \:de \: cauce_{j}} \quad \textrm{pérdida} \quad = \frac{EfC_{tierra}}{longitud \: cauces \:de \: tierra}  
+\end{equation*}
+
+```{r AhorroSupPerd, results='asis',fig.show='hold', fig.height=4.5, fig.width=11, fig.cap="\\label{AhorroSupPerd}Curva de ahorro de agua enfoque pérdidas",out.extra="", fig.align='center'}
+```
+
+
+```{r SupTableComparacion, results='asis'}
+```
 
 \vspace{-.3cm}
 # \textbf{Comentarios finales}
