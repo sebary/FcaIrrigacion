@@ -1,6 +1,6 @@
 ---
 title: "Avances del proyecto de investigación: propuestas para revisión del Fondo Potrerillos y posibles extensiones"
-author: Dr. Sebastián Riera
+author: 
 #- name: Sebastián Riera
 #  email: sebary@gmail.com
 #  affiliation: FcaUncuyo
