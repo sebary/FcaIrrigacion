@@ -477,6 +477,7 @@ Mendoza$ACaudalAnualUm  <- round(Mendoza[, ACaudalUm * metros/1000 * 2764800], d
 Mendoza$valuePerd  <- round(Mendoza[, InvUsd / DeltaPerdida], digits = 2)
 Mendoza$valueEf    <- round(Mendoza[, InvUsd / ACaudalAnualUm], digits = 2)
 
+# adicional plus obras x administración
 Mendoza$valuePerdBis <- round(Mendoza[, ifelse( Modalidad=="Licitación" | Modalidad=="Licitacion" | Modalidad=="LICITADA",
                                                   valuePerd, valuePerd * 1.32)], digits = 2)
 
