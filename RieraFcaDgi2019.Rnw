@@ -57,6 +57,17 @@
 \usetikzlibrary{positioning}
 \usetikzlibrary{calc}
 
+% For Beamer to functionate 
+\usepackage{beamer}
+\usepackage{atbegshi}
+\usepackage{etoolbox}
+\usepackage{hyperref}
+\usepackage{ifpdf}
+\usepackage{pgf}
+\usepackage{translator}
+%\usepackage{Sweave}
+
+
 
 \newcommand\blfootnote[1]{% command to make "blind-foot-note"
 \begingroup
@@ -260,6 +271,45 @@ Conceptos generales
 \end{block}
       \blfootnote{\scriptsize \citep{Bos1990,Morabito2005}}
 \end{frame}
+
+\begin{frame}{How blocks help in perfect phylogeny haplotyping.}
+  \begin{enumerate}
+  \item Partition the site set into overlapping contiguous blocks.
+  \item Compute a perfect phylogeny for each block and combine them.
+  \item Use dynamic programming for finding the partition.
+  \end{enumerate}
+
+  \begin{tikzpicture}
+    \useasboundingbox (0,-1) rectangle (10,2);
+    
+    \draw[line width=2mm,dash pattern=on 1mm off 1mm]
+      (0,1) -- (9.99,1) node[midway,above] {Genotype matrix}
+      (0,0.6666) -- (9.99,0.6666)
+      (0,0.3333) -- (9.99,0.3333)
+      (0,0) -- (9.99,0) node[midway,below] {\only<1>{no perfect phylogeny}};
+
+    \begin{scope}[xshift=-.5mm]
+      \only<2->
+      {
+        \draw[red,block]            (0,.5)   -- (3,.5)
+          node[midway,below] {perfect phylogeny};
+      }
+        
+      \only<3->
+      {
+        \draw[green!50!black,block] (2.5,.5)   -- (7,.5)
+          node[pos=0.6,below] {perfect phylogeny};
+      }
+
+      \only<4->
+      {
+        \draw[blue,block]           (6.5,.5) -- (10,.5)
+          node[pos=0.6,below] {perfect phylogeny};
+      }
+    \end{scope}
+  \end{tikzpicture}
+\end{frame}
+
 
 \begin{frame}{Estimación de la oferta hídrica adicional}
 \vspace{-3pt}
@@ -478,6 +528,8 @@ $OF_i$ otros factores
 \end{figure}
 
 \end{frame}
+
+
 
 \section*{Comentarios}
 \begin{frame}

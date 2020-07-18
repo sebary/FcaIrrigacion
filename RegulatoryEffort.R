@@ -45,7 +45,8 @@ EfMendozaBalance[,"EfGlob"]   <- as.numeric(as.character(EfMendozaBalance[,"EfGl
 sapply(EfMendozaBalance,class)
 #view(EfMendozaBalance)
 
-# Caudal m3/segundo
+# Caudal m3/segundo 
+# Fuente Cuneo et al. (2015)
 CaudalMen <- c(16.4, 18.5, 17.5, 26.3, 26.5, 39.9, 66.4, 61.2, 43.2, 26.1, 21.1, 16.9, 31.7)
 names(CaudalMen) <- c("Jul","Ago","Sep","Oct","Nov","Dic","Ene","Feb","Mar","Abr","May","Jun","Módulo")
 sapply(CaudalMen, class)
@@ -66,9 +67,9 @@ glimpse(EfMendoza)
 Caudal19 <- c(590,490,140,850,460,460)
 names(Caudal19) <- c("Atuel","Diamante","Malargüe","Mendoza","Tun.Inferior","Tun.Superior")
   
-# Working with databases        ####
+# Working with databases ----
 
-# Caudales ####
+# Caudales ----
 
 { ## @knitr CaudalWeb
   
@@ -89,7 +90,8 @@ names(Caudal19) <- c("Atuel","Diamante","Malargüe","Mendoza","Tun.Inferior","Tu
   #)
 }
 
-CaudalWeb <- read.csv("DgiData/CaudalWeb.csv", sep = ",")
+CaudalWeb <- read.csv("/Users/SebastianRiera/Google Drive/Biblio/Base de datos/DGI/CaudalesWeb.csv", sep = ",")
+#CaudalWeb <- read.csv("DgiData/CaudalWeb.csv", sep = ",")
 #glimpse(CaudalWeb)
 
 CaudalWeb <-
@@ -98,12 +100,13 @@ CaudalWeb <-
   #as_tibble() %>%
   mutate(fecha_desde = ymd(fecha_desde)) %>%
   mutate(fecha_fin = ymd(fecha_fin))
+colnames(CaudalWeb)[2] <- "CodigoCauce"
 glimpse(CaudalWeb)
 
-colnames(CaudalWeb)[2] <- "CodigoCauce"
 
 CaudalWebQ <- aggregate(CaudalWeb$valor_promedio_relevado/1000, by=list(CaudalWeb$CodigoCauce), FUN=sum, na.rm=T)
-colnames(CaudalWebQ) <- c("CodigoCauce","Q0") # m3/s
+colnames(CaudalWebQ) <- c("CodigoCauce","Qweb") # m3/s
+write_csv(CaudalWebQ, 'DgiData/CaudalWebQ.csv', na = "NA", append = FALSE, quote_escape = "double")
 
 #var <- "Qanual"
 #summarise(CaudalWeb, avg = mean(.data[[var]], na.rm = TRUE))
@@ -111,19 +114,11 @@ colnames(CaudalWebQ) <- c("CodigoCauce","Q0") # m3/s
 # group_by(CaudalWeb$codigo_punto_medicion) %>% 
 #mutate(Qanual = sum(CaudalWeb$valor_promedio_relevado, na.rm = T)) 
 
+#CaudalWeb %>%  select(nombre_de_zona, codigo_punto_medicion, fecha_fin, valor_promedio_relevado,latitud, longitud) %>%
+#  filter(nombre_de_zona=="SUBDELEGACION DEL RIO TUNUYAN SUPERIOR") %>% 
+#  group_by(codigo_punto_medicion) 
+#glimpse(CaudalWeb)
 
-#head(CaudalWeb, 5)
-#View(CaudalWeb)
-#class(CaudalWeb)
-
-
-CaudalWeb %>% 
-  select(nombre_de_zona, codigo_punto_medicion, fecha_fin, valor_promedio_relevado,latitud, longitud) %>%
-  filter(nombre_de_zona=="SUBDELEGACION DEL RIO TUNUYAN SUPERIOR") %>% 
-  group_by(codigo_punto_medicion) 
-glimpse(CaudalWeb)
-
-write_csv(CaudalWeb, 'DgiData/CaudalWeb.csv', na = "NA", append = FALSE, quote_escape = "double")
 
 
 #CaudalWeb %>% select(nombre_de_zona,codigo_punto_medicion,valor_promedio_relevado, fecha_fin) %>%
@@ -131,18 +126,14 @@ write_csv(CaudalWeb, 'DgiData/CaudalWeb.csv', na = "NA", append = FALSE, quote_e
 #  ggplot(aes(fecha_fin,valor_promedio_relevado)) +  geom_point(alpha = 0.7) +
 #  labs(title = "Caudal promedio", x = "fecha", y = "lt/seg",  caption = "Fuente: Datos abiertos Mendoza (2019)" )
   
-CaudalWeb %>% 
-  select(nombre_de_zona,descripcion_punto_medicion, codigo_punto_medicion,valor_promedio_relevado,fecha_fin) %>%
-  group_by(nombre_de_zona) %>% 
-  mutate(QProm = mean(codigo_punto_medicion, na.rm = T))
 
 
-# Obras 2017 ####
+# Obras 2017 ----
 
 ## @knitr DataObras17
 
-Dgi2017a <- read.csv("DgiData/DgiObras2017.csv", sep = ";") #, header = TRUE, sep=",")
-Dgi2017 <- read.csv("DgiData/DgiObras2017inventario.csv", sep = ",") 
+Dgi2017 <- read.csv("DgiData/DgiObras2017inventario.csv", sep = ",") #, header = TRUE, sep=",")
+Dgi2017a <- read.csv("DgiData/DgiObras2017.csv", sep = ",") 
 head(Dgi2017,3)
 glimpse(Dgi2017)
 indxx <- c("NumObra","Expediente","CodigoCauce","inversion","Metros","MetrosAvance","Ano",
@@ -210,22 +201,19 @@ SummaryObras <-
   list(
     "Inversión (USD)" =
       list(
-        "promedio (desv.std.)" = ~qwraps2::gmean(InvUsd, na_rm = TRUE),
-        #"mediana (Q1, Q3)" = ~qwraps2::median_iqr(inversion, na_rm = TRUE),
+        "promedio (desv.std.)" = ~qwraps2::gmean(InvUsd, na_rm = TRUE),#"mediana (Q1, Q3)" = ~qwraps2::median_iqr(inversion, na_rm = TRUE),
         "min" = ~min(InvUsd, na.rm = TRUE),
         "max" = ~max(InvUsd, na.rm = TRUE) #, "sin datos" = ~sum(is.na(inversion))
       ),
    "Metros revestidos" =
       list(
-        "promedio" = ~qwraps2::gmean(metros, na_rm = TRUE),
-        #  "mediana (Q1, Q3)" = ~qwraps2::median_iqr(InvMt, na_rm = TRUE),
+        "promedio" = ~qwraps2::gmean(metros, na_rm = TRUE), #  "mediana (Q1, Q3)" = ~qwraps2::median_iqr(InvMt, na_rm = TRUE),
         "min" = ~min(metros, na.rm = TRUE),
         "max" = ~max(metros, na.rm = TRUE) 
       ),
     "Inv.(USD)/mt" =
       list(
-        "promedio" = ~qwraps2::gmean(InvMtUsd, na_rm = TRUE),
-      #  "mediana (Q1, Q3)" = ~qwraps2::median_iqr(InvMt, na_rm = TRUE),
+        "promedio" = ~qwraps2::gmean(InvMtUsd, na_rm = TRUE), #  "mediana (Q1, Q3)" = ~qwraps2::median_iqr(InvMt, na_rm = TRUE),
         "min" = ~min(InvMtUsd, na.rm = TRUE),
         "max" = ~max(InvMtUsd, na.rm = TRUE) ) )
 
@@ -346,7 +334,7 @@ names(Dgi2020)[8] <-"inversion"
 names(Dgi2020)[12] <-"metros"
 
 Dgi2020$InvMt    <- as.numeric(round(Dgi2020$inversion/Dgi2020$metros, digits = 0))
-Dgi2020$InvUsd   <- as.numeric(round(Dgi2020$inversion/64, digits = 1)) # $Ars/Usd 64
+Dgi2020$InvUsd   <- as.numeric(round(Dgi2020$inversion/70, digits = 1)) # $Ars/Usd 64
 Dgi2020$InvMtUsd <- as.numeric(round(Dgi2020$InvUsd/Dgi2020$metros, digits = 1))
 
 Dgi2020 %>%
@@ -368,7 +356,7 @@ tSup20 <- as.data.table(Dgi2020 %>%
 
 
 
-# Obras Full #### 
+# Obras Full ----
 ## @knitr DataObrasFull 
 
 
@@ -385,7 +373,7 @@ DgiFull$InvMt    <- as.numeric(round(DgiFull$inversion/DgiFull$metros, digits = 
 DgiFull$InvUsd   <- as.numeric(ifelse(DgiFull$Ano==2017,round(DgiFull$inversion/17, digits = 1),
                                ifelse(DgiFull$Ano==2018,round(DgiFull$inversion/27.425, digits = 1),
                                ifelse(DgiFull$Ano==2019,round(DgiFull$inversion/43.8, digits = 1),
-                               ifelse(DgiFull$Ano==2020,round(DgiFull$inversion/64, digits = 1),"NA"))))) 
+                               ifelse(DgiFull$Ano==2020,round(DgiFull$inversion/70, digits = 1),"NA"))))) 
 DgiFull$InvMtUsd <- as.numeric(round(DgiFull$InvUsd/DgiFull$metros, digits = 1))
 options(qwraps2_markup = "latex")
 # Cuadro summary
@@ -415,7 +403,7 @@ ObrasFull %>%
 ejFull  <- summary_table(dplyr::group_by(Obras18, Subdelegacion), SummaryObras)
 
 
-# Mendoza ####
+# Mendoza ----
 
 ## @knitr MdzEf
 Dgi2018 %>%
@@ -429,9 +417,14 @@ Dgi2018 %>%
 
 Mendoza <- rbind(Mza17,Mza18,Mza19,Mza20, fill=TRUE)
 
+
 Mendoza <- merge(x= Mendoza,
                y= EfMendoza[ , c(2:4,6,13,15,17:21,24:29) ], 
                by= c("CodigoCauce"), all.x=TRUE)
+Mendoza <- merge(x= Mendoza,
+                 y= CaudalWebQ, 
+                 by= c("CodigoCauce"), all.x=TRUE)
+
 arrange(Mendoza,CodigoCauce)
 #Mendoza <- Mendoza[-c(11,13),] # Canal Lunlunta duplicado
 
@@ -451,9 +444,6 @@ Mendoza$EfAnte     <- Mendoza[, ifelse(!is.na(EfCanales) & grepl("C. | Canal | C
 Mendoza$PerdidaxKm        <- round(Mendoza[, (Q0) * EfTierraLong/KmTierra ], digits = 3) # EfTierraLong/KmTierra es eficienci x kilómetro en la UM
 Mendoza$DeltaPerdida      <- round(Mendoza[, (PerdidaxKm * EfPost * metros/1000 * 2073600)], digits=0) # segundos al ano (4 turnos mensuales x 8 meses) / conversión a '000)]
 
-
-Mendoza %>% select(Ano, Obra,Modalidad, PerdidaxKm,DeltaPerdida, Q0,CaudalDiseno, EfTierraLong,KmTierra,metros,EfPost,EfAnte) %>%
-  arrange(desc(PerdidaxKm))
 
 # Cálculo en base a EfC
 # 1ro: Caudal de entrada x (ganancia de eficiencia) / distancia del aforo en km
@@ -484,14 +474,6 @@ Mendoza$valuePerdBis <- round(Mendoza[, ifelse( Modalidad=="Licitación" | Modal
 
 Mendoza$valueEfBis <- round(Mendoza[, ifelse(Modalidad=="Licitación" | Modalidad=="Licitacion" | Modalidad=="LICITADA", #grepl("Licitacion | Licitación | LICITADA", Mendoza$Modalidad),
                                              valueEf, valueEf * 1.32)], digits = 2)
-
-
-
-Mendoza %>% 
-  select(Obra,Cauce,Inspeccion, PerdidaxKm, ACaudalUm, DeltaPerdida,ACaudalAnualUm,valuePerd,valueEf,Modalidad,Ano,valuePerdBis,valueEfBis) %>% 
-  arrange(Modalidad, valuePerdBis,valuePerd)
-# Q0, EfcTierra, ,ACaudalAnualUm,
-
 
 Mendoza <- Mendoza[order(Ano,valuePerdBis)]
 
@@ -538,6 +520,18 @@ MzaTable <- Mendoza[ c(1:7,9:27), c(3,12,5:6,29,28,32:33,7,35)] %>%
   pack_rows("2020", 17,26) %>%
   footnote( general = "Elab. propia en base DGI (2020).", general_title = "Fuente: ", title_format = "italic", #Datos de caudal del Río Mendoza extrapolados
             footnote_as_chunk=TRUE, escape=FALSE,threeparttable = T) #, longtable=T
+
+## @knitr MzaCaudales
+Mendoza %>% select(Ano,CodigoCauce, Cauce, Obra,Q0,CaudalDiseno, Qweb,KmTierra,metros,PerdidaxKm, ACaudalUm,EfPost,EfAnte) %>%
+  #select(Ano,CodigoCauce, Cauce, Obra,Q0,CaudalDiseno, Qweb,KmTierra,metros,PerdidaxKm, ACaudalUm,EfPost,EfAnte) %>%
+  mutate(GananciaEfC= EfPost-EfAnte) %>%
+  arrange(Ano) %>%
+  select(CodigoCauce, Obra,Q0,CaudalDiseno, Qweb,GananciaEfC) %>%
+  mutate_all(linebreak) %>%
+  kable(format = "latex",caption = "\\label{tab:SupCaudales}Mendoza - Caudales disponibles por obra", align = c("c", "l",rep("r", 8)),
+        row.names = FALSE, booktabs = TRUE,  col.names = c("Código Cauce","Obra", "C.Utilizado","C. diseño","C.Web","Ganancia EfC")) %>% 
+  landscape()
+
 
 ## @knitr MzaTableComparacion
 MzaTableComparacion %>% landscape()
@@ -660,7 +654,7 @@ MzaSum %>%
 
 
 
-# T.Superior ####
+# T.Superior ----
 
 ## @knitr SupEf
 
@@ -674,7 +668,7 @@ EfSuperior[indxx] <- lapply(EfSuperior[indxx], function(x) as.numeric(as.charact
 Superior <- rbind(tSup17,tSup18[c(1:9,11),],tSup19[c(1:9,11),],tSup20, fill=TRUE)
 Superior <- Superior[ !is.na(CodigoCauce),]
 Superior <- merge(x= Superior,
-                 y= EfSuperior[ , c(1:8,10:14,17) ], 
+                 y= EfSuperior[ , c(1:8,10:14,17:19) ], 
                  by= c("CodigoCauce"), all.x=TRUE)
 arrange(Superior,CodigoCauce)
 Superior <- Superior %>% select(everything()) %>% distinct(inversion, Obra, .keep_all = TRUE)
@@ -682,8 +676,8 @@ Superior <- Superior %>% select(everything()) %>% distinct(inversion, Obra, .kee
 
 # Eficiencia post entubamiento ==1 & revestimiento 0.99
 Superior$EfPost     <- Superior[, ifelse(grepl("Ent. | Entubado | Entubamiento | entubado | entubamiento | ENTUBADO | ENTUBAMIENTO", Superior$Obra), 1,
-                                       ifelse(grepl("Rev. | Revestimiento | revestimiento | Canalización | REVESTIMIENTO", Superior$Obra), 0.99,
-                                              0.98))]
+                        ifelse(grepl("Rev. | Revestimiento | revestimiento | Canalización | REVESTIMIENTO", Superior$Obra), 0.99,
+                        ifelse(grepl("Mej. | Mejora", Superior$Obra), 0.98,  0.976)))]
 Superior$EfAnte     <- ifelse(!is.na(Superior$EfTierra),Superior$EfTierra,Superior$EfGlobal)
 Superior$EfAnte     <- round(ifelse(is.na(Superior$EfAnte),mean(Superior$EfAnte,na.rm = T),Superior$EfAnte), digits = 2)
 
@@ -695,10 +689,14 @@ Superior$EfAnte     <- round(ifelse(is.na(Superior$EfAnte),mean(Superior$EfAnte,
 # 1ro: Ganancia de caudal en la distancia relevada con la EfC de revestimiento
 Superior <- merge(x= Superior,                   y= CaudalWebQ,                   by= c("CodigoCauce"), all.x=TRUE)
 #glimpse(Superior)
+
+
 Superior$Q0               <- Superior$Caudal
-Superior$Q0               <- ifelse(is.na(Superior$Caudal) & !is.na(Superior$CaudalDiseno),Superior$CaudalDiseno/1000,Superior$Q0)
+Superior$Q0               <- ifelse(is.na(Superior$Caudal) & !is.na(Superior$CaudalDiseno),
+                                    Superior$CaudalDiseno/1000,Superior$Q0)
 # reemplazamos el caudal x la media!
-Superior$Q0               <- ifelse(is.na(Superior$Caudal),mean(Superior$Q0,na.rm = T),Superior$Caudal) 
+Superior$Q0               <- ifelse(is.na(Superior$Caudal),
+                                    mean(Superior$Q0,na.rm = T),Superior$Caudal) 
 summary(Superior$Q0)
 
 Superior$PerdidaxKm        <- round(Superior[, (Q0) * EfAnte/LongTotal ], digits = 3) # EfTierraLong/KmTierra es eficienci x kilómetro en la UM
@@ -749,7 +747,7 @@ SupTableComparacion <- as.data.frame(Superior[ ,c(9,8,4,6,26,25,29,31:35) ]) %>%
   pack_rows("2017", 1,7) %>%
   pack_rows("2018", 8,11) %>%
   pack_rows("2019", 12,14) %>%
-  pack_rows("2020", 15,19) %>%
+  pack_rows("2020", 15,17) %>%
   footnote( general = "Elab. propia en base DGI (2020).", general_title = "Fuente: ", title_format = "italic", 
             footnote_as_chunk=TRUE, escape=FALSE,threeparttable = T) 
 
@@ -761,9 +759,21 @@ SupTable <- Superior[ , c(9,4,5,26,25,30,31,6,35) ] %>%
   pack_rows("2017", 1,7) %>%
   pack_rows("2018", 8,11) %>%
   pack_rows("2019", 12,14) %>%
-  pack_rows("2020", 15,19) %>%
+  pack_rows("2020", 15,17) %>%
   footnote( general = "Elab. propia en base DGI (2020).", general_title = "Fuente: ", title_format = "italic", #Datos de caudal del Río Superior extrapolados
             footnote_as_chunk=TRUE, escape=FALSE,threeparttable = T) 
+
+
+## @knitr SupCaudales
+  Superior %>% select(Ano,CodigoCauce, Obra,CaudalDiseno, Caudal,Qweb,CaudalBalance,CaudalObrador,Q0,metros,PerdidaxKm, ACaudalUm,EfPost,EfAnte) %>%
+  #select(Ano,CodigoCauce, Cauce, Obra,Q0,CaudalDiseno, Qweb,KmTierra,metros,PerdidaxKm, ACaudalUm,EfPost,EfAnte) %>%
+  mutate(GananciaEfC= EfPost-EfAnte) %>%
+  arrange(Ano) %>%
+  select(CodigoCauce, Obra,CaudalDiseno, Caudal,Qweb,CaudalBalance,CaudalObrador,Q0,GananciaEfC) %>%
+  mutate_all(linebreak) %>%
+  kable(format = "latex",caption = "\\label{tab:SupCaudales}Tunuyán Superior - Caudales disponibles por obra", align = c("l", "c",rep("r", 8)),
+        row.names = FALSE, booktabs = TRUE,  col.names = c("Código Cauce","Obra","C. diseño","C.Informe","C.Web","C.Balance 2015","C.Obrador", "C.Utilizado","Ganancia EfC")) %>%
+    landscape()
 
 ## @knitr SupTableComparacion
 SupTableComparacion %>% landscape()
@@ -816,7 +826,7 @@ AhorroSup1 + theme(axis.text.x = element_text(size = 9, angle=75, vjust = .4),
 ggsave('DgiData/Graphs/OfertaSupPerd.png', height = 4, width = 12)
 
 
-# General Summary table ####
+# General Summary table ----
 
 ## @knitr MainTables
 
@@ -919,7 +929,8 @@ chart_link = api_create(p, filename="line-interp")
 chart_link
 ## @knitr MendozaPlot
 
-# Arranging Data              ####
+
+# Arranging Data ----
 
 # Extract a column from as a data frame as a vector or scalar.
 # E.g. starwars %>% filter(gender=="female") %>% pull(height)
@@ -962,7 +973,8 @@ chart_link
 
 #   ____________________________________________________________________________
 
-# Sources ####
+
+# Sources ----
 
 # Summary statistics 
 ## @knitr Sources
