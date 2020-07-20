@@ -104,8 +104,11 @@ colnames(CaudalWeb)[2] <- "CodigoCauce"
 glimpse(CaudalWeb)
 
 
-CaudalWebQ <- aggregate(CaudalWeb$valor_promedio_relevado/1000, by=list(CaudalWeb$CodigoCauce), FUN=sum, na.rm=T)
-colnames(CaudalWebQ) <- c("CodigoCauce","Qweb") # m3/s
+CaudalWebQ <- do.call(data.frame, round(aggregate(CaudalWeb$valor_promedio_relevado/1000, 
+                  by=list(CaudalWeb$CodigoCauce), 
+                  FUN = function(x) c(Qwebav = mean(x), Qwebyear = sum(x) ))
+                   ,3)) 
+colnames(CaudalWebQ) <- c("CodigoCauce","Qwebav","Qwebyear") # m3/s
 write_csv(CaudalWebQ, 'DgiData/CaudalWebQ.csv', na = "NA", append = FALSE, quote_escape = "double")
 
 #var <- "Qanual"
@@ -522,15 +525,18 @@ MzaTable <- Mendoza[ c(1:7,9:27), c(3,12,5:6,29,28,32:33,7,35)] %>%
             footnote_as_chunk=TRUE, escape=FALSE,threeparttable = T) #, longtable=T
 
 ## @knitr MzaCaudales
-Mendoza %>% select(Ano,CodigoCauce, Cauce, Obra,Q0,CaudalDiseno, Qweb,KmTierra,metros,PerdidaxKm, ACaudalUm,EfPost,EfAnte) %>%
+Mendoza %>% select(Ano,CodigoCauce, Cauce, Obra,Q0,CaudalDiseno, Qwebav,Qwebyear,KmTierra,metros,PerdidaxKm, ACaudalUm,EfPost,EfAnte) %>%
   #select(Ano,CodigoCauce, Cauce, Obra,Q0,CaudalDiseno, Qweb,KmTierra,metros,PerdidaxKm, ACaudalUm,EfPost,EfAnte) %>%
-  mutate(GananciaEfC= EfPost-EfAnte) %>%
+  mutate(GananciaEfC= paste0(GananciaEfC= (EfPost-EfAnte)*100,"%")) %>%
   arrange(Ano) %>%
-  select(CodigoCauce, Obra,Q0,CaudalDiseno, Qweb,GananciaEfC) %>%
+  select(CodigoCauce, Obra,Q0,CaudalDiseno, Qwebav,GananciaEfC) %>%
   mutate_all(linebreak) %>%
-  kable(format = "latex",caption = "\\label{tab:SupCaudales}Mendoza - Caudales disponibles por obra", align = c("c", "l",rep("r", 8)),
-        row.names = FALSE, booktabs = TRUE,  col.names = c("Código Cauce","Obra", "C.Utilizado","C. diseño","C.Web","Ganancia EfC")) %>% 
-  landscape()
+  mutate_all(funs(replace_na(., "-"))) %>%
+  kable(format = "latex",caption = "\\label{tab:MzaCaudales}Mendoza - Caudal por obra información disponible (m3/s)", align = c("c", "l",rep("c", 8)),
+        row.names = FALSE, booktabs = TRUE,  col.names = c("Código","Obra", "Utilizado","Diseño","Web","GananciaEfC")) %>% 
+footnote( general = "Elaboración propia en base a DGI (2015), Datos abiertos (2019) y entrevistas (2020).", general_title = "Fuente: ", title_format = "italic", #Datos de caudal del Río Mendoza extrapolados
+          footnote_as_chunk=TRUE, escape=FALSE, threeparttable = T)
+#landscape()
 
 
 ## @knitr MzaTableComparacion
@@ -693,7 +699,7 @@ Superior <- merge(x= Superior,                   y= CaudalWebQ,                 
 
 Superior$Q0               <- Superior$Caudal
 Superior$Q0               <- ifelse(is.na(Superior$Caudal) & !is.na(Superior$CaudalDiseno),
-                                    Superior$CaudalDiseno/1000,Superior$Q0)
+                                    Superior$CaudalDiseno,Superior$Q0)
 # reemplazamos el caudal x la media!
 Superior$Q0               <- ifelse(is.na(Superior$Caudal),
                                     mean(Superior$Q0,na.rm = T),Superior$Caudal) 
@@ -765,15 +771,18 @@ SupTable <- Superior[ , c(9,4,5,26,25,30,31,6,35) ] %>%
 
 
 ## @knitr SupCaudales
-  Superior %>% select(Ano,CodigoCauce, Obra,CaudalDiseno, Caudal,Qweb,CaudalBalance,CaudalObrador,Q0,metros,PerdidaxKm, ACaudalUm,EfPost,EfAnte) %>%
+  Superior %>% select(Ano,CodigoCauce, Obra,CaudalDiseno, Caudal,Qwebav,Qwebyear,CaudalBalance,CaudalObrador,Q0,metros,PerdidaxKm, ACaudalUm,EfPost,EfAnte) %>%
   #select(Ano,CodigoCauce, Cauce, Obra,Q0,CaudalDiseno, Qweb,KmTierra,metros,PerdidaxKm, ACaudalUm,EfPost,EfAnte) %>%
-  mutate(GananciaEfC= EfPost-EfAnte) %>%
+  mutate(GananciaEfC= paste0(GananciaEfC= round((EfPost-EfAnte)*100,4),"%")) %>%
+  mutate(CaudalBalance=round(CaudalBalance/12,2),Qwebav=round(Qwebav,2),Q0=round(Q0,2)) %>%
   arrange(Ano) %>%
-  select(CodigoCauce, Obra,CaudalDiseno, Caudal,Qweb,CaudalBalance,CaudalObrador,Q0,GananciaEfC) %>%
-  mutate_all(linebreak) %>%
-  kable(format = "latex",caption = "\\label{tab:SupCaudales}Tunuyán Superior - Caudales disponibles por obra", align = c("l", "c",rep("r", 8)),
-        row.names = FALSE, booktabs = TRUE,  col.names = c("Código Cauce","Obra","C. diseño","C.Informe","C.Web","C.Balance 2015","C.Obrador", "C.Utilizado","Ganancia EfC")) %>%
-    landscape()
+  select(CodigoCauce, Obra,CaudalDiseno, Caudal,Qwebav,CaudalBalance,CaudalObrador,Q0,GananciaEfC) %>%
+  mutate_all(linebreak) %>% 
+    mutate_all(funs(replace_na(., "-"))) %>% #mutate_if(is.numeric, funs(replace_na(., "-"))) %>%
+  kable(format = "latex",caption = "\\label{tab:SupCaudales}Tunuyán Superior - Caudal promedio por obra información disponible (m3/s)", align = c("c", "l",rep("c", 8)),
+        row.names = FALSE, booktabs = TRUE,  col.names = c("Código","Obra","Diseño","Inf.EfC","Web","Bal.2015","Obrador", "Utilizado","GananciaEfC")) %>%
+  footnote( general = "Elaboración propia en base a DGI (2015), Datos abiertos (2019) y entrevistas (2020).", general_title = "Fuente: ", title_format = "italic", #Datos de caudal del Río Mendoza extrapolados
+            footnote_as_chunk=TRUE, escape=FALSE, threeparttable = T) #landscape()
 
 ## @knitr SupTableComparacion
 SupTableComparacion %>% landscape()

@@ -270,7 +270,7 @@ En el caso del Río Mendoza, desde 2017 se revistieron
 Si bien las curvas de ahorro de agua por menor filtración parecen similares,
 existe una diferencia en el valor medio entre ambas metodologías.
 El enfoque de ahorro de agua por diferencias en la eficiencia de conducción, el precio medio por $USD/m^3$ es
-`r round(mean(!is.na(Mendoza$valueEfBis)), digits=3)`;
+`r round(mean(!is.na(Mendoza$valueEfBis),na.rm=T), digits=3)`;
 mientras que el precio medio en el enfoque de pérdidas asciende a
 `r round(mean(!is.na(Mendoza$valuePerdBis)), digits=3)`.
 Esta diferencia se explica porque el enfoque de eficiencias de conducción discrimina (dentro de los cauces de tierra) entre canales e hijuelas.
