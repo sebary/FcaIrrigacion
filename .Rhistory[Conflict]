@@ -1,0 +1,512 @@
+# [Caudal x ahorro (-pérdida)] / distancia cálculo x segundos (tiempo) x metros (distancia)
+# [m3/seg x (mejora Ef.C.)]    / (km aforo)        x segundos x (metros/1000)
+Mendoza$APunto        <- Mendoza[, (TierraQ0medio) * (EfPost - EfAnte) / Distancia] # KmTierra # total inspección
+Mendoza$APuntoAnual   <- round(Mendoza[, APunto * 2073600/ 1000], digits=1) # segundos al ano (4 turnos mensuales x 8 meses) / conversión a '000
+Mendoza$AObra         <- Mendoza[, metros/1000 * APunto ]  # ahorro en el largo de la obra. conversión a kilómetros
+Mendoza$AObraAnual    <- round(Mendoza[, AObra    * 2764800], digits=1) # segundos al ano con agua (4 turnos mensuales x 8 meses) / conversión a M3
+Mendoza$UsdM3Obra     <- round(Mendoza[, InvUsd / AObraAnual], digits = 2)
+# 2do Cálculo ahorro Valores de Ef.Conducción de Unidad de Manejo
+# [Caudal x ahorro (-pérdida)] / distancia tierra UM x segundos (tiempo) x metros (distancia)
+# [m3/seg x (Ef.C. rev - UM )] / (km tierra UM)      x segundos x (metros/1000)
+Mendoza$AObraAnualUM    <- round(Mendoza[,
+(TierraQ0medio) * (EfPost - EfUnidadManejo) / Distancia
+* (metros/1000)    * 2764800], digits=1) # segundos al ano (4 turnos mensuales x 8 meses) / conversión a M3
+Mendoza$UsdM3ObraUM    <- round(Mendoza[, InvUsd / AObraAnualUM], digits = 1)
+Mendoza <- Mendoza[order(Ano)]
+write_csv(Mendoza, 'DgiData/Estimaciones/MzaAhorro.csv', na = "NA", append = FALSE, quote_escape = "double")
+MzaTable <- Mendoza[, c(3,9,5:6,20,19,22,24,7,25)] %>%
+mutate_all(linebreak) %>%
+kable(format = "latex",caption = "\\label{tab:MzaTable}Valores por obra de revestimiento ejecutada", align = c("l", "c",rep("r", 8)),
+row.names = TRUE, booktabs = TRUE,  col.names = c("Cauce","Zona","Metros","Inv.(USD)","EfC(0)","EfC(1)","A(m3/seg)", "A(m3/Obra)","Inv.(USD/mt)","USD/m3")
+#col.names = linebreak(c("Cauce","Zona","Metros","Inversión\\\\(USD)","Inversión \\\\(USD/mt)","Ef.Cond\n (previa)","Ef.Cond.\n(post)","Ahorro\n($$m^3/seg$$)", "Ahorro\n(Hm3/Obra)","USD/Hm3"),
+#           align = "c", linebreaker = "\n", double_escape = F) #,"Ef.Cond.","Q (m3/año)","A (Hm3/año)")
+) %>%
+kable_styling(latex_options = c("HOLD_position","scale_down"), position = "center", full_width = FALSE, font_size=10) %>% # latex_options = c("striped", "scale_down")
+pack_rows("2017", 1,4) %>%
+pack_rows("2018", 5,7) %>%
+pack_rows("2019", 8,13) %>%
+footnote( general = "Elab. propia en base a información suministrada por DGI.", general_title = "Fuente: ", title_format = "italic", #Datos de caudal del Río Mendoza extrapolados
+footnote_as_chunk=TRUE, escape=FALSE,threeparttable = T) #, longtable=T
+## @knitr MzaTable
+MzaTable
+## @knitr MzaTableLandscape
+MzaTable %>%
+landscape()
+## @knitr MendozaPlots
+OfertaMza <- Mendoza[order(UsdM3Obra)]
+OfertaMza$AAcum   <- cumsum((OfertaMza$AObraAnual))
+OfertaMza$AAcumUm <- cumsum((OfertaMza$AObraAnualUM))
+#qplot(seq_along(OfertaMza$UsdM3Obra), OfertaMza$AObraAnual, geom="step")
+#qplot(OfertaMza$AhAcum, OfertaMza$UsdHm3Obra,  geom="step")
+#require(greppel)
+AhorroMza <- ggplot(OfertaMza) + # , color=Zona
+geom_step(aes(y= UsdM3Obra, x=AAcum/1000),color = "#0073D9", size = 1) +
+geom_text(aes(y= UsdM3Obra, x=AAcum/1000, label = paste(Cauce, sprintf('\u2191')), angle=0), # , sprintf('\u2191') # trying to add an arrow
+vjust=3, hjust=.2, size=2, check_overlap = F, inherit.aes = T) +
+scale_x_continuous(breaks= round(OfertaMza$AAcum/1000, digits = 0)) #+ #c(2,4,6,8,10,12,14) ) + # OfertaMza$AhAcum
+AhorroMzaUm <- ggplot(OfertaMza, aes(y= UsdM3Obra, x=AAcumUm/1000)) + # , color = "#0073D9", size = 1
+geom_step(aes(y= UsdM3Obra, x=AAcumUm/1000) , color = "#0073D9", size = 1.3) +
+geom_text(label = paste(OfertaMza$Cauce, sprintf('\u2191')), angle=90,
+nudge_x = -50, nudge_y = 0.125, #position = position_nudge(y = 2),  # trying to add an arrow
+vjust=3, hjust=-.2, size=2, check_overlap = T, inherit.aes = T) + #
+scale_x_continuous(breaks= round(OfertaMza$AAcumUm/1000, digits = 0))
+AhorroMzaUm
+# scale_y_continuous(breaks = OfertaMza$UsdM3Obra)#c(seq(0,3,.500),4.5,6,7.5))   #
+#directlabels::geom_dl(aes(x=seq_along(AhObraAnual), y= UsdHm3Obra ,label = Cauce), method = "smart.grid") +
+#AhorroMza
+InvMza <- ggplot(OfertaMza) +
+geom_step(aes(y=InvUsd, x=AAcum/1000),color = "#0073D9", size = 1) + #    , colour = Cauce)) +, color=factor(Zona)
+geom_text(aes(x=c(AAcum,AAcum), y= InvUsd ,label = (Cauce + sprintf('\u2192'))), #
+vjust="top", hjust="right", size=1, check_overlap = T, inherit.aes = T) +
+xlab("Metros cúbicos anuales ('000)") + ylab("Dólares por M3 ahorrado") + theme_classic() #+
+#plot(OfertaMza$AhObraAnual,OfertaMza$InvUsd)
+## @knitr AhorroMza
+AhorroMza + theme(axis.text.x = element_text(size = 8, angle=75, vjust = -.4),
+axis.text.y = element_text(size = 8),
+panel.background = element_rect(fill = "white"),
+axis.title = element_text(size = 8)) +
+scale_y_continuous(breaks = c(seq(0,3,.500),4.5,6,7.5)) +
+theme(axis.line = element_line(colour = "grey50")) +
+#geom_text(nudge_x = -.1, nudge_y = 0.2) +
+xlab("Metros cúbicos anuales ('000)") + ylab("Dólares por m3 ahorrado")  # Hm^{3}
+ggsave('DgiData/Graphs/OfertaMza.png', height = 3.7, width = 10)
+## @knitr AhorroMzaUm
+AhorroMzaUm + theme(axis.text.x = element_text(size = 10, angle=75, vjust = .4),
+axis.text.y = element_text(size = 10),
+panel.background = element_rect(fill = "white"),
+axis.title = element_text(size = 10)) +
+scale_y_continuous(breaks = c(seq(0,3,.500),4.5,6,7.5,10,12)) +
+theme(axis.line = element_line(colour = "grey50")) +
+xlab("Metros cúbicos anuales ('000)") + ylab(expression("Dólares por m3 ahorrado"))  # Hm^{3}
+ggsave('DgiData/Graphs/OfertaMzaUm.png', height = 4, width = 12)
+## @knitr MendozaInvTables
+OfertaMzaInv          <- as.data.frame(OfertaMza[order(AAcumUm)])
+OfertaMzaInv$InvAcum  <- cumsum((OfertaMzaInv$InvUsd))
+SumInv <- OfertaMzaInv %>%
+dplyr::select(.data$InvAcum, .data$metros, .data$AAcumUm) %>%
+qsummary(.)
+MzaSum1 <-  rbind(round(mean(OfertaMzaInv$InvAcum),digits = 0), round(min(OfertaMzaInv$InvAcum), digits = 0),round(OfertaMzaInv$InvAcum[[8]], digits = 0))
+MzaSum2 <-  rbind(round(mean(OfertaMzaInv$AAcumUm/1000),digits = 1),round( min(OfertaMzaInv$AAcumUm/1000), digits = 1) , round(OfertaMzaInv$AAcumUm[[8]],digits = 1))
+MzaSum <- cbind(MzaSum1, MzaSum2)
+rownames(MzaSum) = c("Promedio", "Mínimo", "Acumulada primer Hm3")
+## @knitr MendozaInv
+MzaSum %>%
+kable("latex",caption = "\\label{MzaSum}Resumen", booktabs = TRUE ,#align = c("l"),
+# row.names = c("Inversión (USD)","Ahorro m3 ('000)"),
+col.names = c("Inv. USD","Ahorro agua")
+) %>%
+kable_styling(latex_options = c("HOLD_position"), position = "center", full_width = FALSE, font_size=10) %>%
+footnote( general = "Elab. propia", general_title = "Fuente: ", title_format = "italic", #Datos de caudal del Río Mendoza extrapolados
+footnote_as_chunk=TRUE, escape=FALSE, threeparttable = T)
+## @knitr AhorroMza
+AhorroMza + theme(axis.text.x = element_text(size = 8, angle=75, vjust = -.4),
+axis.text.y = element_text(size = 10),
+panel.background = element_rect(fill = "white"),
+axis.title = element_text(size = 8)) +
+scale_y_continuous(breaks = c(seq(0,3,.500),4.5,6,7.5)) +
+theme(axis.line = element_line(colour = "grey50")) +
+#geom_text(nudge_x = -.1, nudge_y = 0.2) +
+xlab("Metros cúbicos anuales ('000)") + ylab("Dólares por m3 ahorrado")  # Hm^{3}
+## @knitr AhorroMzaUm
+AhorroMzaUm + theme(axis.text.x = element_text(size = 10, angle=75, vjust = .4),
+axis.text.y = element_text(size = 10),
+panel.background = element_rect(fill = "white"),
+axis.title = element_text(size = 9)) +
+scale_y_continuous(breaks = c(seq(0,3,.500),4.5,6,7.5,10,12)) +
+theme(axis.line = element_line(colour = "grey50")) +
+xlab("Metros cúbicos anuales ('000)") + ylab(expression("Dólares por m3 ahorrado"))  # Hm^{3}
+## @knitr AhorroMzaUm
+AhorroMzaUm + theme(axis.text.x = element_text(size = 9, angle=75, vjust = .4),
+axis.text.y = element_text(size = 10),
+panel.background = element_rect(fill = "white"),
+axis.title = element_text(size = 9)) +
+scale_y_continuous(breaks = c(seq(0,3,.500),4.5,6,7.5,10,12)) +
+theme(axis.line = element_line(colour = "grey50")) +
+xlab("Metros cúbicos anuales ('000)") + ylab(expression("Dólares por m3 ahorrado"))  # Hm^{3}
+## @knitr AhorroMzaUm
+AhorroMzaUm + theme(axis.text.x = element_text(size = 9, angle=75, vjust = .4),
+axis.text.y = element_text(size = 9),
+panel.background = element_rect(fill = "white"),
+axis.title = element_text(size = 9)) +
+scale_y_continuous(breaks = c(seq(0,3,.500),4.5,6,7.5,10,12)) +
+theme(axis.line = element_line(colour = "grey50")) +
+xlab("Metros cúbicos anuales ('000)") + ylab(expression("Dólares por m3 ahorrado"))  # Hm^{3}
+## @knitr AhorroMzaUm
+AhorroMzaUm + theme(axis.text.x = element_text(size = 9, angle=75, vjust = .4),
+axis.text.y = element_text(size = 9),
+panel.background = element_rect(fill = "white"),
+axis.title = element_text(size = 12)) +
+scale_y_continuous(breaks = c(seq(0,3,.500),4.5,6,7.5,10,12)) +
+theme(axis.line = element_line(colour = "grey50")) +
+xlab("Metros cúbicos anuales ('000)") + ylab(expression("Dólares por m3 ahorrado"))  # Hm^{3}
+## @knitr AhorroMzaUm
+AhorroMzaUm + theme(axis.text.x = element_text(size = 9, angle=75, vjust = .4),
+axis.text.y = element_text(size = 9),
+panel.background = element_rect(fill = "white"),
+axis.title = element_text(size = 9)) +
+scale_y_continuous(breaks = c(seq(0,3,.500),4.5,6,7.5,10,12)) +
+theme(axis.line = element_line(colour = "grey50")) +
+xlab("Metros cúbicos anuales ('000)") + ylab(expression("Dólares por m3 ahorrado"))  # Hm^{3}
+## @knitr AhorroMzaUm
+AhorroMzaUm + theme(axis.text.x = element_text(size = 9, angle=75, vjust = .4),
+axis.text.y = element_text(size = 9),
+panel.background = element_rect(fill = "white"),
+axis.title = element_text(size = 9)) +
+scale_y_continuous(breaks = c(seq(0,3,1),4.5,6,7.5,10,12)) +
+theme(axis.line = element_line(colour = "grey50")) +
+xlab("Metros cúbicos anuales ('000)") + ylab(expression("Dólares por m3 ahorrado"))  # Hm^{3}
+AhorroMzaUm <- ggplot(OfertaMza, aes(y= UsdM3Obra, x=AAcumUm/1000)) + # , color = "#0073D9", size = 1
+geom_step(aes(y= UsdM3Obra, x=AAcumUm/1000) , color = "#0073D9", size = 1.3) +
+geom_text(label = paste(OfertaMza$Cauce, sprintf('\u2191')), angle=90,
+nudge_x = -50, nudge_y = 0.0125, #position = position_nudge(y = 2),  # trying to add an arrow
+vjust=3, hjust=-.2, size=2, check_overlap = T, inherit.aes = T) + #
+scale_x_continuous(breaks= round(OfertaMza$AAcumUm/1000, digits = 0))
+AhorroMzaUm
+AhorroMzaUm <- ggplot(OfertaMza, aes(y= UsdM3Obra, x=AAcumUm/1000)) + # , color = "#0073D9", size = 1
+geom_step(aes(y= UsdM3Obra, x=AAcumUm/1000) , color = "#0073D9", size = 1.3) +
+geom_text(label = paste(OfertaMza$Cauce, sprintf('\u2191')), angle=90,
+nudge_x = -50, nudge_y = 0.0125, #position = position_nudge(y = 2),  # trying to add an arrow
+vjust=3, hjust=-.2, size=3, check_overlap = T, inherit.aes = T) + #
+scale_x_continuous(breaks= round(OfertaMza$AAcumUm/1000, digits = 0))
+AhorroMzaUm
+AhorroMzaUm <- ggplot(OfertaMza, aes(y= UsdM3Obra, x=AAcumUm/1000)) + # , color = "#0073D9", size = 1
+geom_step(aes(y= UsdM3Obra, x=AAcumUm/1000) , color = "#0073D9", size = 1.3) +
+geom_text(label = paste(OfertaMza$Cauce, sprintf('\u2191')), angle=90,
+nudge_x = -50, nudge_y = -0.0125, #position = position_nudge(y = 2),  # trying to add an arrow
+vjust=3, hjust=-.2, size=3, check_overlap = T, inherit.aes = T) + #
+scale_x_continuous(breaks= round(OfertaMza$AAcumUm/1000, digits = 0))
+AhorroMzaUm
+AhorroMzaUm <- ggplot(OfertaMza, aes(y= UsdM3Obra, x=AAcumUm/1000)) + # , color = "#0073D9", size = 1
+geom_step(aes(y= UsdM3Obra, x=AAcumUm/1000) , color = "#0073D9", size = 1.3) +
+geom_text(label = paste(OfertaMza$Cauce, sprintf('\u2191')), angle=45,
+nudge_x = -150, nudge_y = -0.0125, #position = position_nudge(y = 2),  # trying to add an arrow
+vjust=3, hjust=-.2, size=3, check_overlap = T, inherit.aes = T) + #
+scale_x_continuous(breaks= round(OfertaMza$AAcumUm/1000, digits = 0))
+AhorroMzaUm
+InvMza <- ggplot(OfertaMza) +
+geom_step(aes(y=InvUsd, x=AAcum/1000),color = "#0073D9", size = 1) + #    , colour = Cauce)) +, color=factor(Zona)
+geom_text(aes(x=c(AAcum,AAcum), y= InvUsd ,label = (Cauce + sprintf('\u2192'))), #
+vjust="top", hjust="right", size=1, check_overlap = T, inherit.aes = T) +
+xlab("Metros cúbicos anuales ('000)") + ylab("Dólares por M3 ahorrado") + theme_classic() #+
+## @knitr AhorroMza
+AhorroMza + theme(axis.text.x = element_text(size = 8, angle=75, vjust = -.4),
+axis.text.y = element_text(size = 10),
+panel.background = element_rect(fill = "white"),
+axis.title = element_text(size = 8)) +
+scale_y_continuous(breaks = c(seq(0,3,.500),4.5,6,7.5)) +
+theme(axis.line = element_line(colour = "grey50")) +
+#geom_text(nudge_x = -.1, nudge_y = 0.2) +
+xlab("Metros cúbicos anuales ('000)") + ylab("Dólares por m3 ahorrado")  # Hm^{3}
+ggsave('DgiData/Graphs/OfertaMza.png', height = 3.7, width = 10)
+## @knitr AhorroMzaUm
+AhorroMzaUm + theme(axis.text.x = element_text(size = 9, angle=75, vjust = .4),
+axis.text.y = element_text(size = 9),
+panel.background = element_rect(fill = "white"),
+axis.title = element_text(size = 9)) +
+scale_y_continuous(breaks = c(seq(0,3,1),4.5,6,7.5,10,12)) +
+theme(axis.line = element_line(colour = "grey50")) +
+xlab("Metros cúbicos anuales ('000)") + ylab(expression("Dólares por m3 ahorrado"))  # Hm^{3}
+AhorroMzaUm <- ggplot(OfertaMza, aes(y= UsdM3Obra, x=AAcumUm/1000)) + # , color = "#0073D9", size = 1
+geom_step(aes(y= UsdM3Obra, x=AAcumUm/1000) , color = "#0073D9", size = 1.3) +
+geom_text(label = paste(OfertaMza$Cauce, sprintf('\u2191')), angle=45,
+nudge_x = -150, nudge_y = -0.0125, #position = position_nudge(y = 2),  # trying to add an arrow
+vjust=3, hjust=-.2, size=3, check_overlap = F, inherit.aes = T) + #
+scale_x_continuous(breaks= round(OfertaMza$AAcumUm/1000, digits = 0))
+AhorroMzaUm
+AhorroMzaUm <- ggplot(OfertaMza, aes(y= UsdM3Obra, x=AAcumUm/1000)) + # , color = "#0073D9", size = 1
+geom_step(aes(y= UsdM3Obra, x=AAcumUm/1000) , color = "#0073D9", size = 1.3) +
+geom_text(label = paste(OfertaMza$Cauce, sprintf('\u2191')), angle=25,
+nudge_x = -150, nudge_y = -0.0125, #position = position_nudge(y = 2),  # trying to add an arrow
+vjust=3, hjust=-.2, size=3, check_overlap = F, inherit.aes = T) + #
+scale_x_continuous(breaks= round(OfertaMza$AAcumUm/1000, digits = 0))
+AhorroMzaUm
+AhorroMzaUm <- ggplot(OfertaMza, aes(y= UsdM3Obra, x=AAcumUm/1000)) + # , color = "#0073D9", size = 1
+geom_step(aes(y= UsdM3Obra, x=AAcumUm/1000) , color = "#0073D9", size = 1.3) +
+geom_text(label = paste(OfertaMza$Cauce, sprintf('\u2191')), angle=5,
+nudge_x = -150, nudge_y = -0.0125, #position = position_nudge(y = 2),  # trying to add an arrow
+vjust=3, hjust=-.2, size=3, check_overlap = F, inherit.aes = T) + #
+scale_x_continuous(breaks= round(OfertaMza$AAcumUm/1000, digits = 0))
+AhorroMzaUm
+AhorroMzaUm <- ggplot(OfertaMza, aes(y= UsdM3Obra, x=AAcumUm/1000)) + # , color = "#0073D9", size = 1
+geom_step(aes(y= UsdM3Obra, x=AAcumUm/1000) , color = "#0073D9", size = 1.3) +
+geom_text(label = paste(OfertaMza$Cauce, sprintf('\u2191')), angle=5,
+nudge_x = -150, nudge_y = 0.0125, #position = position_nudge(y = 2),  # trying to add an arrow
+vjust=3, hjust=-.2, size=3, check_overlap = F, inherit.aes = T) + #
+scale_x_continuous(breaks= round(OfertaMza$AAcumUm/1000, digits = 0))
+AhorroMzaUm
+AhorroMzaUm <- ggplot(OfertaMza, aes(y= UsdM3Obra, x=AAcumUm/1000)) + # , color = "#0073D9", size = 1
+geom_step(aes(y= UsdM3Obra, x=AAcumUm/1000) , color = "#0073D9", size = 1.3) +
+geom_text(label = paste(OfertaMza$Cauce, sprintf('\u2191')), angle=0,
+nudge_x = -150, nudge_y = 0.0125, #position = position_nudge(y = 2),  # trying to add an arrow
+vjust=3, hjust=-.2, size=3, check_overlap = F, inherit.aes = T) + #
+scale_x_continuous(breaks= round(OfertaMza$AAcumUm/1000, digits = 0))
+AhorroMzaUm
+AhorroMzaUm <- ggplot(OfertaMza, aes(y= UsdM3Obra, x=AAcumUm/1000)) + # , color = "#0073D9", size = 1
+geom_step(aes(y= UsdM3Obra, x=AAcumUm/1000) , color = "#0073D9", size = 1.3) +
+geom_text(label = paste(OfertaMza$Cauce, sprintf('\u2191')), angle=0,
+nudge_x = -150, nudge_y = 0.125, #position = position_nudge(y = 2),  # trying to add an arrow
+vjust=3, hjust=-.2, size=3, check_overlap = F, inherit.aes = T) + #
+scale_x_continuous(breaks= round(OfertaMza$AAcumUm/1000, digits = 0))
+AhorroMzaUm
+AhorroMzaUm <- ggplot(OfertaMza, aes(y= UsdM3Obra, x=AAcumUm/1000)) + # , color = "#0073D9", size = 1
+geom_step(aes(y= UsdM3Obra, x=AAcumUm/1000) , color = "#0073D9", size = 1.3) +
+geom_text(label = paste(OfertaMza$Cauce, sprintf('\u2191')), angle=0,
+nudge_x = -150, nudge_y = 0.125, #position = position_nudge(y = 2),  # trying to add an arrow
+vjust=3, hjust=-.2, size=3, check_overlap = T, inherit.aes = T) + #
+scale_x_continuous(breaks= round(OfertaMza$AAcumUm/1000, digits = 0))
+AhorroMzaUm
+## @knitr AhorroMza
+AhorroMza + theme(axis.text.x = element_text(size = 8, angle=75, vjust = -.4),
+axis.text.y = element_text(size = 10),
+panel.background = element_rect(fill = "white"),
+axis.title = element_text(size = 8)) +
+scale_y_continuous(breaks = c(seq(0,3,.500),4.5,6,7.5)) +
+theme(axis.line = element_line(colour = "grey50")) +
+#geom_text(nudge_x = -.1, nudge_y = 0.2) +
+xlab("Metros cúbicos anuales ('000)") + ylab("Dólares por m3 ahorrado")  # Hm^{3}
+ggsave('DgiData/Graphs/OfertaMza.png', height = 3.7, width = 10)
+## @knitr AhorroMzaUm
+AhorroMzaUm + theme(axis.text.x = element_text(size = 9, angle=75, vjust = .4),
+axis.text.y = element_text(size = 9),
+panel.background = element_rect(fill = "white"),
+axis.title = element_text(size = 9)) +
+scale_y_continuous(breaks = c(seq(0,3,1),4.5,6,7.5,10,12)) +
+theme(axis.line = element_line(colour = "grey50")) +
+xlab("Metros cúbicos anuales ('000)") + ylab(expression("Dólares por m3 ahorrado"))  # Hm^{3}
+AhorroMzaUm <- ggplot(OfertaMza, aes(y= UsdM3Obra, x=AAcumUm/1000)) + # , color = "#0073D9", size = 1
+geom_step(aes(y= UsdM3Obra, x=AAcumUm/1000) , color = "#0073D9", size = 1.3) +
+geom_text(label = paste(OfertaMza$Cauce, sprintf('\u2191')), angle=0,
+nudge_x = -100, nudge_y = 0.125, #position = position_nudge(y = 2),  # trying to add an arrow
+vjust=3, hjust=-.2, size=3, check_overlap = T, inherit.aes = T) + #
+scale_x_continuous(breaks= round(OfertaMza$AAcumUm/1000, digits = 0))
+AhorroMzaUm
+InvMza <- ggplot(OfertaMza) +
+geom_step(aes(y=InvUsd, x=AAcum/1000),color = "#0073D9", size = 1) + #    , colour = Cauce)) +, color=factor(Zona)
+geom_text(aes(x=c(AAcum,AAcum), y= InvUsd ,label = (Cauce + sprintf('\u2192'))), #
+vjust="top", hjust="right", size=1, check_overlap = T, inherit.aes = T) +
+xlab("Metros cúbicos anuales ('000)") + ylab("Dólares por M3 ahorrado") + theme_classic() #+
+## @knitr AhorroMza
+AhorroMza + theme(axis.text.x = element_text(size = 8, angle=75, vjust = -.4),
+axis.text.y = element_text(size = 10),
+panel.background = element_rect(fill = "white"),
+axis.title = element_text(size = 8)) +
+scale_y_continuous(breaks = c(seq(0,3,.500),4.5,6,7.5)) +
+theme(axis.line = element_line(colour = "grey50")) +
+#geom_text(nudge_x = -.1, nudge_y = 0.2) +
+xlab("Metros cúbicos anuales ('000)") + ylab("Dólares por m3 ahorrado")  # Hm^{3}
+ggsave('DgiData/Graphs/OfertaMza.png', height = 3.7, width = 10)
+## @knitr AhorroMzaUm
+AhorroMzaUm + theme(axis.text.x = element_text(size = 9, angle=75, vjust = .4),
+axis.text.y = element_text(size = 9),
+panel.background = element_rect(fill = "white"),
+axis.title = element_text(size = 9)) +
+scale_y_continuous(breaks = c(seq(0,3,1),4.5,6,7.5,10,12)) +
+theme(axis.line = element_line(colour = "grey50")) +
+xlab("Metros cúbicos anuales ('000)") + ylab(expression("Dólares por m3 ahorrado"))  # Hm^{3}
+AhorroMzaUm <- ggplot(OfertaMza, aes(y= UsdM3Obra, x=AAcumUm/1000)) + # , color = "#0073D9", size = 1
+geom_step(aes(y= UsdM3Obra, x=AAcumUm/1000) , color = "#0073D9", size = 1.3) +
+geom_text(label = paste(OfertaMza$Cauce, sprintf('\u2191')), angle=0,
+nudge_x = -50, nudge_y = 0.25, #position = position_nudge(y = 2),  # trying to add an arrow
+vjust=3, hjust=-.2, size=3, check_overlap = T, inherit.aes = T) + #
+scale_x_continuous(breaks= round(OfertaMza$AAcumUm/1000, digits = 0))
+AhorroMzaUm
+InvMza <- ggplot(OfertaMza) +
+geom_step(aes(y=InvUsd, x=AAcum/1000),color = "#0073D9", size = 1) + #    , colour = Cauce)) +, color=factor(Zona)
+geom_text(aes(x=c(AAcum,AAcum), y= InvUsd ,label = (Cauce + sprintf('\u2192'))), #
+vjust="top", hjust="right", size=1, check_overlap = T, inherit.aes = T) +
+xlab("Metros cúbicos anuales ('000)") + ylab("Dólares por M3 ahorrado") + theme_classic() #+
+## @knitr AhorroMza
+AhorroMza + theme(axis.text.x = element_text(size = 8, angle=75, vjust = -.4),
+axis.text.y = element_text(size = 10),
+panel.background = element_rect(fill = "white"),
+axis.title = element_text(size = 8)) +
+scale_y_continuous(breaks = c(seq(0,3,.500),4.5,6,7.5)) +
+theme(axis.line = element_line(colour = "grey50")) +
+#geom_text(nudge_x = -.1, nudge_y = 0.2) +
+xlab("Metros cúbicos anuales ('000)") + ylab("Dólares por m3 ahorrado")  # Hm^{3}
+ggsave('DgiData/Graphs/OfertaMza.png', height = 3.7, width = 10)
+## @knitr AhorroMzaUm
+AhorroMzaUm + theme(axis.text.x = element_text(size = 9, angle=75, vjust = .4),
+axis.text.y = element_text(size = 9),
+panel.background = element_rect(fill = "white"),
+axis.title = element_text(size = 9)) +
+scale_y_continuous(breaks = c(seq(0,3,1),4.5,6,7.5,10,12)) +
+theme(axis.line = element_line(colour = "grey50")) +
+xlab("Metros cúbicos anuales ('000)") + ylab(expression("Dólares por m3 ahorrado"))  # Hm^{3}
+AhorroMzaUm <- ggplot(OfertaMza, aes(y= UsdM3Obra, x=AAcumUm/1000)) + # , color = "#0073D9", size = 1
+geom_step(aes(y= UsdM3Obra, x=AAcumUm/1000) , color = "#0073D9", size = 1.3) +
+geom_text(label = paste(OfertaMza$Cauce, sprintf('\u2191')), angle=0,
+nudge_x = 25, nudge_y = 0.5, #position = position_nudge(y = 2),  # trying to add an arrow
+vjust=3, hjust=-.2, size=3, check_overlap = T, inherit.aes = T) + #
+scale_x_continuous(breaks= round(OfertaMza$AAcumUm/1000, digits = 0))
+AhorroMzaUm
+InvMza <- ggplot(OfertaMza) +
+geom_step(aes(y=InvUsd, x=AAcum/1000),color = "#0073D9", size = 1) + #    , colour = Cauce)) +, color=factor(Zona)
+geom_text(aes(x=c(AAcum,AAcum), y= InvUsd ,label = (Cauce + sprintf('\u2192'))), #
+vjust="top", hjust="right", size=1, check_overlap = T, inherit.aes = T) +
+xlab("Metros cúbicos anuales ('000)") + ylab("Dólares por M3 ahorrado") + theme_classic() #+
+## @knitr AhorroMza
+AhorroMza + theme(axis.text.x = element_text(size = 8, angle=75, vjust = -.4),
+axis.text.y = element_text(size = 10),
+panel.background = element_rect(fill = "white"),
+axis.title = element_text(size = 8)) +
+scale_y_continuous(breaks = c(seq(0,3,.500),4.5,6,7.5)) +
+theme(axis.line = element_line(colour = "grey50")) +
+#geom_text(nudge_x = -.1, nudge_y = 0.2) +
+xlab("Metros cúbicos anuales ('000)") + ylab("Dólares por m3 ahorrado")  # Hm^{3}
+ggsave('DgiData/Graphs/OfertaMza.png', height = 3.7, width = 10)
+## @knitr AhorroMzaUm
+AhorroMzaUm + theme(axis.text.x = element_text(size = 9, angle=75, vjust = .4),
+axis.text.y = element_text(size = 9),
+panel.background = element_rect(fill = "white"),
+axis.title = element_text(size = 9)) +
+scale_y_continuous(breaks = c(seq(0,3,1),4.5,6,7.5,10,12)) +
+theme(axis.line = element_line(colour = "grey50")) +
+xlab("Metros cúbicos anuales ('000)") + ylab(expression("Dólares por m3 ahorrado"))  # Hm^{3}
+ggsave('DgiData/Graphs/OfertaMzaUm.png', height = 4, width = 12)
+AhorroMzaUm <- ggplot(OfertaMza, aes(y= UsdM3Obra, x=AAcumUm/1000)) + # , color = "#0073D9", size = 1
+geom_step(aes(y= UsdM3Obra, x=AAcumUm/1000) , color = "#0073D9", size = 1.3) +
+geom_text(label = paste(OfertaMza$Cauce, sprintf('\u2191')), angle=0,
+nudge_x = 25, nudge_y = 0.5, #position = position_nudge(y = 2),  # trying to add an arrow
+vjust=3, hjust=-.2, size=4, check_overlap = T, inherit.aes = T) + #
+scale_x_continuous(breaks= round(OfertaMza$AAcumUm/1000, digits = 0))
+AhorroMzaUm
+AhorroMzaUm <- ggplot(OfertaMza, aes(y= UsdM3Obra, x=AAcumUm/1000)) + # , color = "#0073D9", size = 1
+geom_step(aes(y= UsdM3Obra, x=AAcumUm/1000) , color = "#0073D9", size = 1.3) +
+geom_text(label = paste(OfertaMza$Cauce, sprintf('\u2191')), angle=0,
+nudge_x = -50, nudge_y = 0.5, #position = position_nudge(y = 2),  # trying to add an arrow
+vjust=3, hjust=-.2, size=3.2, check_overlap = T, inherit.aes = T) + #
+scale_x_continuous(breaks= round(OfertaMza$AAcumUm/1000, digits = 0))
+AhorroMzaUm
+## @knitr AhorroMzaUm
+AhorroMzaUm + theme(axis.text.x = element_text(size = 9, angle=75, vjust = .4),
+axis.text.y = element_text(size = 9),
+panel.background = element_rect(fill = "white"),
+axis.title = element_text(size = 9)) +
+scale_y_continuous(breaks = c(seq(0,3,1),4.5,6,7.5,10,12)) +
+theme(axis.line = element_line(colour = "grey50")) +
+xlab("Metros cúbicos anuales ('000)") + ylab(expression("Dólares por m3 ahorrado"))  # Hm^{3}
+AhorroMzaUm <- ggplot(OfertaMza, aes(y= UsdM3Obra, x=AAcumUm/1000)) #+ # , color = "#0073D9", size = 1
+AhorroMzaUm
+AhorroMzaUm <- ggplot(OfertaMza, aes(y= UsdM3Obra, x=AAcumUm/1000)) + # , color = "#0073D9", size = 1
+geom_step(aes(y= UsdM3Obra, x=AAcumUm/1000) , color = "#0073D9", size = 1.3) #+
+AhorroMzaUm
+## @knitr AhorroMzaUm
+AhorroMzaUm + theme(axis.text.x = element_text(size = 9, angle=75, vjust = .4),
+axis.text.y = element_text(size = 9),
+panel.background = element_rect(fill = "white"),
+axis.title = element_text(size = 9)) +
+scale_y_continuous(breaks = c(seq(0,3,1),4.5,6,7.5,10,12)) +
+theme(axis.line = element_line(colour = "grey50")) +
+xlab("Metros cúbicos anuales ('000)") + ylab(expression("Dólares por m3 ahorrado"))  # Hm^{3}
+## @knitr AhorroMzaUm
+AhorroMzaUm +
+geom_text(label = paste(OfertaMza$Cauce, sprintf('\u2191')), angle=0,
+nudge_x = -50, nudge_y = 0.5, #position = position_nudge(y = 2),  # trying to add an arrow
+vjust=3, hjust=-.2, size=3.2, check_overlap = T, inherit.aes = T) + #
+scale_x_continuous(breaks= round(OfertaMza$AAcumUm/1000, digits = 0))
+## @knitr AhorroMzaUm
+AhorroMzaUm +
+geom_text(label = paste(OfertaMza$Cauce, sprintf('\u2191')), angle=0,
+nudge_x = -50, nudge_y = 0.5, #position = position_nudge(y = 2),  # trying to add an arrow
+vjust=3, hjust=-.2, size=3.2, check_overlap = T, inherit.aes = T) + #
+scale_x_continuous(breaks= round(OfertaMza$AAcumUm/1000, digits = 0))+
+theme(axis.text.x = element_text(size = 9, angle=75, vjust = .4),
+axis.text.y = element_text(size = 9),
+panel.background = element_rect(fill = "white"),
+axis.title = element_text(size = 9)) +
+scale_y_continuous(breaks = c(seq(0,3,1),4.5,6,7.5,10,12)) +
+theme(axis.line = element_line(colour = "grey50")) +
+xlab("Metros cúbicos anuales ('000)") + ylab(expression("Dólares por m3 ahorrado"))  # Hm^{3}
+## @knitr AhorroMzaUm
+AhorroMzaUm +
+geom_text(label = paste(OfertaMza$Cauce, sprintf('\u2191')), angle=0,
+nudge_x = -50, nudge_y = 0.5, #position = position_nudge(y = 2),  # trying to add an arrow
+vjust=3, hjust=-.2, size=3.2, check_overlap = T, inherit.aes = T) + #
+scale_x_continuous(breaks= round(OfertaMza$AAcumUm/1000, digits = 0))+
+theme(axis.text.x = element_text(size = 9, angle=75, vjust = .4),
+axis.text.y = element_text(size = 9),
+panel.background = element_rect(fill = "white"),
+axis.title = element_text(size = 9),
+axis.line = element_line(colour = "grey50")) +
+xlab("Metros cúbicos anuales ('000)") +
+ylab(expression("Dólares por m3 ahorrado")) +
+scale_y_continuous(breaks = c(seq(0,3,1),4.5,6,7.5,10,12)) #+
+## @knitr AhorroMzaUm
+AhorroMzaUm +
+geom_text(label = paste(OfertaMza$Cauce, sprintf('\u2191')), angle=0,
+nudge_x = -50, nudge_y = 0.5, #position = position_nudge(y = 2),  # trying to add an arrow
+vjust=3, hjust=-.2, size=3.2, check_overlap = T, inherit.aes = T) + #
+theme(axis.text.x = element_text(size = 9, angle=75, vjust = .4),
+axis.text.y = element_text(size = 9),
+panel.background = element_rect(fill = "white"),
+axis.title = element_text(size = 9),
+axis.line = element_line(colour = "grey50")) +
+xlab("Metros cúbicos anuales ('000)") +
+ylab(expression("Dólares por m3 ahorrado")) +
+scale_x_continuous(breaks= round(OfertaMza$AAcumUm/1000, digits = 0), check_overlap = T) +
+scale_y_continuous(breaks = c(seq(0,3,1),4.5,6,7.5,10,12))
+AhorroMzaUm <- ggplot(OfertaMza, aes(y= UsdM3Obra, x=AAcumUm/1000)) + # , color = "#0073D9", size = 1
+geom_step(aes(y= UsdM3Obra, x=AAcumUm/1000) , color = "#0073D9", size = 1.3)
+AhorroMzaUm
+## @knitr AhorroMzaUm
+AhorroMzaUm +
+geom_text(label = paste(OfertaMza$Cauce, sprintf('\u2191')), angle=0,
+nudge_x = -50, nudge_y = 0.5, #position = position_nudge(y = 2),  # trying to add an arrow
+vjust=3, hjust=-.2, size=3.2, check_overlap = T, inherit.aes = T) + #
+theme(axis.text.x = element_text(size = 9, angle=75, vjust = .4),
+axis.text.y = element_text(size = 9),
+panel.background = element_rect(fill = "white"),
+axis.title = element_text(size = 9),
+axis.line = element_line(colour = "grey50")) +
+xlab("Metros cúbicos anuales ('000)") +
+ylab(expression("Dólares por m3 ahorrado")) +
+scale_x_continuous(breaks= round(OfertaMza$AAcumUm/1000, digits = 0)) +
+scale_y_continuous(breaks = c(seq(0,3,1),4.5,6,7.5,10,12))
+## @knitr AhorroMzaUm
+AhorroMzaUm +
+geom_text(label = OfertaMza$Cauce, angle=0, # label = paste(OfertaMza$Cauce, sprintf('\u2191'))
+nudge_x = -50, nudge_y = 0.5, #position = position_nudge(y = 2),  # trying to add an arrow
+vjust=3, hjust=-.2, size=3.2, check_overlap = T, inherit.aes = T) + #
+theme(axis.text.x = element_text(size = 9, angle=75, vjust = .4),
+axis.text.y = element_text(size = 9),
+panel.background = element_rect(fill = "white"),
+axis.title = element_text(size = 9),
+axis.line = element_line(colour = "grey50")) +
+xlab("Metros cúbicos anuales ('000)") +
+ylab(expression("Dólares por m3 ahorrado")) +
+scale_x_continuous(breaks= round(OfertaMza$AAcumUm/1000, digits = 0)) +
+scale_y_continuous(breaks = c(seq(0,3,1),4.5,6,7.5,10,12))
+ggsave('DgiData/Graphs/OfertaMzaUm.png', height = 4, width = 12)
+## @knitr AhorroMzaUm
+AhorroMzaUm +
+geom_text(label = OfertaMza$Cauce, angle=0, # label = paste(OfertaMza$Cauce, sprintf('\u2191'))
+nudge_x = -50, nudge_y = 0.5, #position = position_nudge(y = 2),  # trying to add an arrow
+vjust=3, hjust=-.2, size=2.8, check_overlap = T, inherit.aes = T) + #
+theme(axis.text.x = element_text(size = 9, angle=75, vjust = .4),
+axis.text.y = element_text(size = 9),
+panel.background = element_rect(fill = "white"),
+axis.title = element_text(size = 9),
+axis.line = element_line(colour = "grey50")) +
+xlab("Metros cúbicos anuales ('000)") +
+ylab(expression("Dólares por m3 ahorrado")) +
+scale_x_continuous(breaks= round(OfertaMza$AAcumUm/1000, digits = 0)) +
+scale_y_continuous(breaks = c(seq(0,3,1),4.5,6,7.5,10,12))
+ggsave('DgiData/Graphs/OfertaMzaUm.png', height = 4, width = 12)
+## @knitr AhorroMzaUm
+AhorroMzaUm +
+geom_text(label = OfertaMza$Cauce, angle=0, # label = paste(OfertaMza$Cauce, sprintf('\u2191'))
+nudge_x = -50, nudge_y = 0.75, #position = position_nudge(y = 2),  # trying to add an arrow
+vjust=3, hjust=-.2, size=3, check_overlap = T, inherit.aes = T) + #
+theme(axis.text.x = element_text(size = 9, angle=75, vjust = .4),
+axis.text.y = element_text(size = 9),
+panel.background = element_rect(fill = "white"),
+axis.title = element_text(size = 9),
+axis.line = element_line(colour = "grey50")) +
+xlab("Metros cúbicos anuales ('000)") +
+ylab(expression("Dólares por m3 ahorrado")) +
+scale_x_continuous(breaks= round(OfertaMza$AAcumUm/1000, digits = 0)) +
+scale_y_continuous(breaks = c(seq(0,3,1),4.5,6,7.5,10,12))
+source('~/.active-rstudio-document', echo=TRUE)
+# Mac
+setwd('Users/SebastianRiera/Google Drive/Laboro/ResearchProposals/UNCuyo/UNCuyoIrrigacion/FcaIrrigacion')

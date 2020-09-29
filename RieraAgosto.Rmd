@@ -363,6 +363,32 @@ este cálculo generaliza los valores de $EfC_{j}$ posiblemente subestimando el d
 ```
 
 \vspace{-.3cm}
+
+# \textbf{Subdelegación Tunuyán Inferior}
+
+```{r InfEf, results='hide'}
+```
+
+```{r InferiorTable, results='hide'}
+```
+
+```{r InferiorPlots, results='hide'}
+```
+
+```{r InfCaudales, results='asis'}
+```
+
+
+
+```{r AhorroInfPerd, results='asis',fig.show='hold', fig.height=4.5, fig.width=11, fig.cap="\\label{AhorroInfPerd}Curva de ahorro de agua enfoque pérdidas",out.extra="", fig.align='center'}
+```
+
+
+```{r InfTable, results='asis'}
+```
+
+\vspace{-.3cm}
+
 # \textbf{Comentarios finales}
 \vspace{-.2cm}
 
