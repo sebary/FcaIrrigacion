@@ -665,11 +665,11 @@ MzaSum %>%
 # T.Superior ----
 
 ## @knitr SupEf
-
+options(digits = 3)
 EfSuperior <- as.data.frame(read.csv("DgiData/EfConduccion/TunuyanSuperior/EfCondTunSup.csv", sep = ",")) #, header = TRUE, sep=",")
 indxx <- c("CodigoCauce","Superficie","LongTotal","LongRevest","EfRevest","LongHijuelas","PorcRevest","EfTierra",
            "EfGlobal","Caudal","CoefMoritz","PerdidaPorcentaje","TiempoMojado","PerdidaTiempo","EfUM")
-EfSuperior[indxx] <- lapply(EfSuperior[indxx], function(x) as.numeric(as.character(x)))
+EfSuperior[indxx] <- lapply(EfSuperior[indxx], function(x) round(as.numeric(as.character(x)), 3))
 
 ## @knitr SuperiorTable
 
@@ -688,13 +688,14 @@ glimpse(Superior)
 
 
 # Eficiencia post entubamiento ==1 & revestimiento 0.99
-Superior$EfPost     <- ifelse(grepl("Ent. | Entubado | Entubamiento | entubado | entubamiento | ENTUBADO | ENTUBAMIENTO", Superior$Obra), 1,
-                        ifelse(grepl("Rev. | Revestimiento | revestimiento | Canalización | REVESTIMIENTO", Superior$Obra), 0.99,
-                        ifelse(grepl("Mej. | Mejora", Superior$Obra), 0.98,  0.97)))
-Superior$EfAnte     <- round(ifelse(!is.na(Superior$EfTierra),Superior$EfTierra,
-                              ifelse(!is.na(Superior$EfGlobal),Superior$EfGlobal,
-                                     ifelse(is.na(Superior$EfUM),mean(Superior$EfAnte,na.rm = T),Superior$EfUM))), digits = 2)
-
+Superior$EfPost     <- ifelse(grepl("Rev. | Revestimiento | revestimiento | Canalización | REVESTIMIENTO", Superior$Obra), 0.99,
+                    ifelse(grepl("Mej. | Mejora", Superior$Obra), 0.98,
+                    ifelse(grepl("Ent. | Entubado | Entubamiento | entubado | entubamiento | ENTUBADO | ENTUBAMIENTO", Superior$Obra), 1,  0.97)))
+Superior$EfAnte <- round(ifelse((!is.na(Superior$EfTierra) & Superior$EfTierra!=0 & Superior$EfTierra!=1) & (Superior$EfGlobal!=0 & !is.na(Superior$EfGlobal) & Superior$EfGlobal!=1) & (Superior$EfGlobal > Superior$EfTierra), Superior$EfTierra,
+                ifelse((!is.na(Superior$EfUM) & Superior$EfUM!=0 & Superior$EfUM!=1) & (Superior$EfGlobal!=0 & !is.na(Superior$EfGlobal) & Superior$EfGlobal!=1) & (Superior$EfGlobal > Superior$EfUM), Superior$EfUM,
+                quantile(Superior$EfTierra, 0.25,na.rm = T))), digits = 3)
+#Superior$EfAnte     <- round(ifelse(!is.na(Superior$EfTierra),Superior$EfTierra,ifelse(!is.na(Superior$EfGlobal),Superior$EfGlobal,ifelse(is.na(Superior$EfUM),mean(Superior$EfAnte,na.rm = T),Superior$EfUM))), digits = 3)
+#Superior$EfAnte <- ifelse(Superior$EfAnte==1.0, quantile(Superior$EfAnte, 0.25,na.rm = T), Superior$EfAnte)
 #[, ifelse(!is.na(EfCanales) & grepl("C. | Canal | Canales | Can. | Canal. | Cl | canal", Superior$Obra), EfCanales,ifelse(!is.na(EfHijuelas) & grepl("H. | Hijuela | Hij. | Hij | Hj | hijuela | HIJUELA | HIJ.", Superior$Obra), EfHijuelas, EfUM))]
 
 
@@ -710,25 +711,47 @@ glimpse(Superior)
 #Superior$Q0               <- Superior$Caudal
 #Superior$Q0               <- ifelse(is.na(Superior$Caudal) & !is.na(Superior$CaudalDiseno),Superior$CaudalDiseno, Superior$Q0)
 
-# tomamos el menor valor, si no hay dato se reemplaza por la mediana
-Superior$Q0    <- 
-  ifelse((!is.na(Superior$Caudal) & Superior$Caudal!=0) & (Superior$Qwebav!=0 & !is.na(Superior$Qwebav)) & (Superior$Qwebav > Superior$Caudal), Superior$Caudal,
-  ifelse((!is.na(Superior$Caudal) & Superior$Caudal!=0) & (Superior$Qwebav!=0 & !is.na(Superior$Qwebav)) & (Superior$Qwebav <= Superior$Caudal), Superior$Qwebav,
-  ifelse((!is.na(Superior$Caudal) & Superior$Caudal==0) & (Superior$Qwebav!=0 & !is.na(Superior$Qwebav)), Superior$Qwebav,
-  ifelse(!is.na(Superior$Caudal) & Superior$Caudal!=0, Superior$Caudal, median(Superior$Caudal,na.rm = T)))))
-# Canaal La Pampa
-Superior$Q0    <- 
-  ifelse(Superior$CodigoCauce==9727 | Superior$CodigoCauce==5738 | Superior$CodigoCauce==9705, Superior$Caudal, 
-  ifelse(Superior$CodigoCauce==9707, Superior$Qwebav, Superior$Q0))
+# tomamos el mayor valor, si no hay dato se reemplaza por la mediana
+
+Superior$Q0    <- ifelse( (!is.na(Superior$Caudal) & Superior$Caudal!=0) & (Superior$Qwebyear!=0 & !is.na(Superior$Qwebyear)) & (Superior$Qwebyear > Superior$Caudal), Superior$Qwebyear,
+  ifelse( (!is.na(Superior$Caudal) & Superior$Caudal!=0) & (Superior$Qwebyear!=0 & !is.na(Superior$Qwebyear)) & (Superior$Qwebyear <= Superior$Caudal), Superior$Caudal,
+  ifelse( (!is.na(Superior$Caudal) & Superior$Caudal==0) & (Superior$Qwebyear!=0 & !is.na(Superior$Qwebyear)), Superior$Qwebyear,
+  ifelse( !is.na(Superior$Caudal) & Superior$Caudal!=0, Superior$Caudal, median(Superior$Caudal,na.rm = T)))))
+# Canal La Pampa
+Superior$Q0    <- ifelse(Superior$CodigoCauce==9727 | Superior$CodigoCauce==5738 | Superior$CodigoCauce==9705, Superior$Caudal, 
+  ifelse(Superior$CodigoCauce==9707, Superior$Qwebyear, Superior$Q0))
+Superior$Q0    <- ifelse(!is.na(Superior$CaudalBalance), 
+                         Superior$CaudalBalance,Superior$Q0)
+Superior %>% select(CodigoCauce,Q0,Caudal,Qwebav,Qwebyear, CaudalBalance,CaudalObrador,EfAnte) %>% filter(CodigoCauce==9727 | CodigoCauce==5738 | CodigoCauce==9705)
 summary(Superior$Q0)
+
+
 
 Superior$PerdidaxKm   <- 
   round( ifelse(Superior$Ano<2017,
   (Superior$Q0) * (Superior$EfAnte)/Superior$LongTotal,
   (Superior$Q0) * Superior$EfAnte/Superior$LongTotal), digits = 3) # EfTierraLong/KmTierra es eficienci x kilómetro en la UM
 Superior$DeltaPerdida <- round( 
-  (Superior$PerdidaxKm * Superior$EfPost * Superior$metros/1000 * 1036800 ), digits=0) # segundos al ano (2 turnos mensuales x 8 meses) / conversión a '000)]
+  (Superior$PerdidaxKm * Superior$EfPost * Superior$metros/1000 * 2073600 ), digits=0) # segundos al ano (1 turnos semanal x 8 meses) / conversión a '000)]
 
+# Q01alt
+Superior$Q01    <- 
+  ifelse((!is.na(Superior$Caudal) & Superior$Caudal!=0) & (Superior$Qwebyear!=0 & !is.na(Superior$Qwebyear)) & (Superior$Qwebyear > Superior$Caudal), Superior$Qwebyear,
+         ifelse((!is.na(Superior$Caudal) & Superior$Caudal!=0) & (Superior$Qwebyear!=0 & !is.na(Superior$Qwebyear)) & (Superior$Qwebyear <= Superior$Caudal), Superior$Caudal,
+                ifelse((!is.na(Superior$Caudal) & Superior$Caudal==0) & (Superior$Qwebyear!=0 & !is.na(Superior$Qwebyear)), Superior$Qwebyear,
+                       ifelse(!is.na(Superior$Caudal) & Superior$Caudal!=0, Superior$Caudal, median(Superior$Caudal,na.rm = T)))))
+# Canaal La Pampa
+Superior$Q01    <- 
+  ifelse(Superior$CodigoCauce==9727 | Superior$CodigoCauce==5738 | Superior$CodigoCauce==9705, Superior$Qwebyear, 
+         ifelse(Superior$CodigoCauce==9707, Superior$Qwebyear, Superior$Q01))
+#Superior$Q01    <- Superior$Q01 / 2073600
+summary(Superior$Q01)
+Superior$ppk   <- 
+  round( ifelse(Superior$Ano<2017,
+                (Superior$Q01) * (Superior$EfAnte)/Superior$LongTotal,
+                (Superior$Q01) * Superior$EfAnte/Superior$LongTotal), digits = 3) # EfTierraLong/KmTierra es eficienci x kilómetro en la UM
+Superior$Deltap <- round( 
+  (Superior$ppk * Superior$EfPost * Superior$metros/1000 * 2073600 ), digits=0) # segundos al ano (1 turnos semanal x 8 meses) / conversión a '000)]
 # Cálculo en base a EfC
 # 1ro: Caudal de entrada x (ganancia de eficiencia) / distancia del aforo en km
 # 2do: kilómetros revestidos (metros/1000)
@@ -794,9 +817,9 @@ SupTable <- Superior %>%   #[ , c(9,4,5,26,25,30,31,6,35) ] %>%
   Superior %>% select(Ano,CodigoCauce, Obra, Caudal,Qwebav,Qwebyear,CaudalBalance,Q0,metros,PerdidaxKm,EfPost,EfAnte) %>%
   #select(Ano,CodigoCauce, Cauce, Obra,Q0,CaudalDiseno, Qweb,KmTierra,metros,PerdidaxKm, ACaudalUm,EfPost,EfAnte) %>%
   mutate(GananciaEfC= paste0(GananciaEfC= round((EfPost-EfAnte)*100,4),"%")) %>%
-  mutate(CaudalBalance=round(CaudalBalance/12,2),Qwebav=round(Qwebav,2),Q0=round(Q0,2)) %>%
+  mutate(CaudalBalance=round(CaudalBalance/12,2),Qwebav=round(Qwebyear,2),Q0=round(Q0,2)) %>%
   arrange(Ano,CodigoCauce) %>%
-  select(CodigoCauce, Obra, Caudal,Qwebav,CaudalBalance,Q0,GananciaEfC) %>%
+  select(CodigoCauce, Obra, Caudal,Qwebyear,CaudalBalance,Q0,GananciaEfC) %>%
   mutate_all(linebreak) %>% 
     mutate_all(funs(replace_na(., "-"))) %>% #mutate_if(is.numeric, funs(replace_na(., "-"))) %>%
   kable(format = "latex",caption = "\\label{tab:SupCaudales}Tunuyán Superior - Caudal promedio por obra información disponible (m3/s)", align = c("c", "l",rep("c", 8)),
@@ -816,7 +839,7 @@ SupTable %>%
   landscape()
 
 ## @knitr SuperiorPlots
-OfertaSup <- arrange(Superior,valuePerdBis)
+OfertaSup <- arrange(Superior[,c("CodigoCauce","Ano","Obra","PerdidaxKm","valuePerdBis",'Q0',"CaudalBalance","UnidadesManejo","InvUsd","InvMtUsd","TdC","metros","Clasificacion")],valuePerdBis)
 OfertaSup$AAcum   <- cumsum((OfertaSup$valuePerdBis)) 
 OfertaSup %>% select(Ano, Obra,CodigoCauce, PerdidaxKm,valuePerdBis,AAcum) #%>% filter(valueEfBis<=3)
 
@@ -1069,16 +1092,54 @@ redRiego$codigo = redRiego$CodigoCauce
 redRiego$codigo = as.numeric(as.character(redRiego$codigo))
 # 96744 observations
 
+redRiego$denominacion <- as.character(redRiego$denominaci)
+redRiego$subdelegacion <- as.character(redRiego$subdel)
+redRiego$subSist <- ifelse(
+  # Las Tunas
+  grepl("ANCHAYUYO | LAS TUNAS | GUALTALLARY | ARROYO VILLEGAS | CANAL ESQUINA | CANAL ANCON | ANCON | ANCÓN | ESQUINA | TUPUNGATO | RIO DE LA PAMPA | QUEBRADA DE GUEVARA | EL PERAL | HIJ. PALMA | EL INGENIO | ARROYO ALTO VERDE | ARROYO GUIÐAZU | ARROYO GUIÑAZU | ACEQUIA DEL DIABLO | Sauce | CALLE QUINTANA | ARROYO CIENEGAS | ARROYO TORRECITAS | MATRIZ SUR", redRiego$denominacion,ignore.case = TRUE), 1,
+  # Arroyo Grande
+  ifelse(grepl("ARROYO GRANDE | SALAS CAROCA | LA PIRCA | ARROYO LA RIOJA | ARROYO LA BARRANCA | ARROYO SILVA O MANANTIALES | La Quebrada | CENTRO PRINCIPAL O RIO VIEJO | DESAGÜES PREDIOS PARTICULARES DE TUNUYAN | ARROYO CLARO -", redRiego$denominacion,ignore.case = TRUE), 2,
+  # Diq. Valle de Uco
+  ifelse(grepl("CANAL UCO | CANAL DE UCO | MELOCOTON | RAMA QUIROGA | ELVIRA BUSTOS | MARGEN DERECHA | MATRIZ VALLE DE UCO | CONSULTA | CAPACHO | CANAL CAÐADA DE LAS ROSAS | DESAGÜES PREDIOS PARTICULARES DE SAN CARLOS | PEÐALOZA | CANAL MANZANO | MANZANO | CANAL VISTA FLORES | CANAL RINCON | RINCÓN | ARROYO CLARO", redRiego$denominacion,ignore.case = TRUE), 3,
+  # Yaucha - Aguanda
+  ifelse(grepl("MATRIZ YAUCHA | MATRIZ AGUANDA | YAUCHA | AGUANDA | CANAL MATRIZ YAUCHA | ARROYO LA SALAMANCA", redRiego$denominacion,ignore.case = TRUE), 4,
+  ifelse(grepl("RIO MENDOZA",redRiego$subdelegacion,ignore.case = TRUE),5,
+  ifelse(grepl("RIO TUNUYAN INFERIOR",redRiego$subdelegacion,ignore.case = TRUE),6,
+  ifelse(grepl("RIO MALARGUE",redRiego$subdelegacion,ignore.case = TRUE),7,
+  ifelse(grepl("RIO DIAMANTE",redRiego$subdelegacion,ignore.case = TRUE),8,
+  ifelse(grepl("RIO ATUEL",redRiego$subdelegacion,ignore.case = TRUE),9,
+         999)))))))))
+
+# controlando por los espacios
+redRiego$subSist <- ifelse(
+  # Las Tunas
+  grepl("ANCHAYUYO|LAS TUNAS|GUALTALLARY|ARROYO VILLEGAS|CANAL ESQUINA|CANAL ANCON|ANCON|ANCÓN|ESQUINA|TUPUNGATO|RIO DE LA PAMPA|QUEBRADA DE GUEVARA|EL PERAL|HIJ. PALMA|EL INGENIO|ARROYO ALTO VERDE|ARROYO GUIÐAZU|ARROYO GUIÑAZU|ACEQUIA DEL DIABLO|Sauce|CALLE QUINTANA|ARROYO CIENEGAS|ARROYO TORRECITAS|MATRIZ SUR", redRiego$denominacion,ignore.case = TRUE), 1,
+  # Arroyo Grande
+  ifelse(grepl("ARROYO GRANDE|SALAS CAROCA|LA PIRCA|ARROYO LA RIOJA|ARROYO LA BARRANCA|ARROYO SILVA O MANANTIALES|La Quebrada|CENTRO PRINCIPAL O RIO VIEJO|DESAGÜES PREDIOS PARTICULARES DE TUNUYAN|ARROYO CLARO -", redRiego$denominacion,ignore.case = TRUE), 2,
+  # Diq. Valle de Uco
+  ifelse(grepl("CANAL UCO|CANAL DE UCO|MELOCOTON|RAMA QUIROGA|ELVIRA BUSTOS|MARGEN DERECHA|MATRIZ VALLE DE UCO|CONSULTA|CAPACHO|CANAL CAÐADA DE LAS ROSAS|DESAGÜES PREDIOS PARTICULARES DE SAN CARLOS|PEÐALOZA|CANAL MANZANO|MANZANO|CANAL VISTA FLORES|CANAL RINCON|RINCÓN|ARROYO CLARO", redRiego$denominacion,ignore.case = TRUE), 3,
+  # Yaucha - Aguanda
+  ifelse(grepl("MATRIZ YAUCHA|MATRIZ AGUANDA|YAUCHA|AGUANDA|CANAL MATRIZ YAUCHA|ARROYO LA SALAMANCA", redRiego$denominacion,ignore.case = TRUE), 4,
+  ifelse(grepl("RIO MENDOZA",redRiego$subdelegacion,ignore.case = TRUE),5,
+  ifelse(grepl("RIO TUNUYAN INFERIOR",redRiego$subdelegacion,ignore.case = TRUE),6,
+  ifelse(grepl("RIO MALARGUE",redRiego$subdelegacion,ignore.case = TRUE),7,
+  ifelse(grepl("RIO DIAMANTE",redRiego$subdelegacion,ignore.case = TRUE),8,
+  ifelse(grepl("RIO ATUEL",redRiego$subdelegacion,ignore.case = TRUE),9,
+          999)))))))))
+
+redRiego$subSist <- factor(redRiego$subSist, levels = c(1:9,999),
+  labels = c('Las Tunas','Arroyo Grande','Diq. Valle de Uco','Yaucha-Aguanda','Mendoza','T.Inferior','Malargue','Diamante','Atuel','otro'))
+
 # Suma los metros por categoria y material de acuerdo al código de cauce. 3033 observations
 redRiegoLong <- redRiego %>% #filter(long_m!=0) %>%  # filtra los valores mapeados con long_metros ==0
- group_by(CodigoCauce,id_cat,id_mat,subdel,codigo) %>% summarise_at(c("long_m"), sum, na.rm = TRUE) #%>%
+ group_by(CodigoCauce,id_cat,id_mat,subdel,subSist,codigo,denominacion) %>% summarise_at(c("long_m"), sum, na.rm = TRUE) #%>%
 #write_csv(redRiegoLong, 'DgiData/redRiegoLong.csv', na = "NA", append = FALSE, quote_escape = "double")
 glimpse(redRiegoLong)
 
 # Tabla x categoría (2471 observaciones no negativas)
 redRiegoCat <- spread(redRiegoLong, key= 'id_cat', long_m)
 redRiegoCat <- redRiegoCat %>% 
-  select(CodigoCauce,codigo,subdel,id_mat,CANAL,HIJUELA,`PUENTE CANAL`,RAMA,SIFON,`LINEA AUXILIAR`, PROYECTADO,everything()) %>%
+  select(CodigoCauce,codigo,subdel,subSist,id_mat,Canal,Hijuela,`Puente Canal`,Rama,Sifon,`Linea Auxiliar`, Proyectado,everything()) %>%
   relocate(geometry, .after = last_col())
 
 redRiegoCat %>% filter(subdel=='Rio Tunuyan Superior')
@@ -1087,15 +1148,20 @@ summary(redRiegoCat$id_mat)
 # Tabla x material
 redRiegoMat <- spread(redRiegoLong, key= 'id_mat', long_m)                        
 redRiegoMat <- redRiegoMat %>% 
-  select(CodigoCauce,codigo,subdel,id_cat,Tierra,Hormigon,Entubado,PVC,Chapa,`Sin dato`,geometry) 
+  select(CodigoCauce,codigo,subdel,subSist,id_cat,Tierra,Hormigon,Entubado,PVC,Chapa,`Sin dato`,geometry) 
 
-redMaterial <- redRiegoMat %>% group_by(CodigoCauce, subdel) %>%
+redMaterial <- redRiegoMat %>% group_by(CodigoCauce, subdel,subSist) %>%
                 summarize_if(is.numeric, sum, na.rm=T)
 
 redMaterial %>% filter(subdel=='Rio Tunuyan Superior')
 
 redSub <- redRiegoMat %>% group_by(subdel) %>%
           summarize_if(is.numeric, sum, na.rm=T)
+
+redsubSist <- redRiegoMat %>% filter(subdel=='Rio Tunuyan Superior') %>%
+  group_by(subSist) %>%
+  summarize_if(is.numeric, sum, na.rm=T)
+redsubSist <- redsubSist %>% select(everything(),-codigo)
 
 redMaterialSub <- as.data.frame(redRiegoMat) 
 redMaterialSub <- redMaterialSub %>% select(subdel,Tierra,Hormigon,Entubado,PVC,Chapa,`Sin dato`) %>% 
@@ -1153,18 +1219,25 @@ redtotaltipo %>%
   row.names = F, booktabs = TRUE, col.names = c("Subdelegacion","Tierra",'Hormigon','Entubado','PVC','Chapa','Sin dato','Total','% total'),linesep = "") %>%
   kable_styling(latex_options = c("HOLD_position"), position = "center", full_width = FALSE, font_size=10) %>%
   #collapse_rows(columns = 7, latex_hline = "custom") %>%
-  footnote( general = "Elab. propia en base a DGI (2018, 2020)", general_title = "Fuente: ", title_format = "italic", #Datos de caudal del Río Mendoza extrapolados
+  footnote( general = "Elab. propia en base a DGI (2018, 2020).", general_title = "Fuente: ", title_format = "italic", #Datos de caudal del Río Mendoza extrapolados
  footnote_as_chunk=TRUE, escape=FALSE,threeparttable = T)
 
+## @knitr redMaterialSubSistema
+options(digits = 1, scipen=999)
+redMaterialSubSistema <- as.data.frame(redsubSist) %>% select(everything(),-geometry)
+redMaterialSubSistema %>%
+  kable("latex", caption = "\\label{rmss}Condiciones sub-sistemas de riego (metros)", align = c("l", rep("r", 8)),
+        row.names = F, booktabs = TRUE, col.names = c("Subsistema","Tierra",'Hormigon','Entubado','PVC','Chapa','Sin dato'),linesep = "") %>%
+  kable_styling(latex_options = c("HOLD_position"), position = "center", full_width = FALSE, font_size=10) %>%
+  #collapse_rows(columns = 7, latex_hline = "custom") %>%
+  footnote( general = "Elab. propia en base a DGI (2018, 2020)", general_title = "Fuente: ", title_format = "italic", #Datos de caudal del Río Mendoza extrapolados
+            footnote_as_chunk=TRUE, escape=FALSE,threeparttable = T)
 
 ## @knitr figPrelim
 rios    <- st_read("/Users/SebastianRiera/Downloads/cursos_de_agua/cursos_de_agua.shp")
 
-#ggplot() + geom_sf(data= redRiegoCat[ redRiegoCat$subdel=="Rio Tunuyan Superior",], aes(geometry= geometry,colour= id_mat, fill=id_mat)) + theme_bw() + theme(legend.position = c(.2,.2), axis.title = element_text(size = 8), legend.title = element_blank(), legend.text = element_text(size = 8)) 
-  #geom_sf(xlim = c(-69.38967,-69.0033), ylim = c(-33.60634,-33.4156), expand = FALSE) +
-  #ggsave('figure/tsMat.pdf', height=5, width = 5, units = 'in')
-#filter(FNA== 'RÃ­o De Las Tunas' | FNA=='RÃ­o Tupungato' | FNA=='RÃ­o TunuyÃ¡n'  | FNA=='RÃ­o Anchayuyo') %>%
-#rios %>% select(FNA,geometry) %>%  ggplot() + geom_sf(aes(geometry=geometry)) + xlim(-70,-68.7) + ylim(-34.2,-33)
+#riosLong <- rios %>% select(FNA,HYP,geometry) %>% group_by(FNA) 
+#riosLong %>% select(FNA,geometry) %>%  ggplot() + geom_sf(aes(geometry=geometry)) + xlim(-70,-68.7) + ylim(-34.2,-33)
 
 ## Make sure they have the same projection
 redRiegoCat <- st_transform(redRiegoCat, crs = st_crs(cuenca))
@@ -1172,7 +1245,7 @@ redRiegoCat <- st_transform(redRiegoCat, crs = st_crs(cuenca))
 
 ggplot() + 
   geom_sf(data = cuenca[ cuenca$CUENCA=="RÃ­o TunuyÃ¡n Superior",], alpha = 0.8, fill = "black", col = "gray10") + 
-  geom_sf(data=rios, alpha=.3,fill = "#05E9FF",col = "#05E9FF", lwd=0.7) +
+  geom_sf(data=rios, alpha=.3,fill = "#05E9FF",col = "white", lwd=0.7) +
   geom_sf(data = redRiego[ redRiego$subdel=="Rio Tunuyan Superior",], aes(fill=id_mat, colour=id_mat)) + 
   scale_fill_brewer(palette = "Accent") +
   geom_sf(data = cuenca[ cuenca$CUENCA!="RÃ­o TunuyÃ¡n Superior",], alpha = 1, fill = "white",col='white') +
@@ -1188,43 +1261,87 @@ ggsave('figure/tunsup.pdf', height = 5, width = 4, units = 'in')
 
 # Sub-sistemas ----
 
-redRiego$subSist <- as.character(redRiego$denominaci)
-redRiego$subSist <- ifelse(grepl("Anchayuyo | Las Tunas | Gualtallary | Arroyo Villegas | Canal Esquina | Canal Ancon | Ancon | Esquina | ANCHAYUYO | LAS TUNAS | GUALTALLARY | ARROYO VILLEGAS | CANAL ESQUINA | CANAL ANCON | ANCON | ESQUINA", redRiego$subSist), 1,
-  ifelse(grepl("Arroyo Grande | Salas Caroca | Canal Manzano | Manzano | Vista flores | Canal Rincon | Rincón | ARROYO GRANDE | SALAS CAROCA | CANAL MANZANO | MANZANO | VISTA FLORES | CANAL RINCON | RINCÓN", redRiego$subSist), 2,
-  ifelse(grepl("Canal Uco | Canal de Uco | Rama Quiroga | Elvira Bustos | Margen Derecha | Matriz Valle de Uco | Consulta | Capacho | Arroyo Claro | Matriz Sur | CANAL UCO | CANAL DE UCO | RAMA QUIROGA | ELVIRA BUSTOS | MARGEN DERECHA | MATRIZ VALLE DE UCO | CONSULTA | CAPACHO | ARROYO CLARO | MATRIZ SUR", redRiego$subSist), 3,
-  ifelse(grepl("Matriz Yaucha | Matriz Aguanda | Yaucha | Aguanda | MATRIZ YAUCHA | MATRIZ AGUANDA | YAUCHA | AGUANDA", redRiego$subSist), 4,9))))
+## @knitr subSistemas
+ptosMapa <- rbind(`Dique Valle de Uco`= c(-33.759477, -69.212469),
+                  `Dique Las Tunas`= c(-33.375452, -69.373016))
+colnames(ptosMapa) <- c('latitud', 'longitud')
 
-redRiego$subSist <- factor(redRiego$subSist, levels = c(1:4,9),
-  labels = c('Las Tunas','Arroyo Grande','Valle de Uco','Yaucha-Aguanda','otro'))
 
 # Gráfico con los subsistemas
-redRiego %>% select(subdel,CodigoCauce, subSist, denominaci,id_mat) %>%
-  filter(subdel=='Rio Tunuyan Superior' & subSist=='otro') %>%
+redRiego %>% select(subdel,CodigoCauce, subSist, denominacion,id_mat) %>%
+  filter(subdel=='Rio Tunuyan Superior' & subSist!='otro') %>%
   ggplot() + geom_sf(data = cuenca[ cuenca$CUENCA=="RÃ­o TunuyÃ¡n Superior",], alpha = 0.8, fill = "black", col = "gray10") + 
-  geom_sf(aes(fill= subSist,colour=subSist ))
-  #summarise(subSist)
+  geom_sf(aes(fill= subSist,colour=subSist )) + 
+  geom_sf(data=rios, alpha=.3,fill = "#05E9FF",col = "white", lwd=0.7) + xlim(-69.6,-68.82) + ylim(-34.3,-33.1) +
+  theme_bw() + theme(legend.position = 'bottom',legend.title = element_blank()) +
+  guides(fill = guide_legend(ncol = 2))
 ggsave('figure/tsSubsist.pdf', height = 5, width = 4, units = 'in')
 
+## @knitr subsist_control
 # Gráfico control subsistemas
-redRiego %>% select(subdel,CodigoCauce, subSist, denominaci,id_mat) %>%
-  filter(subdel=='Rio Tunuyan Superior' & subSist=='otro') %>%
+redRiego %>% select(subdel,CodigoCauce, subSist, denominacion,id_mat) %>%
+  filter(subdel=='Rio Tunuyan Superior' & grepl('claro',denominacion,ignore.case = TRUE)) %>% # & subSist=='otro') %>%
   ggplot() + geom_sf(data = cuenca[ cuenca$CUENCA=="RÃ­o TunuyÃ¡n Superior",], alpha = 0.8, fill = "black", col = "gray10") + 
-  geom_sf(aes(fill= CodigoCauce,colour=CodigoCauce ))
-ggsave('figure/tsSubsist.pdf', height = 5, width = 4, units = 'in')
+  geom_sf(aes(fill= subSist,colour=subSist )) + theme(legend.position = 'bottom',legend.title = element_blank())
+#  geom_sf(aes(fill= CodigoCauce,colour=CodigoCauce ))
+#ggsave('figure/tsSubsist2bf.pdf', height = , width = 5, units = 'in')
 #summarise(subSist)
 
-  
-redMaterial %>% 
-  filter(subdel=='Rio Tunuyan Superior' & (codigo==5023 | (codigo >=5738 & codigo<=5740) | (codigo >=5742 & codigo<=5748))) %>% 
-  # & codigo==9762) %>%# Rincon
-  #(codigo>=5725 & codigo <= 5734) | codigo==5751 | codigo==5753 | codigo==5755 | codigo==5756) %>% # Arroyo Claro
-  ggplot() + geom_sf(data = cuenca[ cuenca$CUENCA=="RÃ­o TunuyÃ¡n Superior",], alpha = 0.8, fill = "black", col = "gray10") + 
-  geom_sf(aes(fill= CodigoCauce,colour=CodigoCauce ))
 
 # Arranging Data ----
 
 
+## @knitr ahorroSist2
+redCodigo <- redRiegoCat %>% #filter(subdel=='Rio Tunuyan Superior') %>%
+  group_by(codigo,subdel,subSist,CodigoCauce) %>%
+  summarize_if(is.numeric, sum, na.rm=T) #%>% arrange(CodigoCauce)
+
+tsMaterial <- redRiegoMat %>% select(CodigoCauce,subdel,subSist,Tierra:`Sin dato`) %>%
+  filter(subdel=='Rio Tunuyan Superior') %>%
+  group_by(CodigoCauce,subSist) %>%
+  summarize_if(is.numeric, sum, na.rm=T) %>% arrange(CodigoCauce)
+
+redCodigo$CodigoCauce <- as.numeric(as.character(redCodigo$CodigoCauce))
+
+arrange(OfertaSup,CodigoCauce)
+
+# unir datos geoespaciales con estimaciones económicas
+OfertaSup <- merge(x= OfertaSup, 
+    y= redCodigo[redCodigo$subdel=='Rio Tunuyan Superior',c("CodigoCauce","subSist","Canal","Hijuela","Arroyo","Rama","Ramo","Rio")], 
+    by = c('CodigoCauce'), all.x = TRUE)
+OfertaSup <- merge(x= OfertaSup, 
+    y= tsMaterial[,c("CodigoCauce","Tierra","Hormigon","Entubado","PVC","Chapa","Sin dato")], 
+    by = c('CodigoCauce'), all.x = TRUE)
+
+OfertaSup$totalMat  <- rowSums(OfertaSup[,23:28], na.rm = T)
+OfertaSup$totalTipo <- rowSums(OfertaSup[,16:21], na.rm = T)
+OfertaSup <- OfertaSup[,c(1:28,30:31)]
+colnames(OfertaSup)[22] <- 'geometry'
+
+arrange(OfertaSup,valuePerdBis)
+ahorroSist <- ggplot(OfertaSup) +
+  geom_step(aes(y= valuePerdBis, x=AAcum),color = "#0073D9", size = 1) + 
+  geom_text(aes(y= valuePerdBis, x=AAcum, label = Obra, angle=0), # , sprintf('\u2191') # trying to add an arrow
+            vjust=3, hjust=.2, size=3, check_overlap = T, inherit.aes = T,nudge_x = -10, nudge_y = -10) +
+  scale_x_continuous(breaks= round(OfertaSup$AAcum, digits = 0)) #+ #c(2,4,6,8,10,12,14) ) + # OfertaSup$AhAcum
+
+## @knitr ahorroSist
+ahorroSist + theme(axis.text.x = element_text(size = 8, angle=75, vjust = .4), 
+  axis.text.y = element_text(size = 8),
+  panel.background = element_rect(fill = "white"), 
+  axis.title = element_text(size = 9)) + #  scale_y_continuous(breaks = c(seq(0,80,5))) + 
+  theme(axis.line = element_line(colour = "grey50")) +
+  #geom_text(nudge_x = -.1, nudge_y = 0.2) +
+  xlab("metros cúbicos anuales") + ylab("Dólares por m3 anual ahorrado") + 
+  facet_wrap(~subSist, nrow = 4)
+ggsave('DgiData/Graphs/ofertaSist.png', height = 4, width = 12)
+
+
+
+
 ## @knitr GraphStuff
+
+OfertaSup %>% select(subSist,CodigoCauce,AAcum, valuePerdBis) %>% summarise(valuePerdBis,subSist)
 
 # Red por denominación. (para ubicar zonas)
 redRiego %>% filter(subdel=="Rio Tunuyan Superior") %>%

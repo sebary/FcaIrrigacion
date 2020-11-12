@@ -211,8 +211,11 @@ Obteniendo un cálculo referencial de costo en dólares por metro cúbico ($USD/
 
 La información disponible en el servidor de mapas IDE [@DGI2018] indica que el sistema de riego relevado de la provincia asciende a 
 `r format(as.numeric(round(redtotaltip[7,7]/1000,1)), big.mark = ".", decimal.mark = ",")` km.
-Dentro del sistema de conducción, la mayor proporción del total relevado corresponde a trazado sobre tierra ().
-Seguido por
+Dentro del sistema de conducción, la mayor proporción del total relevado corresponde a trazado sobre tierra (
+`r paste(round(redtotaltip[8,1],1),'%')`
+).
+Seguido por datos que resta validar (
+`r paste(round(redtotaltip[8,6],1),'%')`) y hormigón (`r paste(round(redtotaltip[8,2],1),'%')`)
 Los valores que se exponen en la tabla \label{redMaterial} fueron obtenidos del servidor de mapas IDE [@DGI2018] y procesados de acuerdo a las características disponibles.
 
 
@@ -344,24 +347,14 @@ El área irrigada en $m^2$ es el valor de $\omega$.
 ```{r SupCaudales, results='asis'}
 ```
 
-<!--
-
-```{r figPrelim, results='hide'}
-
-```
-
--->
-
-\begin{wrapfigure}{l}{0.5\textwidth}
-  \begin{center}
-    \includegraphics[width=0.6\textwidth]{figure/tunsup.pdf}
-  \end{center} 
+\begin{wrapfigure}{l}{0.4\textwidth}
+    \includegraphics[width=0.4\textwidth]{figure/tunsup.pdf}
 \end{wrapfigure}
+
 
 Si bien las curvas de ahorro de agua por menor filtración parecen similares,
 existe una diferencia en el valor medio entre ambas metodologías.
-El enfoque de pérdidas en la eficiencia de conducción, el precio medio por $USD/m^3$ es
-`r round(mean(Superior$valuePerdBis, na.rm=T), digits=2)`.
+El enfoque de pérdidas en la eficiencia de conducción, el precio medio por $USD/m^3$ es `r round(mean(Superior$valuePerdBis, na.rm=T), digits=2)` y el precio con mayor frecuencia (mediana) es USD `r round(median(Superior$valuePerdBis, na.rm=T), digits=2)` por $m^3$ de agua ahorrada.
 
 
 En términos generales el enfoque de eficiencias de conducción es superador ya que discrimina entre los distintos tipos de cauces revestidos ($j$), asignando el valor de $EfC_{j}$ según el estudio de eficiencias en la conducción para la subdelegación del río Tunuyán Superior.
@@ -378,6 +371,21 @@ este cálculo generaliza los valores de $EfC_{j}$ posiblemente subestimando el d
 
 
 ```{r SupTable, results='asis'}
+```
+
+```{r redMaterialSubSistema, results='asis'}
+```
+
+```{r figPrelim,results='hide'}
+```
+
+```{r subSistemas, results='asis'}
+```
+
+```{r ahorroSist2, results='hide'}
+```
+
+```{r ahorroSist, results='asis'}
 ```
 
 \newpage
