@@ -93,6 +93,8 @@ SetUp2
 ```{r MendozaPlots, results='hide'}
 ```
 
+```{r spdataLoad, results='hide',warning=FALSE}
+```
 
 \pagestyle{fancy}
 \fancyhead[RE,LO]{Riera, Pinto y Filippini}
@@ -203,6 +205,9 @@ La inversión en infraestructura y beneficio de la ejecución se interpreta como
 
 El cálculo de inversión por metro cúbico adicional ($m^3$) se realiza contemplando las estimaciones de necesidades de infraestructura y diseño de obras futuras, cómo así también realizadas en un período de 5 años.
 Obteniendo un cálculo referencial de costo en dólares por metro cúbico ($USD/m^3$).
+
+```{r redMaterialSub, results='asis'}
+```
 
 ## \textbf{Metodología}
 \vspace{-.1cm}
@@ -332,6 +337,15 @@ El área irrigada en $m^2$ es el valor de $\omega$.
 ```{r SupCaudales, results='asis'}
 ```
 
+```{r figPrelim, results='hide'}
+```
+
+
+\begin{wrapfigure}{l}{0.5\textwidth}
+  \begin{center}
+    \includegraphics[width=0.48\textwidth]{figure/tunsup.pdf}
+  \end{center} 
+\end{wrapfigure}
 
 Si bien las curvas de ahorro de agua por menor filtración parecen similares,
 existe una diferencia en el valor medio entre ambas metodologías.

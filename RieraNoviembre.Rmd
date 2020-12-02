@@ -1,18 +1,7 @@
 ---
 title: "Avances del proyecto de investigación: propuestas para revisión del Fondo Potrerillos y posibles extensiones"
-author: 
-#- name: Sebastián Riera
-#  email: sebary@gmail.com
-#  affiliation: FcaUncuyo
-#  footnote: Corresponding Author
-#- name: Alejandro J. Gennari
-#  email: ajgennari@hotmail.com
-#  affiliation: FcaUncuyo
 address: Departmento de Economía y Política Agraria. Facultad de Ciencias Agrarias. Universidad Nacional de Cuyo
-#  - code: FcaUncuyo
-#    address: Departmento de Economía y Política Agraria. Facultad de Ciencias Agrarias. Universidad Nacional de Cuyo
-#abstract: 
-#date:  "`r format(Sys.time(), '%d %B, %Y')`"
+date:  "`r format(Sys.time(), '%d %B, %Y')`"
 documentclass: elsarticle
 bibliography: FcaIrrigacion.bib
 output: # rticles::elsevier_article
@@ -53,14 +42,18 @@ header-includes:
 - \usepackage{makecell}
 - \usepackage{caption} # to facilitate a linebrake within tables
 - \captionsetup{font=normalsize,labelfont=normalsize} # [figure]
+#- \usepackage[default]{sourcesanspro}
+#mainfont: SourceSansPro
+#- \usepackage{fontspec}
+#- \setmainfont{Museo}
 ---
 
 ```{r setup2, include=FALSE, results='hide'}
 knitr::read_chunk("RegulatoryEffort.R")
 knitr::opts_chunk$set(fig.cap="",fig.pos="h", warning= FALSE, cache = FALSE, message = FALSE, echo = FALSE,comment = NA, prompt = FALSE, results = 'asis')
 options(scipen=999) # disable scientific notation
-#options(tinytex.verbose = TRUE) #Debugging control
 ```
+
 
 ```{r SetUp2, include=FALSE, results='hide'}
 SetUp2
@@ -93,7 +86,32 @@ SetUp2
 ```{r MendozaPlots, results='hide'}
 ```
 
+```{r DataObrasFull, results='hide'}
+```
+
 ```{r spdataLoad, results='hide',warning=FALSE}
+```
+
+```{r SupEf, results='hide'}
+```
+
+```{r SuperiorPlots, results='hide'}
+```
+
+```{r ahorroSist2, results='hide'}
+```
+
+```{r InfEf, results='hide'}
+```
+
+```{r InferiorTable, results='hide'}
+```
+
+```{r InferiorPlots, results='hide'}
+```
+
+```{r settty}
+options(digits=5)
 ```
 
 \pagestyle{fancy}
@@ -106,6 +124,28 @@ SetUp2
 \begin{center} Dr. Sebastián Riera, Dr. Mauricio Pinto, Dra. Flavia Filippini
 \end{center}
 
+# Resumen ejecutivo
+
+- Las obras de infraestructura de impermeabilización de canales se traducen a una disminución en las pérdidas por filtración en el trazado del sistema hídrico provincial.
+
+- Se postulan dos enfoques de valorización del incremento en la eficiencia de conducción en cada cauce ($EfC_i$): eficiencia de conducción por kilómetro de la unidad de manejo (enfoque de pérdidas) y ganancia relativa de la eficiencia con respecto al estado de infraestructura (diferencias en eficiencia de conducción). El primero es más abarcativo por la información requerida pero menos detallista. El último es más exacto pero requiere información específica del aforo de los cauces. 
+
+- Río Mendoza (2017-2020): el precio medio por USD/$m^3$ 0.857 es similar en ambos enfoques 
+. El valor que se obtiene con mayor frecuencia es USD/$m^3$ `r round(median(!is.na(Mendoza$valuePerdBis)), digits=4)`.
+
+- Rio Tunuyán Superior (`r min(Superior$Ano)`-`r max(Superior$Ano)`): el precio medio por USD/$m^3$ 0.952 y el valor con mayor frecuencia es USD/$m^3$ `r round(median(!is.na(Superior$valuePerdBis)), digits=4)`
+
+  - Se avanza en el cálculo para toda la cuenca pero discriminando en cuatro (4) subsistemas:      
+     - Las Tunas
+     - Arroyo Grande
+     - Dique Valle de Uco
+     - Yaucha-Aguanda
+
+- Río Tunuyán Inferior (`r min(Inferior$Ano)`-`r max(Inferior$Ano)`): el precio medio por USD/$m^3$ `r round(mean(!is.na(Inferior$valuePerdBis),na.rm=T), digits=4)`
+
+- Ganancia en eficiencia de conducción varía entre 10-22% en las cuencas según los análisis actuales. Será importante revisar y ajustar los valores de caudales y eficiencias para concluir el trabajo desde la perspectiva económica
+
+\newpage
 
 # Resumen 
 
@@ -129,7 +169,7 @@ Sin embargo, es deseable considerar _herramientas integrales_ desde el punto de 
 Entre los objetivos del presente proyecto, se destaca la estimación del costo de ahorro de agua por la inversión en infraestructura de riego, validado considerando las demandas específicas del recurso hídrico por zona de análisis.
 De esta forma, se logra una estimación del rango de valores aceptables de acuerdo a las características productivas, usos del suelo y sistemas de riego asociados.
 
-## \textbf{Aspectos económicos}
+## Aspectos económicos
 
 Desde la perspectiva económica se propone identificar los efectos y mejorar la estimación de los resultados productivos y de gobernanza del agua. 
 Idealmente, desde la perspectiva económica, la valorización del recurso debería reflejar los costos financieros de la infraestructura de riego, los costos ambientales por afectar los ecosistemas y los sociales ante una eventual pérdida de bienestar [@Mysiak2015].
@@ -163,7 +203,7 @@ La correcta estimación, aplicación e interpretación del mismo da lugar al sus
 Los incrementos reales de disponibilidad de agua para riego requiere una inversión en infraestructura cuya valoración se detalla a continuación.
 
 
-## \textbf{Estimación de la oferta hídrica adicional}
+## Estimación de la oferta hídrica adicional
 
 Considerando el promedio de años de escasez, se inicia la traza de la curva de oferta de agua $\mathbb{A}_i^O$ específica para una región de análisis ($i$).
 El análisis de las inversiones recientes y la estimación de las inversiones necesarias se ordenan en la curva de oferta de acuerdo a la priorización de obras de infraestructura y el volumen adicional de agua para riego ahorrado.
@@ -176,7 +216,7 @@ El análisis de las inversiones recientes y la estimación de las inversiones ne
 donde $\bar{\mathbb{A}}^O$ es el promedio de agua entregada por el sistema durante los años de escasez,
 $N_i$ es el volumen de nieve,
 $I_i$ representa las inversiones realizadas en infraestructura con el fin de aumentar la oferta hídrica,
-$m_i^3$ son los metros cúbicos _adicionales_ o _ahorrados_ por la ejecución de las obras,
+m$_i^3$ son los metros cúbicos _adicionales_ o _ahorrados_ por la ejecución de las obras,
 $OF_i$ representan otros factores relevantes pero no contemplados hasta el momento.
 La inversión en infraestructura y beneficio de la ejecución se interpreta como extensión de la oferta de agua para riego con pendiente positiva en relación al costo asociado.
 
@@ -203,23 +243,22 @@ La inversión en infraestructura y beneficio de la ejecución se interpreta como
 \end{center}
 \end{figure}
 
-El cálculo de inversión por metro cúbico adicional ($m^3$) se realiza contemplando las estimaciones de necesidades de infraestructura y diseño de obras futuras, cómo así también realizadas en un período de 5 años.
-Obteniendo un cálculo referencial de costo en dólares por metro cúbico ($USD/m^3$).
+El cálculo de inversión por metro cúbico adicional (m$^3$) se realiza contemplando las estimaciones de necesidades de infraestructura y diseño de obras futuras, cómo así también realizadas en un período de 5 años.
+Obteniendo un cálculo referencial de costo en dólares por metro cúbico (USD/$m^3$).
 
 ```{r redMaterialSub, results='asis'}
 ```
 
 La información disponible en el servidor de mapas IDE [@DGI2018] indica que el sistema de riego relevado de la provincia asciende a 
 `r format(as.numeric(round(redtotaltip[7,7]/1000,1)), big.mark = ".", decimal.mark = ",")` km.
-Dentro del sistema de conducción, la mayor proporción del total relevado corresponde a trazado sobre tierra (
-`r paste(round(redtotaltip[8,1],1),'%')`
-).
-Seguido por datos que resta validar (
-`r paste(round(redtotaltip[8,6],1),'%')`) y hormigón (`r paste(round(redtotaltip[8,2],1),'%')`)
+Dentro del sistema de conducción, la mayor proporción del total relevado corresponde a trazado sobre tierra (`r paste(round(redtotaltip[8,1],1),'%')`).
+Seguido por datos que resta validar 
+(`r paste(round(redtotaltip[8,6],1),'%')`) y hormigón 
+(`r paste(round(redtotaltip[8,2],1),'%')`)
 Los valores que se exponen en la tabla \label{redMaterial} fueron obtenidos del servidor de mapas IDE [@DGI2018] y procesados de acuerdo a las características disponibles.
 
 
-## \textbf{Metodología}
+## Metodología
 \vspace{-.1cm}
 
 Considerando las inversiones en infraestructura de riego estrictamente en revestimiento e impermeabilización de canales de los años 2017-2019, 
@@ -231,10 +270,10 @@ Respecto a las eficiencias de riego, @Bos1990 aclara que la eficiencia de conduc
 
 La eficiencia de distribución ($EfD$) es la eficiencia de los canales y conductos de distribución de agua que suministran agua desde la red de transporte a campos individuales.
 Por último, la eficiencia de aplicación ($EfA$) es la relación entre la dotación de agua en la entrada a la finca campo y la cantidad de agua necesaria y disponible para la evapotranspiración del cultivo, con el fin de evitar el estrés hídrico del cultivo en todo el ciclo de crecimiento [@Bos1990; @Morabito2005].
-El caudal medio ($m^3/año$) según el balance hídrico se ve mejorado por menores pérdidas en la distribución del agua como consecuencia de la ejecución de obras.
+El caudal medio (m$^3$/año) según el balance hídrico se ve mejorado por menores pérdidas en la distribución del agua como consecuencia de la ejecución de obras.
 Es posible interpretar esta disminución de las pérdidas por infiltración como una mejora en la conducción que posibilita el _ahorro de agua_ a estimar considerando los metros de canal revestido, los porcentajes de pérdida por unidad de manejo y la valoración de la eficiencia en la conducción.
 La información de pérdida por infiltración puede ser calculada en base a mediciones _in situ_ como aforos o también a través del _Criterio de Moritz_[^1],
-el cual considera las características del terreno, altura del canal y área irrigada para estimar la pérdida en $m^3/seg$ en la longitud del cauce.
+el cual considera las características del terreno, altura del canal y área irrigada para estimar la pérdida en m$^3$/seg en la longitud del cauce.
 El ahorro de agua se calcula siguiendo la siguiente fórmula[^2],
 
 \vspace{-.5cm}
@@ -242,23 +281,20 @@ El ahorro de agua se calcula siguiendo la siguiente fórmula[^2],
 \mathbb{A}_i^{O} = \sum_{j=1}^{n} \Delta metros \times Q_{m^{3}/año} \times \Delta pérdida
 \end{equation}
 
-El punto de partida tiene dos fuentes principales: una estrictamente referida al estado de la infraestructura existente y otra relacionada con las inversiones realizadas.
-La primera incluye los relevamientos y estimaciones más actualizadas de condiciones de la red de riego en términos de superficie impermeabilizada y distribución.
+El punto de partida de análisis se sustenta en dos pilares de información: el estado de la infraestructura y las inversiones realizadas.
+La primera incluye los relevamientos y estimaciones más actualizadas de condiciones de la red de riego en términos de superficie impermeabilizada y la distribución del recurso.
 En particular, se obtuvieron datos de medicion de caudales en redes e hijuelas discriminando si se encuentran revestidos; 
 lás pérdidas del sistema son estimadas en base a la eficiencia en la conducción de los cauces.
-La misma permite la estimación de la disminución de la pérdida por infiltración debido a la ejecución de obras de infraestructura acompañando de información monetaria para la valorización económica del recurso.
-La segunda fuente de información son las inversiones en revestimiento de cauces otorgada por el DGI, donde se discriminaron las obras de revestimiento en las subdelegaciones correspondientes y se asignaron los valores de eficiencia de conducción según la información recibida y, de acuerdo a los códigos de cauce [@DGI2004].
-Cuando no hay registro de aforo en el cauce revestido, se aplica el valor de $EfC$ de la Unidad de Manejo (UM) estimado.
-
-
-```{r DataObrasFull, results='hide'}
-```
+La misma permite la estimación de la disminución de la pérdida por infiltración debido a la ejecución de obras de infraestructura acompañando de información monetaria para la valorización económica.
+La segunda fuente de información son las inversiones en revestimiento de cauces otorgada por el DGI, donde se discriminaron las obras de revestimiento en las subdelegaciones correspondientes y se asignaron los valores de eficiencia de conducción según la información recibida. 
+La vinculación de los datos se realizó utilizando los códigos de cauce [@DGI2004].
+Cuando no hay registro de aforo en el cauce revestido, se reemplaza el valor de $EfC$ por el correspondiente al estimado para la Unidad de Manejo (UM).
 
 ```{r SumFull}
 ```
 
 
-# \textbf{Subdelegación Mendoza}
+# Subdelegación Mendoza
 \vspace{-.2cm}
 
 El ahorro de agua del año $i$ ($\mathbb{A}_i^O$) equivale a la disminución de las pérdidas por infiltración por las obras de infraestructura. 
@@ -280,11 +316,12 @@ En el caso del Río Mendoza, desde 2017 se revistieron
 -->
 
 ```{r AhorroMza, results='asis',fig.show='hold', fig.height=4.5, fig.width=11, fig.cap="\\label{AhorroMza}Curva de ahorro de agua enfoque eficiencia de conducción",out.extra="", fig.align='center'}
+options(digits = 3)
 ```
 
 Si bien las curvas de ahorro de agua por menor filtración parecen similares,
 existe una diferencia en el valor medio entre ambas metodologías.
-El enfoque de ahorro de agua por diferencias en la eficiencia de conducción, el precio medio por $USD/m^3$ es
+El enfoque de ahorro de agua por diferencias en la eficiencia de conducción, el precio medio por USD/$m^3$ es
 `r round(mean(!is.na(Mendoza$valueEfBis),na.rm=T), digits=3)`;
 mientras que el precio medio en el enfoque de pérdidas asciende a
 `r round(mean(!is.na(Mendoza$valuePerdBis)), digits=3)`.
@@ -328,39 +365,30 @@ Según la información disponible, el mínimo de inversión necesaria para dismi
 
 [^1]: Pérdida por infiltración se calcula con la siguiente fórmula: $F_{m^3/s/km} = \frac{0.018 \times C \times B \times \sqrt{h}}{{\sqrt[4]{\omega}}}$, donde $C$ indica el tipo de terreno y adquiere valores entre 0.30 y 0.49.
 $B$ representa el ancho superficial del canal y $h$ la altura. 
-El área irrigada en $m^2$ es el valor de $\omega$.
+El área irrigada en m$^2$ es el valor de $\omega$.
 \vspace{.1cm}
 
 [^2]: La estimación de la disminución del agua pérdida se realiza considerando las diferencias en la eficiencia de conducción anterior y posterior al relevamiento. Se toma como base los valores de los estudios de aforo y eficiencia en conducción ordenados en la siguiente fórmula: $\Delta Pérdida = \frac{EfC_{1} - EfC_{0}}{distancia \: media}$
 
-# \textbf{Subdelegación Tunuyán Superior}
-
-```{r SupEf, results='hide'}
-```
-
-```{r SuperiorTable, results='hide'}
-```
-
-```{r SuperiorPlots, results='hide'}
-```
+# Subdelegación Tunuyán Superior
 
 ```{r SupCaudales, results='asis'}
 ```
 
-\begin{wrapfigure}{l}{0.4\textwidth}
-    \includegraphics[width=0.4\textwidth]{figure/tunsup.pdf}
+\begin{wrapfigure}{c}{0.4\textwidth}
+    \includegraphics[width=.5\textwidth]{figure/tsSubsist.pdf}
 \end{wrapfigure}
 
 
 Si bien las curvas de ahorro de agua por menor filtración parecen similares,
 existe una diferencia en el valor medio entre ambas metodologías.
-El enfoque de pérdidas en la eficiencia de conducción, el precio medio por $USD/m^3$ es `r round(mean(Superior$valuePerdBis, na.rm=T), digits=2)` y el precio con mayor frecuencia (mediana) es USD `r round(median(Superior$valuePerdBis, na.rm=T), digits=2)` por $m^3$ de agua ahorrada.
+El enfoque de pérdidas en la eficiencia de conducción, el precio medio por USD/$m^3$ es `r round(mean(Superior$valuePerdBis, na.rm=T), digits=2)` y el precio con mayor frecuencia (mediana) es USD `r round(median(Superior$valuePerdBis, na.rm=T), digits=2)` por m$^3$ de agua ahorrada.
 
 
-En términos generales el enfoque de eficiencias de conducción es superador ya que discrimina entre los distintos tipos de cauces revestidos ($j$), asignando el valor de $EfC_{j}$ según el estudio de eficiencias en la conducción para la subdelegación del río Tunuyán Superior.
-Esto permitiría acercarce aún más al valor real del costo marginal de ampliar la oferta de riego.
-Por otro lado, el denominado enfoque de pérdidas considera el valor de eficiencia de conducción en canales de tierra calculado para cada unidad de manejo;
-este cálculo generaliza los valores de $EfC_{j}$ posiblemente subestimando el desempeño de la unidad de manejo (UM).
+Si bien el enfoque de eficiencias de conducción es más atractivo para el análisis aplicado, la información disponible de libre acceso no garantiza el cálculo correcto. 
+Debido a la necesidad de discriminar entre los distintos tipos de cauces revestidos ($j$), asignando el valor de $EfC_{j}$ según el estudio de eficiencias en la conducción para la subdelegación del río Tunuyán Superior.
+Por otro lado, el denominado enfoque de pérdidas considera el valor de eficiencia de conducción por kilómetro calculado para cada unidad de manejo;
+este cálculo generaliza los valores de $EfC_{j}$ promediando las condiciones de infraestructura en la unidad de manejo (UM).
 
 \begin{equation*}
 \textrm{Eficiencias de Conducción} \quad = \frac{EfC_{j}}{longitud \: tipo \:de \: cauce_{j}} 
@@ -369,41 +397,25 @@ este cálculo generaliza los valores de $EfC_{j}$ posiblemente subestimando el d
 ```{r AhorroSup, results='asis',fig.show='hold', fig.height=4.5, fig.width=11, fig.cap="\\label{AhorroSup}Curva de ahorro de agua enfoque eficiencia de conducción",out.extra="", fig.align='center'}
 ```
 
-
 ```{r SupTable, results='asis'}
 ```
 
 ```{r redMaterialSubSistema, results='asis'}
 ```
 
-```{r figPrelim,results='hide'}
+
+```{r ahorroSist1, results='asis',fig.width=11,fig.cap="\\label{ahorroSist1}Curva de ahorro de agua por subsistemas",out.extra="", fig.align='center'}
 ```
 
-```{r subSistemas, results='asis'}
-```
-
-```{r ahorroSist2, results='hide'}
-```
-
-```{r ahorroSist, results='asis'}
+```{r ahorroSist, results='asis',fig.width=11,fig.cap="\\label{ahorroSist}Estimación ahorro por subsistemas",out.extra="", fig.align='center'}
 ```
 
 \newpage
-\vspace{-.3cm}
-# \textbf{Subdelegación Tunuyán Inferior}
 
-```{r InfEf, results='hide'}
-```
-
-```{r InferiorTable, results='hide'}
-```
-
-```{r InferiorPlots, results='hide'}
-```
+# Subdelegación Tunuyán Inferior
 
 ```{r InfCaudales, results='asis'}
 ```
-
 
 
 ```{r AhorroInfPerd, results='asis',fig.show='hold', fig.height=4.5, fig.width=11, fig.cap="\\label{AhorroInfPerd}Curva de ahorro de agua enfoque pérdidas",out.extra="", fig.align='center'}
@@ -415,7 +427,7 @@ este cálculo generaliza los valores de $EfC_{j}$ posiblemente subestimando el d
 
 \vspace{-.3cm}
 
-# \textbf{Comentarios finales}
+# Comentarios finales
 \vspace{-.2cm}
 
 En un contexto de completa disponibilidad de la información y competencia perfecta entre las empresas e instituciones que ejecutan las obras de infraestructura, la estimación de la curva de oferta adicional equivale a la curva de $Costo \: Marginal \: (CMg)$ de ahorro de agua por disminución de las pérdidas por infiltración.
@@ -427,7 +439,7 @@ Es deseable continuar la investigación y evaluación de obras de revestimiento 
 El trabajo realizado durante el 2019 permitió el esclarecimiento de una metodología de trabajo que brindará resultados con mayor celeridad.
 
 \vspace{-.3cm}
-# \textbf{Modelo integral}
+# Modelo integral
 \vspace{-.2cm}
 El presente es una adaptación de la teoría económica clásica incorporando aspectos técnicos de política económica en el manejo del agua.
 Se presenta en un gráfico de cuatro (4) cuadrantes. 

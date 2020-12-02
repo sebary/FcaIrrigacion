@@ -17,8 +17,8 @@
 \usepackage{adjustbox}
 \usepackage{amsmath,mathtools}
 \usepackage{array}
-\usepackage[english]{babel}
-\usepackage{blindtext}
+\usepackage{babel} %[english]
+%\usepackage{blindtext}
 \usepackage{booktabs}
 \usepackage{colortbl,xcolor}
 \usepackage{float}
@@ -27,24 +27,24 @@
 \usepackage{graphicx}
 \usepackage{grffile}  % to check for known picture extensions
 \usepackage{hyperref}
-\usepackage[utf8]{inputenc}  % citation 
+\usepackage{inputenc}  % [utf8]citation 
 \usepackage{lmodern}
 \usepackage{longtable}
 \usepackage{makecell}
 \usepackage{multirow}
 \usepackage{multicol}
 \usepackage{natbib}
-\usepackage[super]{nth}
+%\usepackage{nth} %[super]
 \usepackage{pdflscape}
 \usepackage{tabu}
 \usepackage{threeparttable,threeparttablex}
 \usepackage[normalem]{ulem}
-\usepackage[absolute, overlay]{textpos}
+%\usepackage[absolute, overlay]{textpos}
 \usepackage{pgfplots}
 %\usepackage{ctable} % has to be after tikz
 \usepackage{wrapfig}
 \usepackage{fancyhdr}
-\usepackage{fancybox}    % \Ovalbox \ovalbox \doublebox \shadowbox
+%\usepackage{fancybox}    % \Ovalbox \ovalbox \doublebox \shadowbox
 \usepackage{setspace}
 \let\counterwithout\relax
 \let\counterwithin\relax
