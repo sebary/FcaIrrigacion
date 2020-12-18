@@ -95,13 +95,13 @@ SetUp2
 
 
 \pagestyle{fancy}
-\fancyhead[RE,LO]{Dr. Sebastián Riera}
+\fancyhead[RE,LO]{Riera, Pinto y Filippini}
 \fancyhead[LE,RO]{Metodología de investigación proyecto FCA-Irrigación}
 
 
 \vspace{-1cm}
 
-\begin{center} \textbf{Dr. Sebastián Riera}
+\begin{center} \textbf{Dr. Sebastián Riera, Dr. Mauricio Pinto, Dra. Flavia Filippini}
 \end{center}
 
 

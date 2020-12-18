@@ -51,20 +51,22 @@ names(CaudalMen) <- c("Jul","Ago","Sep","Oct","Nov","Dic","Ene","Feb","Mar","Abr
 sapply(CaudalMen, class)
 
 EfMendoza <- as.data.frame(read.csv("DgiData/EfCond.csv", sep = ",")) #, header = TRUE, sep=",")
-indxx <- c("TierraQ0","TierraQ0rep","TierraQ0medio","TierraQl","TierraQlrep","TierraQlmedio","Distancia","KmInvert","EfcTierra","LongMedia","EfTierraLong","EfCanales","EfHijuelas","KmCanales")
+indxx <- c("TierraQ0","TierraQ0rep","TierraQ0medio","TierraQl","TierraQlrep","TierraQlmedio",
+           "Distancia","KmInvert","EfcTierra","LongMedia","EfTierraLong","EfCanales","EfHijuelas","KmCanales",
+           "EfUnidadManejo","ha","litroSeg","horas","Q1_","caudalAnual","VolHa")
 EfMendoza[indxx] <- lapply(EfMendoza[indxx], function(x) as.numeric(as.character(x)))
 EfMendoza$Q0   <- EfMendoza[,ifelse(!is.na("TierraQ0rep"),"TierraQ0medio",
-                                ifelse(!is.na("TierraQ0rep") <= !is.na("TierraQ0medio"), "TierraQ0rep",
-                                  ifelse(!is.na("TierraQ0medio") <= !is.na("TierraQ0"),"TierraQ0medio","TierraQ0rep")))]
-EfMendoza$Q1   <- EfMendoza[, ifelse((!is.na("TierraQlmedio") >= !is.na("TierraQl") & !is.na("TierraQlmedio") >= !is.na("TierraQlrep")),"TierraQlmedio",
-                                     ifelse((!is.na("TierraQl") >= !is.na("TierraQlmedio") & !is.na("TierraQl") >= !is.na("TierraQlrep")),"TierraQl",
-                                           ifelse(!is.na("TierraQlrep"),"TierraQl","TierraQlrep")))]
+            ifelse(!is.na("TierraQ0rep") <= !is.na("TierraQ0medio"), "TierraQ0rep",
+            ifelse(!is.na("TierraQ0medio") <= !is.na("TierraQ0"),"TierraQ0medio","TierraQ0rep")))]
+
+#Q1 será el caudal ajustado recibido de Cipoletti (ajustado al coeficiente 0.8 y sistema de turnado)
+
+#EfMendoza$Q1   <- EfMendoza[, ifelse((!is.na("TierraQlmedio") >= !is.na("TierraQl") & !is.na("TierraQlmedio") >= !is.na("TierraQlrep")),"TierraQlmedio",  ifelse((!is.na("TierraQl") >= !is.na("TierraQlmedio") & !is.na("TierraQl") >= !is.na("TierraQlrep")),"TierraQl",ifelse(!is.na("TierraQlrep"),"TierraQl","TierraQlrep")))]
 glimpse(EfMendoza)
 }
 
-
-Caudal19 <- c(590,490,140,850,460,460)
-names(Caudal19) <- c("Atuel","Diamante","Malargüe","Mendoza","Tun.Inferior","Tun.Superior")
+# Caudal19 <- c(590,490,140,850,460,460)
+#names(Caudal19) <- c("Atuel","Diamante","Malargüe","Mendoza","Tun.Inferior","Tun.Superior")
   
 # Working with databases ----
 
@@ -296,9 +298,9 @@ Dgi2019 %>%
   arrange(CodigoCauce)
 
 Mza19 <- as.data.table(Dgi2019 %>%
-               filter(Subdelegacion=="Mendoza" & Status!="No se ejecuta" &( metros!= "global" | metros!="-" | metros!="a determinar" | metros!="NA")) %>%
-               select(CodigoCauce, Cauce,inversion, metros, InvUsd,InvMtUsd,Ano, Modalidad, Obra,Tipologia,CaudalDiseno) %>% # , CodigoCauceAlt
-               arrange(CodigoCauce)) 
+      filter(Subdelegacion=="Mendoza" & Status!="No se ejecuta" &( metros!= "global" | metros!="-" | metros!="a determinar" | metros!="NA")) %>%
+      select(CodigoCauce, Cauce,inversion, metros, InvUsd,InvMtUsd,Ano, Modalidad, Obra,Tipologia,CaudalDiseno) %>% # , CodigoCauceAlt
+      arrange(CodigoCauce)) 
 
 tSup19 <- as.data.table(Dgi2019 %>%
            filter(Subdelegacion=="T. Superior" & Status!="No se ejecuta" &( metros!= "global" | metros!="-" | metros!="a determinar" | metros!="NA")) %>%
@@ -349,8 +351,6 @@ tSup20 <- as.data.table(Dgi2020 %>%
             filter(Subdelegacion=="T. Superior" & (is.numeric(metros) & !is.na(metros))) %>%
             select(CodigoCauce, Cauce,inversion, metros, InvUsd,InvMtUsd,Ano, Modalidad,Obra) %>% # 
             arrange(CodigoCauce)) 
-
-
 
 
 # Obras Full ----
@@ -429,14 +429,63 @@ Dgi2018 %>%
 Mendoza <- rbind(Mza17,Mza18,Mza19,Mza20, fill=TRUE)
 
 Mendoza <- merge(x= Mendoza,
-    y= EfMendoza[ , c(2:4,6,13,15,17:21,24:29) ], 
+    y= EfMendoza[ , c(2:4,6,13,15,17:21,24:28,33:34) ], #EfMendoza[ , c(2:4,6,13,15,17:21,24:29) ], 
     by= c("CodigoCauce"), all.x=TRUE)
 Mendoza <- merge(x= Mendoza,
     y= CaudalWebQ, 
     by= c("CodigoCauce"), all.x=TRUE)
 
+umendoza <- read.csv('DgiData/SanchezSuperficies.csv', sep = ",")
+glimpse(umendoza)
+
+Mendoza <- merge(x= Mendoza,
+    y= umendoza, 
+    by= c("CodigoCauce"), all.x=TRUE)
+
+library(sf)
+cuenca  <- st_read("/Users/SebastianRiera/Downloads/cuencas_unidades_de_manejo/cuencas_unidades_de_manejo.shp")
+#ctunsup <- cuenca %>% select(CUENCA, TIPO,NOMBRE,SUP_HA,ALT_MEDIA,PP_MED_A,P___MEDIA) %>% filter(CUENCA=="RÃ­o TunuyÃ¡n Superior")# & TIPO=='Cuenca')
+{umendoza <- cuenca %>% filter(CUENCA=="RÃ­o Mendoza" & TIPO=='UM') %>% 
+  select(NOMBRE,SUP_HA) %>% arrange(NOMBRE)
+
+umendoza$Inspeccion <- as.numeric(as.character(NA))
+
+umendoza$Inspeccion[1] <- 7 # 1ro Vistalba => Compuertas
+umendoza$Inspeccion[2] <- 11 # Lujan oeste
+umendoza$Inspeccion[6] <- 3 # Bajada de Araujo
+umendoza$Inspeccion[10] <- 5 # "Céspedes"
+umendoza$Inspeccion[13] <- 6 # chacras de coria 
+umendoza$Inspeccion[16] <- 7 # Compuertas
+umendoza$Inspeccion[18] <- 9  # Esteban => jocoli
+umendoza$Inspeccion[19] <- 8  # Galignana
+umendoza$Inspeccion[23] <- 9  # Jocoli
+umendoza$Inspeccion[25] <- 2  # Algarrobal => LH01
+umendoza$Inspeccion[33] <- 13  # Lunlunta
+umendoza$Inspeccion[38] <- 14  # Marienhoff
+umendoza$Inspeccion[39] <- 15  # Matus Hoyos
+umendoza$Inspeccion[40] <- 5  # Mercery => cespedes
+umendoza$Inspeccion[41] <- 17 # Morales Villanueva
+umendoza$Inspeccion[42] <- 18  # Naciente Chachingo
+umendoza$Inspeccion[43] <- 19 # Natalio Estrella
+umendoza$Inspeccion[44] <- 20  # Ortega
+umendoza$Inspeccion[51] <- 21 # san pedro y sp 
+umendoza$Inspeccion[53] <- 9  # Santa Rita => Jocolí
+umendoza$Inspeccion[55] <- 23  # Sobremonte
+umendoza$Inspeccion[57] <- 24 # "Tulumaya"
+umendoza$Inspeccion[58] <- 24 # "Tulumaya"
+umendoza$Inspeccion <- ifelse(is.na(umendoza$Inspeccion),1,umendoza$Inspeccion)
+
+umendoza$Inspeccion <- factor(umendoza$Inspeccion, 
+  levels = c(1,2,3,5,6,7,9,11,13,14,15,17,18,20,21,23,24),
+  labels = c('otro','Algarrobal',"Bajada de Araujo",'Céspedes','Compuertas','Chacras de Coria','Jocolí','Luján Oeste',
+             'Lunlunta','Marienhoff','Mathus Hoyos','Morales Villanueva','Naciente Chachingo','Ortega','San Pedro y San Pablo','Sobremonte','Tulumaya'))
+}
+
+Mendoza <- merge(x= Mendoza, y= umendoza[,c(2,4)], 
+          by= c("Inspeccion"), all.x=TRUE)
+Mendoza <- Mendoza %>% distinct(inversion, Obra, .keep_all = TRUE) %>%  select(everything(),-geometry)
 arrange(Mendoza,CodigoCauce)
-#Mendoza <- Mendoza[-c(11,13),] # Canal Lunlunta duplicado
+
 
 # Eficiencia post entubamiento ==1 & revestimiento 0.99
 Mendoza$EfPost     <- Mendoza[, ifelse(grepl("Ent. | Entubado | Entubamiento | entubado | entubamiento | ENTUBADO | ENTUBAMIENTO", Mendoza$Obra), 1,
@@ -458,6 +507,14 @@ Mendoza$DeltaPerdida      <- round(Mendoza[, (PerdidaxKm * EfPost * metros/1000 
 # segundos x minutos x horas x turnos
 #  60" x 60' x 24hs x 80 = 6912000
 #  60" x 60' x 24hs x 48 = 4147200
+
+# Volumen anual de agua que pasa por los canales en Hm3
+# enfoque de distancia media
+options(digits = 4)
+Mendoza$ahorroAgua <- round(Mendoza[ , (VolHa) * 1.65 * SUP_HA * EfTierraLong/KmTierra * EfPost * metros/1000], digits = 4) 
+Mendoza$ahorroAgua1 <- round(Mendoza[ , (VolHa) * 1.65 * SUP_HA * (EfPost - EfTierraLong)/KmTierra * metros/1000], digits = 4) 
+Mendoza$ahorroAgua2 <- round(Mendoza[ , (VolHa) * 1.65 * Hectareas * (EfTierraLong)/KmTierra * EfPost * metros/1000], digits = 4) 
+
 
 # Cálculo en base a EfC
 # 1ro: Caudal de entrada x (ganancia de eficiencia) / distancia del aforo en km
@@ -485,30 +542,40 @@ Mendoza$ACaudalAnualUm  <- round(Mendoza[, ACaudalUm * metros/1000 * 4147200], d
 
 Mendoza$valuePerd  <- round(Mendoza[, InvUsd / DeltaPerdida], digits = 3)
 Mendoza$valueEf    <- round(Mendoza[, InvUsd / ACaudalAnualUm], digits = 3)
-
+Mendoza$valueAho   <- round(Mendoza[, InvUsd / ahorroAgua], digits = 3)
+Mendoza$valueAho1   <- round(Mendoza[, InvUsd / ahorroAgua1], digits = 3)
 # adicional plus obras x administración
 Mendoza$valuePerdBis <- round(Mendoza[, ifelse( Modalidad=="Licitación" | Modalidad=="Licitacion" | Modalidad=="LICITADA",
     valuePerd, valuePerd * 1.32)], digits = 2)
 
 Mendoza$valueEfBis <- round(Mendoza[, ifelse(Modalidad=="Licitación" | Modalidad=="Licitacion" | Modalidad=="LICITADA", #grepl("Licitacion | Licitación | LICITADA", Mendoza$Modalidad),
     valueEf, valueEf * 1.32)], digits = 2)
+Mendoza$valueAhorro <- round(Mendoza[, ifelse(Modalidad=="Licitación" | Modalidad=="Licitacion" | Modalidad=="LICITADA", 
+    valueAho, valueAho * 1.32)], digits = 2)
+Mendoza$valueAhorro1 <- round(Mendoza[, ifelse(Modalidad=="Licitación" | Modalidad=="Licitacion" | Modalidad=="LICITADA", 
+    valueAho1, valueAho1 * 1.32)], digits = 2)
 
-Mendoza <- Mendoza[order(Ano,valuePerdBis)]
+Mendoza$valueAho2   <- round(Mendoza[, InvUsd / ahorroAgua2], digits = 3)
+Mendoza$valueAhorro2 <- round(Mendoza[, ifelse(Modalidad=="Licitación" | Modalidad=="Licitacion" | Modalidad=="LICITADA", 
+  valueAho2, valueAho2 * 1.32)], digits = 2)
 
-write_csv(Mendoza, 'DgiData/Estimaciones/MzaAhorro.csv', na = "NA", append = FALSE, quote_escape = "double")
+Mendoza <- Mendoza[order(Ano,valueAhorro)]
+
+#write_csv(Mendoza, 'DgiData/Estimaciones/MzaAhorro.csv', na = "NA", append = FALSE, quote_escape = "double")
+write_csv(Mendoza, 'DgiData/Estimaciones/MzaAhorroNov.csv', na = "NA", append = FALSE, quote_escape = "double")
 
 
-MzaTableComparacion <- as.data.frame(Mendoza[ c(1:7,9:21), c(9,12,8,4:5,29,28,31,33:37)]) %>% #   Mendoza[c(1:18), c(2,12,4,6,16,28,25,29,31,30,32:34)]) %>% # 
+MzaTableComparacion <- as.data.frame(Mendoza[ ,c(10,13,9,5,7,33,32,34:36, 42:44)]) %>%
   mutate_all(linebreak) %>%
   kable(format = "latex",caption = "\\label{tab:MzaTableComparacion}Río Mendoza - Comparación metodologías", align = c("l", "c",rep("r", 12)),
     row.names = FALSE, booktabs = TRUE,  
-    col.names = c("Obra","Zona","Modalidad","Metros","USD/mt","ex-ante","ex-post","Delta pérdida","Delta EfC","Pérdida","EfC","Pérdida","EfC")) %>%
+    col.names = c("Obra","Zona","Modalidad","Metros","USD/mt","ex-ante","ex-post","pérdida","EfC",'nuevo',"perd","efc","nuevo")) %>%
   kable_styling(latex_options = c("HOLD_position","scale_down"), position = "center", full_width = FALSE, font_size=11) %>% # latex_options = c("striped", "scale_down")
-  add_header_above(c(" "=5,"Ef.Conducción" =2, "Ahorro m3/km" = 2, "USD/m3" = 2, "USD/m3 (ajuste)" = 2)) %>%
-  pack_rows("2017", 1,7) %>%
-  pack_rows("2018", 8,10) %>%
-  pack_rows("2019", 11,16) %>%
-  pack_rows("2020", 17,20) %>%
+  add_header_above(c(" "=5,"Ef.Conducción" =2, "Ahorro m3/km" = 3,  "USD/m3 (ajuste)" = 3)) %>%
+  pack_rows("2017", 1,8) %>%
+  pack_rows("2018", 9,11) %>%
+  pack_rows("2019", 12,17) %>%
+  pack_rows("2020", 18,18) %>%
   footnote( general = "Elab. propia en base DGI (2020).", general_title = "Fuente: ", title_format = "italic", 
             footnote_as_chunk=TRUE, escape=FALSE,threeparttable = T) 
 
@@ -526,7 +593,7 @@ MzaTablePpt <- as.data.frame(Mendoza[ c(1:7,9:27), c(9,12,8,26,4:5,31,36)]) %>%
 
 MzaTable <- Mendoza[ c(1:7,9:27), c(3,12,5:6,29,28,32:33,7,35)] %>% 
   mutate_all(linebreak) %>%
-  kable(format = "latex",caption = "\\label{tab:MzaTable}Río Mendoza - Valores por obra de revestimiento ejecutada", align = c("l", "c",rep("r", 8)),
+  kable(format = "latex",caption = "\\label{tab:MzaTable}Río Mendoza - Valores por obra de revestimiento ejecutada", align = c("l", "c",rep("r", 10)),
     row.names = FALSE, booktabs = TRUE,  col.names = c("Cauce","Zona","Metros","Inv.(USD)","EfC(0)","EfC(1)","A(m3/seg)", "A(m3/Obra)","Inv.(USD/mt)","USD/m3")
         #col.names = linebreak(c("Cauce","Zona","Metros","Inversión\\\\(USD)","Inversión \\\\(USD/mt)","Ef.Cond\n (previa)","Ef.Cond.\n(post)","Ahorro\n($$m^3/seg$$)", "Ahorro\n(Hm3/Obra)","USD/Hm3"), 
          #           align = "c", linebreaker = "\n", double_escape = F) #,"Ef.Cond.","Q (m3/año)","A (Hm3/año)") 
@@ -540,15 +607,15 @@ MzaTable <- Mendoza[ c(1:7,9:27), c(3,12,5:6,29,28,32:33,7,35)] %>%
     footnote_as_chunk=TRUE, escape=FALSE,threeparttable = T) #, longtable=T
 
 ## @knitr MzaCaudales
-Mendoza %>% select(Ano,CodigoCauce, Cauce, Obra,Q0,CaudalDiseno, Qwebav,Qwebyear,KmTierra,metros,PerdidaxKm, ACaudalUm,EfPost,EfAnte) %>%
+Mendoza %>% select(Ano,CodigoCauce, Cauce, Obra,Q0,CaudalDiseno, Qwebav,Qwebyear,KmTierra,metros,PerdidaxKm, ACaudalUm,VolHa,EfPost,EfAnte) %>%
   #select(Ano,CodigoCauce, Cauce, Obra,Q0,CaudalDiseno, Qweb,KmTierra,metros,PerdidaxKm, ACaudalUm,EfPost,EfAnte) %>%
   mutate(GananciaEfC= paste0(GananciaEfC= (EfPost-EfAnte)*100,"%")) %>%
-  arrange(Ano) %>%
-  select(CodigoCauce, Obra,Q0,CaudalDiseno, Qwebav,GananciaEfC) %>%
+  arrange(Ano) %>% 
+  select(CodigoCauce, Obra,Q0,CaudalDiseno, Qwebav,VolHa,GananciaEfC) %>%
   mutate_all(linebreak) %>%
   mutate_all(funs(replace_na(., "-"))) %>%
-  kable(format = "latex",caption = "\\label{tab:MzaCaudales}Mendoza - Caudal por obra información disponible (m3/s)", align = c("c", "l",rep("c", 8)),
-    row.names = FALSE, booktabs = TRUE,  col.names = c("Código","Obra", "Utilizado","Diseño","Web","GananciaEfC")) %>% 
+  kable(format = "latex",caption = "\\label{tab:MzaCaudales}Mendoza - Caudal por obra información disponible (m3/s)", align = c("c", "l",rep("c", 10)),
+    row.names = FALSE, booktabs = TRUE,  col.names = c("Código","Obra", "Utilizado","Diseño","Web",'m3/año',"GananciaEfC")) %>% 
 footnote( general = "Elaboración propia en base a DGI (2015), Datos abiertos (2019) y entrevistas (2020).", general_title = "Fuente: ", title_format = "italic", #Datos de caudal del Río Mendoza extrapolados
     footnote_as_chunk=TRUE, escape=FALSE, threeparttable = T)
 #landscape()
@@ -573,9 +640,19 @@ MzaTable %>%
 OfertaMza <- Mendoza[order(valueEfBis)]
 OfertaMza$AAcum   <- cumsum((OfertaMza$ACaudalAnual)) 
 OfertaMza1 <- Mendoza[order(valuePerdBis)]
-OfertaMza1$AAcum   <- cumsum((OfertaMza$DeltaPerdida)) 
+OfertaMza1$AAcum   <- cumsum((OfertaMza1$DeltaPerdida)) 
+OfertaMza2 <- Mendoza[order(valueAhorro)]
+OfertaMza2$AAcum   <- cumsum((OfertaMza2$ahorroAgua)) 
+OfertaMza2[order(valueAhorro1)]
+OfertaMza2$AAcum1   <- cumsum((OfertaMza2$ahorroAgua1)) 
+OfertaMza2[order(valueAhorro2)]
+OfertaMza2$AAcum2   <- cumsum((OfertaMza2$ahorroAgua2)) 
 
-CProm <- round(mean(OfertaMza1$valuePerdBis, na.rm=T), digits = 1)
+
+OfertaMza2 %>% select(ahorroAgua,ahorroAgua2,valueAhorro,valueAhorro2,AAcum,AAcum2,SUP_HA,Hectareas,Inspeccion,NodoDistribucion)
+
+round(mean(OfertaMza$valueEfBis, na.rm=T), digits = 3)
+CProm <- round(mean(OfertaMza2$valueAhorro, na.rm=T), digits = 3)
 AhorroCtoPromedio <- OfertaMza1[[17,38]]
 AhorroStock <- AhorroCtoPromedio/.12
 
@@ -595,6 +672,13 @@ AhorroMza1 <- ggplot(OfertaMza1) + # , color=Zona
   geom_text(aes(y= valuePerdBis, x=AAcum/1000, label = Obra, angle=0), # , sprintf('\u2191') # trying to add an arrow
             vjust=3, hjust=-.2, size=3, check_overlap = T, inherit.aes = T,nudge_x = -10, nudge_y = 0) +
   scale_x_continuous(breaks= round(OfertaMza1$AAcum/1000, digits = 0)) #+ #c(2,4,6,8,10,12,14) ) + # OfertaMza$AhAcum
+
+AhorroMza2 <- ggplot(OfertaMza2) + # , color=Zona
+  geom_step(aes(y= valueAhorro, x=AAcum/1000),color = "#0073D9", size = 1) + 
+  geom_text(aes(y= valueAhorro, x=AAcum/1000, label = Obra, angle=0), # , sprintf('\u2191') # trying to add an arrow
+            vjust=3, hjust=-.2, size=3, check_overlap = T, inherit.aes = T,nudge_x = -10, nudge_y = 0) +
+  scale_x_continuous(breaks= round(OfertaMza2$AAcum/1000, digits = 0)) #+ #c(2,4,6,8,10,12,14) ) + # OfertaMza$AhAcum
+
 
 ## @knitr AhorroMza
 AhorroMza + theme(axis.text.x = element_text(size = 9, angle=75, vjust = .4), 
@@ -619,19 +703,15 @@ AhorroMza1 + theme(axis.text.x = element_text(size = 9, angle=75, vjust = .4),
 ggsave('DgiData/Graphs/OfertaMzaPerd.png', height = 4, width = 12)
 
 ## @knitr AhorroMzaPerd2
-AhorroMza1 + theme(axis.text.x = element_text(size = 9, angle=75, vjust = .4), 
+AhorroMza2 + theme(axis.text.x = element_text(size = 9, angle=75, vjust = .4), 
                    axis.text.y = element_text(size = 10),
                    panel.background = element_rect(fill = "white"), 
                    axis.title = element_text(size = 9)) + 
-  scale_y_continuous(breaks = c(seq(0,12,3),20,30,40,50,60)) + 
   theme(axis.line = element_line(colour = "grey50")) + 
 #  geom_path(data = demand, color = "#FF4036", size = 1,aes(x, y)) + #
-  xlab("Metros cúbicos anuales ('000)") + ylab("Dólares por m3 anual ahorrado")  # Hm^{3}
+  xlab("metros cúbicos anuales ('000)") + ylab("Dólares por m3 anual ahorrado")  # Hm^{3}
+ggsave('DgiData/Graphs/OfertaMzaAhorro.png', height = 10, width = 12)
 
-#  caption <- paste(strwrap("Unemployment rates in the US have varied a lot over the years", 40), collapse = "\n")#  geom_text(aes(label = "Costo promedio USD 14.1/m3"), vjust = "inward", hjust = "inward")
-#  ggplot(economics, aes(date, unemploy)) +   geom_line() +
-#    geom_text( aes(x, y, label = caption), data = data.frame(x = xrng[1], y = yrng[2], caption = caption),hjust = 0, vjust = 1, size = 4)
-    
 ## @knitr CtoPromedio
 cat(CProm)
 
@@ -1088,9 +1168,6 @@ Revestimiento[1:6,] %>%
 ## @knitr spdataLoad
 
 # probar estimar extension de 
-library(sf)
-cuenca  <- st_read("/Users/SebastianRiera/Downloads/cuencas_unidades_de_manejo/cuencas_unidades_de_manejo.shp")
-#ctunsup <- cuenca %>% select(CUENCA, TIPO,NOMBRE,SUP_HA,ALT_MEDIA,PP_MED_A,P___MEDIA) %>% filter(CUENCA=="RÃ­o TunuyÃ¡n Superior")# & TIPO=='Cuenca')
 
 redRiego <- st_read("/Users/SebastianRiera/Google Drive/Biblio/Base de mapas/DGI/v_red_riego_provincia/v_red_riego_provincia.shp")
 glimpse(redRiego)
@@ -1195,6 +1272,7 @@ rios    <- st_read("/Users/SebastianRiera/Downloads/cursos_de_agua/cursos_de_agu
 
 ## Make sure they have the same projection
 redRiegoCat <- st_transform(redRiegoCat, crs = st_crs(cuenca))
+
 
 
 # Data para tabla de resumen

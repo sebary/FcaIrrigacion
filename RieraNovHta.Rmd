@@ -1,0 +1,133 @@
+---
+title: 'Nota metodológica: propuesta para revisión del Fondo Potrerillos'
+address: Departmento de Economía y Política Agraria. Facultad de Ciencias Agrarias.
+  Universidad Nacional de Cuyo
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+output:
+  pdf_document:
+    fig_caption: yes
+  number_sections: yes
+  word_document: null
+bibliography: FcaIrrigacion.bib
+documentclass: elsarticle
+geometry: left=2.1cm,right=2.1cm,top=1.8cm,bottom=1.5cm
+cls: elsarticle.cls
+header-includes:
+- \renewcommand{\baselinestretch}{1.5}
+- \usepackage{placeins}
+- \usepackage{fancyhdr}
+- \usepackage{setspace}
+- \let\counterwithout\relax
+- \let\counterwithin\relax
+- \usepackage{chngcntr}
+- \setlength{\abovecaptionskip}{0pt plus 0pt minus 2pt}
+- \usepackage{lmodern}
+- \usepackage{booktabs}
+- \setlength{\floatsep}{-.5pt}
+- \usepackage{amsmath,mathtools}
+- \usepackage[bottom]{footmisc}
+- \usepackage[export]{adjustbox}
+- \usepackage{multirow}
+- \usepackage{float}
+- \usepackage{longtable}
+- \usepackage{array}
+- \usepackage{wrapfig}
+- \usepackage{colortbl,xcolor}
+- \usepackage{pdflscape}
+- \usepackage{tabu}
+- \usepackage{threeparttable,threeparttablex}
+- \usepackage[normalem]{ulem}
+- \usepackage{pgfplots,tikz}
+- \usepackage{inputenc}
+- \usepackage{makecell}
+- \usepackage{caption}
+- \captionsetup{font=normalsize,labelfont=normalsize}
+---
+
+```{r setup2, include=FALSE, results='hide'}
+knitr::read_chunk("RegulatoryEffort.R")
+knitr::opts_chunk$set(fig.cap="",fig.pos="h", warning= FALSE, cache = FALSE, message = FALSE, echo = FALSE,comment = NA, prompt = FALSE, results = 'asis')
+options(scipen=999) # disable scientific notation
+```
+
+
+```{r SetUp2, include=FALSE, results='hide'}
+SetUp2
+```
+
+```{r DataObras17, results='hide'}
+```
+
+```{r DataObras18, results="hide"}
+```
+
+```{r OtherSum18,results='hide'}
+```
+
+```{r DataObras19, results='hide'}
+```
+
+```{r DataObras20, results='hide'}
+```
+
+```{r SummaryBase, results='hide'}
+```
+
+```{r MainTables, results='hide'}
+```
+
+```{r MendozaTable, results='hide'}
+```
+
+```{r MendozaPlots, results='hide'}
+```
+
+```{r DataObrasFull, results='hide'}
+```
+
+
+
+```{r settty}
+options(digits=5)
+```
+
+
+\vspace{-1cm}
+
+
+# Resumen metodológico
+
+- Las obras de infraestructura de impermeabilización de canales se traducen a una disminución en las pérdidas por filtración en el trazado del sistema hídrico del río Mendoza. 
+
+- Estas mejoras se interpretan como aumentos en la ($EfC_i$) eficiencia de conducción por kilómetro de la unidad de manejo (UM). 
+Según los análisis actuales, la ganancia en EfC varía entre 10-22% dentro de la cuenca. 
+Se utilizaron los datos revisados y actualizados de caudales y eficiencias para los cálculos económicos.
+
+- Información utilizada por código de cauce [@DGI2004]:
+  - Volumen entregado por hectárea productiva ajustado a los promedios históricos [@DGI2016]
+  - Eficiencia de conducción o valor representativo de la Unidad de Manejo [@Cuneo2016]
+  - Costo de la inversión en revestimiento y longitud revestida (2017-2020)
+
+\begin{equation*} \begin{aligned}
+Ahorro \:de\:agua = \sum_{j=1}^{n}  volumen \: anual \: histórico \times  \Delta pérdida \\
+\mathbb{A}_i = \sum_{j=1}^{n}  Q_{m^3}  \times \frac{EfC_{tierra}}{km.Tierra} \times km.Revestidos \times EfC_{rev}
+\end{aligned} \end{equation*}
+
+- Río Mendoza: el precio medio por m$^3$ ahorrado es \$ `r round(87.75*mean(OfertaMza2$valueAhorro, na.rm=T), digits=2)` (USD 
+`r round(mean(OfertaMza2$valueAhorro, na.rm=T), digits=3)`). 
+El mismo fue calculado para superficie productiva; según la información disponible, este valor permitió un aumento en la disponibilidad de `r round(OfertaMza2$AAcum[7]/1000000, digits=3)` hectómetros cúbicos anualmente ($Hm^{3}/año$).
+
+- El Fondo Potrerillos puede actualizarse anualmente.
+
+
+\vspace{-.3cm}
+# Referencias bibliográficas
+\vspace{-.1cm}
+
+
+
+
+
+
+
+

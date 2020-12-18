@@ -1,0 +1,96 @@
+Propuesta para revisión del Fondo Potrerillos
+========================================================
+date: `r format(Sys.time(), '%d %B, %Y')`
+autosize: true
+
+
+
+```{r setup2, include=FALSE, results='hide'}
+knitr::read_chunk("RegulatoryEffort.R")
+knitr::opts_chunk$set(fig.cap="",fig.pos="h", warning= FALSE, cache = FALSE, message = FALSE, echo = FALSE,comment = NA, prompt = FALSE, results = 'asis')
+options(scipen=999) # disable scientific notation
+```
+
+
+```{r SetUp2, include=FALSE, results='hide'}
+SetUp2
+```
+
+```{r DataObras17, results='hide'}
+```
+
+```{r DataObras18, results="hide"}
+```
+
+```{r OtherSum18,results='hide'}
+```
+
+```{r DataObras19, results='hide'}
+```
+
+```{r DataObras20, results='hide'}
+```
+
+```{r SummaryBase, results='hide'}
+```
+
+```{r MainTables, results='hide'}
+```
+
+```{r MendozaTable, results='hide'}
+```
+
+```{r MendozaPlots, results='hide'}
+```
+
+```{r DataObrasFull, results='hide'}
+```
+
+
+Fondo Potrerillos
+========================================================
+
+- Las obras de infraestructura de impermeabilización de canales se traducen a una disminución en las pérdidas por filtración en el trazado del sistema hídrico del río Mendoza. 
+
+- Estas mejoras se interpretan como aumentos en la eficiencia de conducción (**EfC**) por kilómetro de la unidad de manejo (**UM**). 
+
+- Según los análisis actuales, la ganancia en EfC varía entre 10-22% dentro de la cuenca. 
+
+- Se utilizaron los datos revisados y actualizados de caudales y eficiencias para los cálculos económicos.
+
+Metodología
+===
+
+Información utilizada por código de cauce (DGI, 2004):
+  - Volumen histórico entregado por hectárea productiva (DGI, 2016)
+  - Eficiencia de conducción o valor representativo de la UM (Cuneo *et al.*, 2016)
+  - Costo de la inversión en revestimiento y longitud revestida (2017-2020)
+
+
+<div align="center">
+<img src="figures/formulaAhorro.png", height=180, width=700>
+</div>
+
+
+
+Resultados Río Mendoza
+===
+
+
+- Río Mendoza: el precio medio por m3 ahorrado es \$ `r round(87.75*mean(OfertaMza2$valueAhorro, na.rm=T), digits=2)` (USD 
+`r round(mean(OfertaMza2$valueAhorro, na.rm=T), digits=3)`)
+
+- El mismo fue calculado para superficie productiva por cauce
+
+- Este valor permite un aumento en la disponibilidad de 
+`r round(OfertaMza2$AAcum[7]/1000000,digits=3)` Hm3/año
+
+- El Fondo Potrerillos puede actualizarse anualmente
+
+
+Curva de ahorro
+====
+
+<div align="center">
+<img src="DgiData/Graphs/OfertaMzaAhorro.png", height=650, width=1400>
+</div>

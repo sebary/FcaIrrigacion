@@ -1,17 +1,17 @@
 ﻿NumObra,Obra,Subdelegacion,CodigoCauce,CodigoCauceOrig,Ano,Cauce,Inversion,Rubro,Superficie,Beneficiarios,Metros,Modalidad
-5,Rev. C. Corvalan 1º Etapa ,Mendoza,1112,1112,2020,Rama Luján Sur Unificada,9998565,CIVIL,1664,498,,Lic.
-6,Ent. Fray Luis Beltran,Mendoza,1141,1142,2020,Naciente Chachingo Unif.,4000000,CIVIL,800,150,,Adm.
-7,Mod. Sistema De Riego C. San Martín Tomas Lunlunta 1  - 2 Y Ortega,Mendoza,,,2020,Subdelegacion Río Mendoza,1800000,CIVIL,26000,3000,Global,Lic.
-8,Mantenimiento Electromecánico Compuertas 2 Y 3 Del Gran Comparto  (Csm R Mza),Mendoza,,,2020,Subdelegacion Río Mendoza,3496955,ELEC.,26000,3000,Global,Lic.
-9,"Mantenimiento Mecánico Hojas Partidoras C.es Chachingo, Naciente Y Barrancas (Csm R Mza)",Mendoza,,,2020,Subdelegacion Río Mendoza,4500000,ELEC.,26000,3000,Global,Lic.
-10,Bacheo 1º Y 2º Tramo,Mendoza,,,2020,Subdelegacion Río Mendoza,2400000,CIVIL,26000,3000,-,Lic.
-11,C. Rama Gdor. Galigniana Segura,Mendoza,1287,1287,2020,Rama Galigniana Segura,900000,CIVIL,6444,190,,Adm.
-12,Imp. 4º Tramo Cl. San Alberto,Mendoza,1823,1823,2020,San Alberto y Uspallata,6600000,CIVIL,3557,734,,Adm.
-13,Rev. Hij. Mina De Oro,Mendoza,1922,1922,2020,Naciente Chachingo Unif.,5000000,CIVIL,295,74,,Lic.
-14,Mantenimiento 5º Y 6º Tramo Csm,Mendoza,,,2020,Subdelegacion Río Mendoza,2800000,CIVIL,22000,3000,-,Lic.
-15,Ent. Hij. Tissera,Mendoza,1131,1168,2020,Naciente Chachingo Unif.,5000000,CIVIL,360,90,,Adm.
 16,Rev. Hij. Solanilla,Mendoza,1006,1006,2020,Rama Luján Centro,2205000,CIVIL,550,642,,Lic.
+2N,"Hij. 2ª La Reta , Cl Compuertas",Mendoza,1106,1276,2020,Compuertas,845000,CIVIL,-,-,,Lic.
+5,Rev. C. Corvalan 1º Etapa ,Mendoza,1112,1112,2020,Rama Luján Sur Unificada,9998565,CIVIL,1664,498,,Lic.
+15,Ent. Hij. Tissera,Mendoza,1131,1168,2020,Naciente Chachingo Unif.,5000000,CIVIL,360,90,,Adm.
+6,Ent. Fray Luis Beltran,Mendoza,1141,1142,2020,Naciente Chachingo Unif.,4000000,CIVIL,800,150,,Adm.
 17,Rev. Hij. 2 - Isla Chica,Mendoza,1188,1188,2020,Céspedes Unif. ,3000000,CIVIL,95,24,,Adm. o Lic.
+1N,Revest. Rama Sup. Hij. Centenario ,Mendoza,1265,1267,2020,Hij. Centenario,3000000,CIVIL,-,-,, Adm. o Lic.
+11,C. Rama Gdor. Galigniana Segura,Mendoza,1287,1287,2020,Rama Galigniana Segura,900000,CIVIL,6444,190,,Adm.
+3N,Rev. Cl. La Ciénaga,Mendoza,1758,1764,2020,IC Colonia,3000000,CIVIL,200,25,,Lic.
+12,Imp. 4º Tramo Cl. San Alberto,Mendoza,1823,1823,2020,San Alberto y Uspallata,6600000,CIVIL,3557,734,,Adm.
+4N,Ent. Arroyo Morteritos,Mendoza,1846,1846,2020,IC Las Mulas,13300000,CIVIL,2344,1850,2100,Lic.
+13,Rev. Hij. Mina De Oro,Mendoza,1922,1922,2020,Naciente Chachingo Unif.,5000000,CIVIL,295,74,,Lic.
+7,Mod. Sistema De Riego C. San Martín Tomas Lunlunta 1  - 2 Y Ortega,Mendoza,,,2020,Subdelegacion Río Mendoza,1800000,CIVIL,26000,3000,Global,Lic.
 18,Dique Tiburcio Benegas - C. Marginal San Martín -Mantenimiento Electromecánico De Tres Compuertas,T. Inferior,,,2020,Subdelegacion Río Tunuyan Inferior,3341250,ELEC.,66643,14347,Global,Adm. 
 19,De Tableros E Instalacion Eléctrica En Compartos,T. Inferior,,,2020,Subdelegacion Río Tunuyan Inferior,5998000,ELEC.,66643,14347,Global,Lic. 
 20,"Dique Tiburcio Benegas - Azud Móvil -Mantenimiento Electromecánico De Compuertas 9, 10 Y 11",T. Inferior,,,2020,Subdelegacion Río Tunuyan Inferior,10000000,ELEC.,66643,14347,Global,Adm. 
@@ -23,7 +23,7 @@
 26,Rev. Rama Godoy - Zona El Altillo,T. Inferior,2137,2137,2020,Rama Godoy,5000000,CIVIL,200,300,500,Adm. 
 27,Imp. Hij. Suarez,T. Inferior,2563,2563,2020,Rama Dormida,4000000,CIVIL,178,38,705,Adm. 
 28,Reacondicionamiento De Hojas Partidoras Y Compuerta,T. Superior,,,2020, Mz. Valle de Uco Margen Derecha,2500000,ELEC./CIVIL,11400,850,50u,Lic. 
-29,Cruce Calle La Costa-Hij. Palma,T. Superior,9705,9705,2020, El Peral,400000,CIVIL,76,11,11,Adm.
+29,Cruce Calle La Costa-Hij. Palma,T. Superior,9731,9705,2020, El Peral,400000,CIVIL,76,11,11,Adm.
 30,Rev. Hij. Vargas -C. Vista Flores,T. Superior,5007,5007,2020, Vista Flores,3256136,CIVIL,200,82,1153,Adm.
 31,Rev. C. Consulta Centro,T. Superior,5010,5010,2020,Consulta Centro,7834390,CIVIL,2400,300,,Lic.
 32,Rev. C. Manzano,T. Superior,5003,5001,2020, Manzano,9000000,CIVIL,1600,70,1300,Lic.
@@ -53,10 +53,10 @@
 57,Imp. Cl Mz. Nuevo Alvear Membrana Tramo Hij. 4 / Rama 3  Nvo. Alvear (Silobolsa),Atuel,3143,3143,2020,Rama N° 3 Nuevo Alvear,400000,CIVIL,500,50,3000,Adm.
 58,"Hij. 15 ""Larregola"" Rev. De Un Tramo-Hij. Los Campamentos.(Silobolsa)",Atuel,3104,3104,2020,Hij. Los Campamentos,120000,CIVIL,420,56,700,Adm.
 59,C. Centro Unif. 2º Etapa,Malargüe,8234,8234,2020,Cañada Colorada,5800000,CIVIL,3471,865,1600,Lic.
-1N,Revest. Rama Sup. Hij. Centenario ,Mendoza,1265,1267,2020,Hij. Centenario,3000000,CIVIL,-,-,, Adm. o Lic.
-2N,"Hij. 2ª La Reta , Cl Compuertas",Mendoza,1106,1276,2020,Compuertas,845000,CIVIL,-,-,,Lic.
+8,Mantenimiento Electromecánico Compuertas 2 Y 3 Del Gran Comparto  (Csm R Mza),Mendoza,,,2020,Subdelegacion Río Mendoza,3496955,ELEC.,26000,3000,Global,Lic.
+9,"Mantenimiento Mecánico Hojas Partidoras C.es Chachingo, Naciente Y Barrancas (Csm R Mza)",Mendoza,,,2020,Subdelegacion Río Mendoza,4500000,ELEC.,26000,3000,Global,Lic.
 35N,Unif. C. Retamito Hij. Española,Diamante,4903,4903,2020,Colonia Española Unif.,7011000,CIVIL,-,-,910,Lic.
-3N,Rev. Cl. La Ciénaga,Mendoza,1758,1764,2020,IC Colonia,3000000,CIVIL,200,25,,Lic.
-4N,Ent. Aroyo Morteritos,Mendoza,1846,1846,2020,IC Las Mulas,13300000,CIVIL,2344,1850,2100,Lic.
+10,Bacheo 1º Y 2º Tramo,Mendoza,,,2020,Subdelegacion Río Mendoza,2400000,CIVIL,26000,3000,-,Lic.
+14,Mantenimiento 5º Y 6º Tramo Csm,Mendoza,,,2020,Subdelegacion Río Mendoza,2800000,CIVIL,22000,3000,-,Lic.
 5N,C. Socavón Rep. Derivado 3,Diamante,4003,,2020,Unificada Socavón Frugoni Marco,305000,CIVIL,,,600,Adm.
 6N,Prolongación Canal La Junta - Toma Cerrone,Atuel,3071,,2020,"Canal La Junta, Cohiueco y Sosneado",550000,CIVIL,,,700,Adm.
