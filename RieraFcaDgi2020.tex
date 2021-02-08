@@ -67,8 +67,8 @@
 \usepackage{adjustbox}
 \usepackage{amsmath,mathtools}
 \usepackage{array}
-\usepackage[english]{babel}
-\usepackage{blindtext}
+\usepackage{babel} %[english]
+%\usepackage{blindtext}
 \usepackage{booktabs}
 \usepackage{colortbl,xcolor}
 \usepackage{float}
@@ -77,24 +77,24 @@
 \usepackage{graphicx}
 \usepackage{grffile}  % to check for known picture extensions
 \usepackage{hyperref}
-\usepackage[utf8]{inputenc}  % citation 
+\usepackage{inputenc}  % [utf8]citation 
 \usepackage{lmodern}
 \usepackage{longtable}
 \usepackage{makecell}
 \usepackage{multirow}
 \usepackage{multicol}
 \usepackage{natbib}
-\usepackage[super]{nth}
+%\usepackage{nth} %[super]
 \usepackage{pdflscape}
 \usepackage{tabu}
 \usepackage{threeparttable,threeparttablex}
 \usepackage[normalem]{ulem}
-\usepackage[absolute, overlay]{textpos}
+%\usepackage[absolute, overlay]{textpos}
 \usepackage{pgfplots}
 %\usepackage{ctable} % has to be after tikz
 \usepackage{wrapfig}
 \usepackage{fancyhdr}
-\usepackage{fancybox}    % \Ovalbox \ovalbox \doublebox \shadowbox
+%\usepackage{fancybox}    % \Ovalbox \ovalbox \doublebox \shadowbox
 \usepackage{setspace}
 \let\counterwithout\relax
 \let\counterwithin\relax
@@ -212,7 +212,12 @@
 
 
 
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
 
+
+{\ttfamily\noindent\itshape\color{messagecolor}{\#\# Linking to GEOS 3.7.2, GDAL 2.4.2, PROJ 5.2.0}}\end{kframe}
+\end{knitrout}
 
 
 
@@ -282,13 +287,12 @@
 \toprule
   & 2017 & 2018 & 2019 & 2020 & Total\\
 \midrule
-Atuel & 3.230 & 3.807 & 2.818 & 7.325 & 17.180\\
-Diamante & 3.777 & 6.328 & 1.860 & 1.820 & 13.785\\
+Atuel & 3.230 & 3.807 & 2.818 & 9.780 & 19.635\\
+Diamante & 3.777 & 6.328 & 1.860 & 2.110 & 14.075\\
 Malargüe & 2.530 & 695 & 728 & 1.600 & 5.553\\
-Mendoza & 3.809 & 1.910 & 3.468 & 10.850 & 20.037\\
+Mendoza & 3.809 & 1.910 & 3.468 & 2.100 & 11.287\\
 Tun. Inferior & 6.108 & 5.142 & 6.839 & 4.239 & 22.328\\
-\addlinespace
-Tun. Superior & 5.540 & 4.000 & 1.878 & 3.964 & 15.382\\
+Tun. Superior & 5.540 & 4.000 & 1.878 & 2.464 & 13.882\\
 \bottomrule
 \end{tabular}
 \begin{tablenotes}[para]
@@ -423,44 +427,44 @@ Tun. Superior & 5.540 & 4.000 & 1.878 & 3.964 & 15.382\\
 
 \resizebox{\linewidth}{!}{
 \begin{threeparttable}
-\begin{tabular}{lllrrrrr}
+\begin{tabular}{llrrrrrr}
 \toprule
 Obra & Zona & Modalidad & Caudal (m3/s) & Metros & USD/mt & Ahorro (m3) & USD/m3\\
 \midrule
 \addlinespace[0.3em]
 \multicolumn{8}{l}{\textbf{2017}}\\
-\hspace{1em}Ent. Hij. Mirasso & Tercera & Insp. & 0.202 & 1500 & 52941.2 & 9331 & 7.49\\
-\hspace{1em}Ent. Hij. Chacras de Coria & Primera & Insp. & 0.435 & 565 & 105882.4 & 16402 & 8.52\\
-\hspace{1em}Hij. Progreso Santa Rita Rep. tramo & Cuarta & Insp. & 0.801 & 35 & 15560.7 & 1280 & 16.05\\
-\hspace{1em}Hij. Santa Rita Imp. de 30m y adaptación derivaciones & Cuarta & Insp. & 0.801 & 30 & 14668.8 & 1097 & 17.65\\
-\hspace{1em}Rev. Hij. 2º Vistalba & Segunda & Insp. & 0.292 & 340 & 76470.6 & 5584 & 18.08\\
-\hspace{1em}Imp. Hij. Esteban & Cuarta & Insp. & 0.130 & 150 & 8823.5 & 610 & 19.09\\
-\hspace{1em}Rev. C. Lunlunta 2 & Tercera & Insp. & 0.239 & 189 & 35294.1 & 776 & 60.04\\
+\hspace{1em}Insp. & NA & 2017 & NA & 150000 & 150 & 3263.8 & 109104\\
+\hspace{1em}Insp. & NA & 2017 & NA & 264532 & 35 & 3263.8 & 42378\\
+\hspace{1em}Insp. & NA & 2017 & NA & 600000 & 189 & 1672.6 & 97351\\
+\hspace{1em}Insp. & NA & 2017 & NA & 249370 & 30 & 3263.8 & 36324\\
+\hspace{1em}Insp. & NA & 2017 & NA & 1300000 & 340 & 851.0 & 175436\\
+\hspace{1em}Insp. & NA & 2017 & NA & 1800000 & 565 & 1002.2 & 232902\\
+\hspace{1em}Insp. & NA & 2017 & NA & 900000 & 1500 & 11320.4 & NA\\
 \addlinespace[0.3em]
 \multicolumn{8}{l}{\textbf{2018}}\\
-\hspace{1em}Sobresolera 3° Tramo C. San Martín & Sexta & Adm. & 0.200 & 1000 & 39097.6 & 10161 & 5.08\\
-\hspace{1em}Rev. 200M C. Matriz Lunlunta & Tercera & Adm. & 0.220 & 330 & 14585.2 & 3387 & 5.68\\
-\hspace{1em}Canaliz. C. Flores: Tramo Ruta 7 - Toma Caroglio & Segunda & Adm. & 0.410 & 580 & 116681.9 & 14144 & 10.89\\
+\hspace{1em}Adm. &  & 2018 & NA & 1072251 & 1000 & 9389.4 & 1873354\\
+\hspace{1em}Adm. &  & 2018 & NA & 400000 & 330 & 1672.6 & 169978\\
+\hspace{1em}Adm. &  & 2018 & 990 & 3200000 & 580 & 990.2 & 215107\\
 \addlinespace[0.3em]
 \multicolumn{8}{l}{\textbf{2019}}\\
-\hspace{1em}Ent. Hij. La Canada - C. Primero Vistalba & Primera & Adm. & 0.177 & 700 & 49543.4 & 30482 & 2.15\\
-\hspace{1em}Ent. Hij. Chacras & Primera & Adm. & 0.435 & 1100 & 54794.5 & 31933 & 2.27\\
-\hspace{1em}Unif. Rama Algarrobal e Hij. Capilla Manantial Scaiola & Segunda & Lic. & 1.038 & 400 & 93055.4 & 45520 & 2.70\\
-\hspace{1em}Rev. C. Santa Rita Progreso & Cuarta & Lic. & 0.801 & 310 & 71690.9 & 11455 & 8.26\\
-\hspace{1em}Rev. Cl Mercery Etapa I & Tercera & Lic. & 0.250 & 658 & 91351.1 & 9455 & 12.75\\
-\hspace{1em}Ent. C. Lunlunta 2 & Tercera & Adm. & 0.220 & 300 & 55936.1 & 3110 & 23.74\\
+\hspace{1em}Adm. & Entubamiento Canales & 2019 & NA & 2170000 & 700 & 1380.9 & 1140622\\
+\hspace{1em}Lic. & Revestimiento Canales & 2019 & NA & 4001176 & 658 & 5399.7 & 1167536\\
+\hspace{1em}Adm. & Entubamiento Canales & 2019 & NA & 2400000 & 1100 & 1002.2 & 453438\\
+\hspace{1em}Lic. & Revestimiento Canales & 2019 & NA & 3140063 & 310 & 3263.8 & 377240\\
+\hspace{1em}Adm. & Entubamiento Canales & 2019 & NA & 2450000 & 300 & 1672.6 & 155302\\
+\hspace{1em}Lic. & Revestimiento Canales & 2019 & NA & 4075828 & 400 & 2840.4 & NA\\
 \addlinespace[0.3em]
 \multicolumn{8}{l}{\textbf{2020}}\\
-\hspace{1em}Hij. 2ª La Reta , Cl Compuertas & Primera & Lic. & 0.177 & 300 & 13203.1 & 12802 & 1.36\\
-\hspace{1em}Rev. Hij. Mina De Oro & Tercera & Lic. & 0.184 & 750 & 78125.0 & 49269 & 2.09\\
-\hspace{1em}Revest. Rama Sup. Hij. Centenario & Cuarta & Adm. o Lic. & 0.385 & 1000 & 46875.0 & 14225 & 4.35\\
-\hspace{1em}Rev. Hij. Solanilla & Segunda & Lic. & 0.555 & 350 & 34453.1 & 10059 & 4.52\\
-\hspace{1em}Rev. C. Corvalan 1º Etapa & Segunda & Lic. & 0.832 & 700 & 156227.6 & 43110 & 4.78\\
-\hspace{1em}Ent. Fray Luis Beltran & Tercera & Adm. & 0.202 & 2000 & 62500.0 & 12442 & 6.63\\
-\hspace{1em}C. Rama Gdor. Galigniana Segura & Sexta & Adm. & 0.257 & 150 & 14062.5 & 2134 & 8.70\\
-\hspace{1em}Rev. Hij. 2 - Isla Chica & Tercera & Adm. o Lic. & 0.050 & 1000 & 46875.0 & 2053 & 30.14\\
-\hspace{1em}Ent. Hij. Tissera & Tercera & Adm. & 0.152 & 500 & 78125.0 & 3110 & 33.16\\
-\hspace{1em}Rev. Cl. La Ciénaga & Cuarta & Lic. & 0.183 & 600 & 46875.0 & 1232 & 50.22\\
+\hspace{1em}Lic. & NA & 2020 & NA & 13300000 & 2100 & 11320.4 & NA\\
+\hspace{1em}NA & NA & NA & NA & NA & NA & NA & \vphantom{8}NA\\
+\hspace{1em}NA & NA & NA & NA & NA & NA & NA & \vphantom{7}NA\\
+\hspace{1em}NA & NA & NA & NA & NA & NA & NA & \vphantom{6}NA\\
+\hspace{1em}NA & NA & NA & NA & NA & NA & NA & \vphantom{5}NA\\
+\hspace{1em}NA & NA & NA & NA & NA & NA & NA & \vphantom{4}NA\\
+\hspace{1em}NA & NA & NA & NA & NA & NA & NA & \vphantom{3}NA\\
+\hspace{1em}NA & NA & NA & NA & NA & NA & NA & \vphantom{2}NA\\
+\hspace{1em}NA & NA & NA & NA & NA & NA & NA & \vphantom{1}NA\\
+\hspace{1em}NA & NA & NA & NA & NA & NA & NA & NA\\
 \bottomrule
 \end{tabular}
 \begin{tablenotes}[para]
@@ -499,9 +503,9 @@ Obra & Zona & Modalidad & Caudal (m3/s) & Metros & USD/mt & Ahorro (m3) & USD/m3
 \toprule
   & Primeras inversiones\\
 \midrule
-Inv. USD & 1110631.000\\
-Ahorro agua ('000 m3) & 286.600\\
-Caudal ahorrado (m3/s) & 0.138\\
+Inv. USD & 1e+06\\
+Ahorro agua ('000 m3) & NA\\
+Caudal ahorrado (m3/s) & NA\\
 \bottomrule
 \end{tabular}
 \begin{tablenotes}[para]
@@ -816,18 +820,18 @@ Caudal ahorrado (m3/s) & 0.138\\
 \begin{frame}{Río Mendoza}
   \begin{itemize}
   \item Inversión promedio = USD 
-14.1
+0.3
 /$m^3$
 
 \pause \item Concepto de flujo ($m^3 anual$) = 
-277181
+NA
 =
-0.28
+NA
 $Hm^3$
 \pause \item Concepto de stock ($m^3 perpetuo$) = 
-2309842
+NA
 =
-2.31
+NA
 $Hm^3$
 \end{itemize}
 \end{frame}
