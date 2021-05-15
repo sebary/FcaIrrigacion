@@ -1,0 +1,8 @@
+\babel@toc {english}{}
+\beamer@sectionintoc {1}{Introducción}{7}{0}{1}
+\beamer@subsectionintoc {1}{1}{Motivación}{8}{0}{1}
+\beamer@subsectionintoc {1}{2}{Objetivos}{13}{0}{1}
+\beamer@sectionintoc {2}{Modelo económico general}{18}{0}{2}
+\beamer@sectionintoc {3}{Resultados preliminares}{31}{0}{3}
+\beamer@subsectionintoc {3}{1}{Subdelegación Río Mendoza}{33}{0}{3}
+\beamer@subsectionintoc {3}{2}{Limitaciones $\&$ futuros pasos}{36}{0}{3}

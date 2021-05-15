@@ -1,0 +1,1488 @@
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020) (preloaded format=pdflatex 2020.12.18)  29 DEC 2020 14:18
+entering extended mode
+ restricted \write18 enabled.
+ %&-line parsing enabled.
+**RieraNoviembre.tex
+(./RieraNoviembre.tex
+LaTeX2e <2020-10-01> patch level 2
+L3 programming layer <2020-12-07> xparse <2020-03-03> (./elsarticle.cls
+Document Class: elsarticle 2019/01/14, 3.1: Elsevier Ltd
+\@bls=\dimen138
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/latex/base/article.cls
+Document Class: article 2020/04/10 v1.4m Standard LaTeX document class
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/latex/base/size10.clo
+File: size10.clo 2020/04/10 v1.4m Standard LaTeX file (size option)
+)
+\c@part=\count177
+\c@section=\count178
+\c@subsection=\count179
+\c@subsubsection=\count180
+\c@paragraph=\count181
+\c@subparagraph=\count182
+\c@figure=\count183
+\c@table=\count184
+\abovecaptionskip=\skip47
+\belowcaptionskip=\skip48
+\bibindent=\dimen139
+)
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/latex/graphics/graphicx.s
+ty
+Package: graphicx 2020/09/09 v1.2b Enhanced LaTeX Graphics (DPC,SPQR)
+
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/latex/graphics/keyval.sty
+Package: keyval 2014/10/28 v1.15 key=value parser (DPC)
+\KV@toks@=\toks15
+)
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/latex/graphics/graphics.s
+ty
+Package: graphics 2020/08/30 v1.4c Standard LaTeX Graphics (DPC,SPQR)
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/latex/graphics/trig.sty
+Package: trig 2016/01/03 v1.10 sin cos tan (DPC)
+)
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/latex/graphics-cfg/graphi
+cs.cfg
+File: graphics.cfg 2016/06/04 v1.11 sample graphics configuration
+)
+Package graphics Info: Driver file: pdftex.def on input line 105.
+
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/latex/graphics-def/pdftex
+.def
+File: pdftex.def 2020/10/05 v1.2a Graphics/color driver for pdftex
+))
+\Gin@req@height=\dimen140
+\Gin@req@width=\dimen141
+)
+\c@tnote=\count185
+\c@fnote=\count186
+\c@cnote=\count187
+\c@ead=\count188
+\c@author=\count189
+\@eadauthor=\toks16
+\c@affn=\count190
+\absbox=\box47
+\keybox=\box48
+\Columnwidth=\dimen142
+\space@left=\dimen143
+\els@boxa=\box49
+\els@boxb=\box50
+\leftMargin=\dimen144
+\@enLab=\toks17
+\@sep=\skip49
+\@@sep=\skip50
+(./RieraNoviembre.spl) (/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/la
+tex/natbib/natbib.sty
+Package: natbib 2010/09/13 8.31b (PWD, AO)
+\bibhang=\skip51
+\bibsep=\skip52
+LaTeX Info: Redefining \cite on input line 694.
+\c@NAT@ctr=\count191
+)
+\splwrite=\write3
+\openout3 = `RieraNoviembre.spl'.
+
+\appnamewidth=\dimen145
+) (/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/latex/lm/lmodern.sty
+Package: lmodern 2009/10/30 v1.6 Latin Modern Fonts
+LaTeX Font Info:    Overwriting symbol font `operators' in version `normal'
+(Font)                  OT1/cmr/m/n --> OT1/lmr/m/n on input line 22.
+LaTeX Font Info:    Overwriting symbol font `letters' in version `normal'
+(Font)                  OML/cmm/m/it --> OML/lmm/m/it on input line 23.
+LaTeX Font Info:    Overwriting symbol font `symbols' in version `normal'
+(Font)                  OMS/cmsy/m/n --> OMS/lmsy/m/n on input line 24.
+LaTeX Font Info:    Overwriting symbol font `largesymbols' in version `normal'
+(Font)                  OMX/cmex/m/n --> OMX/lmex/m/n on input line 25.
+LaTeX Font Info:    Overwriting symbol font `operators' in version `bold'
+(Font)                  OT1/cmr/bx/n --> OT1/lmr/bx/n on input line 26.
+LaTeX Font Info:    Overwriting symbol font `letters' in version `bold'
+(Font)                  OML/cmm/b/it --> OML/lmm/b/it on input line 27.
+LaTeX Font Info:    Overwriting symbol font `symbols' in version `bold'
+(Font)                  OMS/cmsy/b/n --> OMS/lmsy/b/n on input line 28.
+LaTeX Font Info:    Overwriting symbol font `largesymbols' in version `bold'
+(Font)                  OMX/cmex/m/n --> OMX/lmex/m/n on input line 29.
+LaTeX Font Info:    Overwriting math alphabet `\mathbf' in version `normal'
+(Font)                  OT1/cmr/bx/n --> OT1/lmr/bx/n on input line 31.
+LaTeX Font Info:    Overwriting math alphabet `\mathsf' in version `normal'
+(Font)                  OT1/cmss/m/n --> OT1/lmss/m/n on input line 32.
+LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `normal'
+(Font)                  OT1/cmr/m/it --> OT1/lmr/m/it on input line 33.
+LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `normal'
+(Font)                  OT1/cmtt/m/n --> OT1/lmtt/m/n on input line 34.
+LaTeX Font Info:    Overwriting math alphabet `\mathbf' in version `bold'
+(Font)                  OT1/cmr/bx/n --> OT1/lmr/bx/n on input line 35.
+LaTeX Font Info:    Overwriting math alphabet `\mathsf' in version `bold'
+(Font)                  OT1/cmss/bx/n --> OT1/lmss/bx/n on input line 36.
+LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `bold'
+(Font)                  OT1/cmr/bx/it --> OT1/lmr/bx/it on input line 37.
+LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `bold'
+(Font)                  OT1/cmtt/m/n --> OT1/lmtt/m/n on input line 38.
+)
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/latex/amsfonts/amssymb.st
+y
+Package: amssymb 2013/01/14 v3.01 AMS font symbols
+
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/latex/amsfonts/amsfonts.s
+ty
+Package: amsfonts 2013/01/14 v3.01 Basic AMSFonts support
+\@emptytoks=\toks18
+\symAMSa=\mathgroup4
+\symAMSb=\mathgroup5
+LaTeX Font Info:    Redeclaring math symbol \hbar on input line 98.
+LaTeX Font Info:    Overwriting math alphabet `\mathfrak' in version `bold'
+(Font)                  U/euf/m/n --> U/euf/b/n on input line 106.
+))
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/latex/amsmath/amsmath.sty
+Package: amsmath 2020/09/23 v2.17i AMS math features
+\@mathmargin=\skip53
+For additional information on amsmath, use the `?' option.
+
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/latex/amsmath/amstext.sty
+Package: amstext 2000/06/29 v2.01 AMS text
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/latex/amsmath/amsgen.sty
+File: amsgen.sty 1999/11/30 v2.0 generic functions
+\@emptytoks=\toks19
+\ex@=\dimen146
+)) (/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/latex/amsmath/amsbsy.s
+ty
+Package: amsbsy 1999/11/29 v1.2d Bold Symbols
+\pmbraise@=\dimen147
+) (/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/latex/amsmath/amsopn.st
+y
+Package: amsopn 2016/03/08 v2.02 operator names
+)
+\inf@bad=\count192
+LaTeX Info: Redefining \frac on input line 234.
+\uproot@=\count193
+\leftroot@=\count194
+LaTeX Info: Redefining \overline on input line 399.
+\classnum@=\count195
+\DOTSCASE@=\count196
+LaTeX Info: Redefining \ldots on input line 496.
+LaTeX Info: Redefining \dots on input line 499.
+LaTeX Info: Redefining \cdots on input line 620.
+\Mathstrutbox@=\box51
+\strutbox@=\box52
+\big@size=\dimen148
+LaTeX Font Info:    Redeclaring font encoding OML on input line 743.
+LaTeX Font Info:    Redeclaring font encoding OMS on input line 744.
+\macc@depth=\count197
+\c@MaxMatrixCols=\count198
+\dotsspace@=\muskip16
+\c@parentequation=\count199
+\dspbrk@lvl=\count266
+\tag@help=\toks20
+\row@=\count267
+\column@=\count268
+\maxfields@=\count269
+\andhelp@=\toks21
+\eqnshift@=\dimen149
+\alignsep@=\dimen150
+\tagshift@=\dimen151
+\tagwidth@=\dimen152
+\totwidth@=\dimen153
+\lineht@=\dimen154
+\@envbody=\toks22
+\multlinegap=\skip54
+\multlinetaggap=\skip55
+\mathdisplay@stack=\toks23
+LaTeX Info: Redefining \[ on input line 2923.
+LaTeX Info: Redefining \] on input line 2924.
+)
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/generic/iftex/ifxetex.sty
+Package: ifxetex 2019/10/25 v0.7 ifxetex legacy package. Use iftex instead.
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/generic/iftex/iftex.sty
+Package: iftex 2020/03/06 v1.0d TeX engine tests
+))
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/generic/iftex/ifluatex.st
+y
+Package: ifluatex 2019/10/25 v1.5 ifluatex legacy package. Use iftex instead.
+) (/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/latex/base/fontenc.sty
+Package: fontenc 2020/08/10 v2.0s Standard LaTeX package
+LaTeX Font Info:    Trying to load font information for T1+lmr on input line 11
+2.
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/latex/lm/t1lmr.fd
+File: t1lmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
+)) (/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/latex/base/inputenc.st
+y
+Package: inputenc 2020/08/01 v1.3d Input encoding file
+\inpenc@prehook=\toks24
+\inpenc@posthook=\toks25
+) (/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/latex/base/textcomp.sty
+Package: textcomp 2020/02/02 v2.0n Standard LaTeX package
+)
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/latex/upquote/upquote.sty
+Package: upquote 2012/04/19 v1.3 upright-quote and grave-accent glyphs in verba
+tim
+)
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/latex/parskip/parskip.sty
+Package: parskip 2020-06-15 v2.0f non-zero parskip adjustments
+
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/latex/kvoptions/kvoptions
+.sty
+Package: kvoptions 2020-10-07 v3.14 Key value format for package options (HO)
+
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/generic/ltxcmds/ltxcmds.s
+ty
+Package: ltxcmds 2020-05-10 v1.25 LaTeX kernel commands for general use (HO)
+)
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/generic/kvsetkeys/kvsetke
+ys.sty
+Package: kvsetkeys 2019/12/15 v1.18 Key value parser (HO)
+))
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/latex/etoolbox/etoolbox.s
+ty
+Package: etoolbox 2020/10/05 v2.5k e-TeX tools for LaTeX (JAW)
+\etb@tempcnta=\count270
+)) (/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/latex/xcolor/xcolor.st
+y
+Package: xcolor 2016/05/11 v2.12 LaTeX color extensions (UK)
+
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/latex/graphics-cfg/color.
+cfg
+File: color.cfg 2016/01/02 v1.6 sample color configuration
+)
+Package xcolor Info: Driver file: pdftex.def on input line 225.
+Package xcolor Info: Model `cmy' substituted by `cmy0' on input line 1348.
+Package xcolor Info: Model `hsb' substituted by `rgb' on input line 1352.
+Package xcolor Info: Model `RGB' extended on input line 1364.
+Package xcolor Info: Model `HTML' substituted by `rgb' on input line 1366.
+Package xcolor Info: Model `Hsb' substituted by `hsb' on input line 1367.
+Package xcolor Info: Model `tHsb' substituted by `hsb' on input line 1368.
+Package xcolor Info: Model `HSB' substituted by `hsb' on input line 1369.
+Package xcolor Info: Model `Gray' substituted by `gray' on input line 1370.
+Package xcolor Info: Model `wave' substituted by `hsb' on input line 1371.
+)
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/latex/hyperref/hyperref.s
+ty
+Package: hyperref 2020-05-15 v7.00e Hypertext links for LaTeX
+
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/generic/pdftexcmds/pdftex
+cmds.sty
+Package: pdftexcmds 2020-06-27 v0.33 Utility functions of pdfTeX for LuaTeX (HO
+)
+
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/generic/infwarerr/infware
+rr.sty
+Package: infwarerr 2019/12/03 v1.5 Providing info/warning/error messages (HO)
+)
+Package pdftexcmds Info: \pdf@primitive is available.
+Package pdftexcmds Info: \pdf@ifprimitive is available.
+Package pdftexcmds Info: \pdfdraftmode found.
+)
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/generic/kvdefinekeys/kvde
+finekeys.sty
+Package: kvdefinekeys 2019-12-19 v1.6 Define keys (HO)
+)
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/generic/pdfescape/pdfesca
+pe.sty
+Package: pdfescape 2019/12/09 v1.15 Implements pdfTeX's escape features (HO)
+)
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/latex/hycolor/hycolor.sty
+Package: hycolor 2020-01-27 v1.10 Color options for hyperref/bookmark (HO)
+)
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/latex/letltxmacro/letltxm
+acro.sty
+Package: letltxmacro 2019/12/03 v1.6 Let assignment for LaTeX macros (HO)
+)
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/latex/auxhook/auxhook.sty
+Package: auxhook 2019-12-17 v1.6 Hooks for auxiliary files (HO)
+)
+\@linkdim=\dimen155
+\Hy@linkcounter=\count271
+\Hy@pagecounter=\count272
+
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/latex/hyperref/pd1enc.def
+File: pd1enc.def 2020-05-15 v7.00e Hyperref: PDFDocEncoding definition (HO)
+Now handling font encoding PD1 ...
+... no UTF-8 mapping file for font encoding PD1
+)
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/generic/intcalc/intcalc.s
+ty
+Package: intcalc 2019/12/15 v1.3 Expandable calculations with integers (HO)
+)
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/generic/etexcmds/etexcmds
+.sty
+Package: etexcmds 2019/12/15 v1.7 Avoid name clashes with e-TeX commands (HO)
+)
+\Hy@SavedSpaceFactor=\count273
+Package hyperref Info: Option `unicode' set `true' on input line 4338.
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/latex/hyperref/puenc.def
+File: puenc.def 2020-05-15 v7.00e Hyperref: PDF Unicode definition (HO)
+Now handling font encoding PU ...
+... no UTF-8 mapping file for font encoding PU
+)
+Package hyperref Info: Hyper figures OFF on input line 4464.
+Package hyperref Info: Link nesting OFF on input line 4469.
+Package hyperref Info: Hyper index ON on input line 4472.
+Package hyperref Info: Plain pages OFF on input line 4479.
+Package hyperref Info: Backreferencing OFF on input line 4484.
+Package hyperref Info: Implicit mode ON; LaTeX internals redefined.
+Package hyperref Info: Bookmarks ON on input line 4717.
+\c@Hy@tempcnt=\count274
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/latex/url/url.sty
+\Urlmuskip=\muskip17
+Package: url 2013/09/16  ver 3.4  Verb mode for urls, etc.
+)
+LaTeX Info: Redefining \url on input line 5076.
+\XeTeXLinkMargin=\dimen156
+
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/generic/bitset/bitset.sty
+Package: bitset 2019/12/09 v1.3 Handle bit-vector datatype (HO)
+
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/generic/bigintcalc/bigint
+calc.sty
+Package: bigintcalc 2019/12/15 v1.5 Expandable calculations on big integers (HO
+)
+))
+\Fld@menulength=\count275
+\Field@Width=\dimen157
+\Fld@charsize=\dimen158
+Package hyperref Info: Hyper figures OFF on input line 6347.
+Package hyperref Info: Link nesting OFF on input line 6352.
+Package hyperref Info: Hyper index ON on input line 6355.
+Package hyperref Info: backreferencing OFF on input line 6362.
+Package hyperref Info: Link coloring OFF on input line 6367.
+Package hyperref Info: Link coloring with OCG OFF on input line 6372.
+Package hyperref Info: PDF/A mode OFF on input line 6377.
+LaTeX Info: Redefining \ref on input line 6417.
+LaTeX Info: Redefining \pageref on input line 6421.
+
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/latex/base/atbegshi-ltx.s
+ty
+Package: atbegshi-ltx 2020/08/17 v1.0a Emulation of the original atbegshi packa
+ge
+with kernel methods
+)
+\Hy@abspage=\count276
+\c@Item=\count277
+\c@Hfootnote=\count278
+)
+Package hyperref Info: Driver (autodetected): hpdftex.
+
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/latex/hyperref/hpdftex.de
+f
+File: hpdftex.def 2020-05-15 v7.00e Hyperref driver for pdfTeX
+
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/latex/base/atveryend-ltx.
+sty
+Package: atveryend-ltx 2020/08/19 v1.0a Emulation of the original atvery packag
+e
+with kernel methods
+)
+\Fld@listcount=\count279
+\c@bookmark@seq@number=\count280
+
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/latex/rerunfilecheck/reru
+nfilecheck.sty
+Package: rerunfilecheck 2019/12/05 v1.9 Rerun checks for auxiliary files (HO)
+
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/generic/uniquecounter/uni
+quecounter.sty
+Package: uniquecounter 2019/12/15 v1.4 Provide unlimited unique counter (HO)
+)
+Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 2
+86.
+)
+\Hy@SectionHShift=\skip56
+)
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/latex/geometry/geometry.s
+ty
+Package: geometry 2020/01/02 v5.9 Page Geometry
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/generic/iftex/ifvtex.sty
+Package: ifvtex 2019/10/25 v1.7 ifvtex legacy package. Use iftex instead.
+)
+\Gm@cnth=\count281
+\Gm@cntv=\count282
+\c@Gm@tempcnt=\count283
+\Gm@bindingoffset=\dimen159
+\Gm@wd@mp=\dimen160
+\Gm@odd@mp=\dimen161
+\Gm@even@mp=\dimen162
+\Gm@layoutwidth=\dimen163
+\Gm@layoutheight=\dimen164
+\Gm@layouthoffset=\dimen165
+\Gm@layoutvoffset=\dimen166
+\Gm@dimlist=\toks26
+)
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/latex/grffile/grffile.sty
+Package: grffile 2019/11/11 v2.1 Extended file name support for graphics (legac
+y)
+Package grffile Info: This package is an empty stub for compatibility on input 
+line 40.
+)
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/latex/placeins/placeins.s
+ty
+Package: placeins 2005/04/18  v 2.2
+)
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/latex/fancyhdr/fancyhdr.s
+ty
+Package: fancyhdr 2019/01/31 v3.10 Extensive control of page headers and footer
+s
+\f@nch@headwidth=\skip57
+\f@nch@O@elh=\skip58
+\f@nch@O@erh=\skip59
+\f@nch@O@olh=\skip60
+\f@nch@O@orh=\skip61
+\f@nch@O@elf=\skip62
+\f@nch@O@erf=\skip63
+\f@nch@O@olf=\skip64
+\f@nch@O@orf=\skip65
+)
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/latex/setspace/setspace.s
+ty
+Package: setspace 2011/12/19 v6.7a set line spacing
+)
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/latex/chngcntr/chngcntr.s
+ty
+Package: chngcntr 2018/04/09 v1.1a change counter resetting
+)
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/latex/booktabs/booktabs.s
+ty
+Package: booktabs 2020/01/12 v1.61803398 Publication quality tables
+\heavyrulewidth=\dimen167
+\lightrulewidth=\dimen168
+\cmidrulewidth=\dimen169
+\belowrulesep=\dimen170
+\belowbottomsep=\dimen171
+\aboverulesep=\dimen172
+\abovetopsep=\dimen173
+\cmidrulesep=\dimen174
+\cmidrulekern=\dimen175
+\defaultaddspace=\dimen176
+\@cmidla=\count284
+\@cmidlb=\count285
+\@aboverulesep=\dimen177
+\@belowrulesep=\dimen178
+\@thisruleclass=\count286
+\@lastruleclass=\count287
+\@thisrulewidth=\dimen179
+)
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/latex/mathtools/mathtools
+.sty
+Package: mathtools 2020/03/24 v1.24 mathematical typesetting tools
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/latex/tools/calc.sty
+Package: calc 2017/05/25 v4.3 Infix arithmetic (KKT,FJ)
+\calc@Acount=\count288
+\calc@Bcount=\count289
+\calc@Adimen=\dimen180
+\calc@Bdimen=\dimen181
+\calc@Askip=\skip66
+\calc@Bskip=\skip67
+LaTeX Info: Redefining \setlength on input line 80.
+LaTeX Info: Redefining \addtolength on input line 81.
+\calc@Ccount=\count290
+\calc@Cskip=\skip68
+)
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/latex/mathtools/mhsetup.s
+ty
+Package: mhsetup 2017/03/31 v1.3 programming setup (MH)
+)
+LaTeX Info: Thecontrolsequence`\('isalreadyrobust on input line 130.
+LaTeX Info: Thecontrolsequence`\)'isalreadyrobust on input line 130.
+LaTeX Info: Thecontrolsequence`\['isalreadyrobust on input line 130.
+LaTeX Info: Thecontrolsequence`\]'isalreadyrobust on input line 130.
+\g_MT_multlinerow_int=\count291
+\l_MT_multwidth_dim=\dimen182
+\origjot=\skip69
+\l_MT_shortvdotswithinadjustabove_dim=\dimen183
+\l_MT_shortvdotswithinadjustbelow_dim=\dimen184
+\l_MT_above_intertext_sep=\dimen185
+\l_MT_below_intertext_sep=\dimen186
+\l_MT_above_shortintertext_sep=\dimen187
+\l_MT_below_shortintertext_sep=\dimen188
+\xmathstrut@box=\box53
+\xmathstrut@dim=\dimen189
+)
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/latex/footmisc/footmisc.s
+ty
+Package: footmisc 2011/06/06 v5.5b a miscellany of footnote facilities
+\FN@temptoken=\toks27
+\footnotemargin=\dimen190
+\c@pp@next@reset=\count292
+Package footmisc Info: Declaring symbol style bringhurst on input line 855.
+Package footmisc Info: Declaring symbol style chicago on input line 863.
+Package footmisc Info: Declaring symbol style wiley on input line 872.
+Package footmisc Info: Declaring symbol style lamport-robust on input line 883.
+
+Package footmisc Info: Declaring symbol style lamport* on input line 903.
+Package footmisc Info: Declaring symbol style lamport*-robust on input line 924
+.
+)
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/latex/adjustbox/adjustbox
+.sty
+Package: adjustbox 2020/08/19 v1.3 Adjusting TeX boxes (trim, clip, ...)
+
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/latex/xkeyval/xkeyval.sty
+Package: xkeyval 2020/11/20 v2.8 package option processing (HA)
+
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/generic/xkeyval/xkeyval.t
+ex
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/generic/xkeyval/xkvutils.
+tex
+\XKV@toks=\toks28
+\XKV@tempa@toks=\toks29
+)
+\XKV@depth=\count293
+File: xkeyval.tex 2014/12/03 v2.7a key=value parser (HA)
+))
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/latex/adjustbox/adjcalc.s
+ty
+Package: adjcalc 2012/05/16 v1.1 Provides advanced setlength with multiple back
+-ends (calc, etex, pgfmath)
+)
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/latex/adjustbox/trimclip.
+sty
+Package: trimclip 2020/08/19 v1.2 Trim and clip general TeX material
+
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/latex/collectbox/collectb
+ox.sty
+Package: collectbox 2012/05/17 v0.4b Collect macro arguments as boxes
+\collectedbox=\box54
+)
+\tc@llx=\dimen191
+\tc@lly=\dimen192
+\tc@urx=\dimen193
+\tc@ury=\dimen194
+Package trimclip Info: Using driver 'tc-pdftex.def'.
+
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/latex/adjustbox/tc-pdftex
+.def
+File: tc-pdftex.def 2019/01/04 v2.2 Clipping driver for pdftex
+))
+\adjbox@Width=\dimen195
+\adjbox@Height=\dimen196
+\adjbox@Depth=\dimen197
+\adjbox@Totalheight=\dimen198
+\adjbox@pwidth=\dimen199
+\adjbox@pheight=\dimen256
+\adjbox@pdepth=\dimen257
+\adjbox@ptotalheight=\dimen258
+
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/latex/varwidth/varwidth.s
+ty
+Package: varwidth 2009/03/30 ver 0.92;  Variable-width minipages
+\@vwid@box=\box55
+\sift@deathcycles=\count294
+\@vwid@loff=\dimen259
+\@vwid@roff=\dimen260
+))
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/latex/multirow/multirow.s
+ty
+Package: multirow 2019/05/31 v2.5 Span multiple rows of a table
+\multirow@colwidth=\skip70
+\multirow@cntb=\count295
+\multirow@dima=\skip71
+\bigstrutjot=\dimen261
+) (/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/latex/float/float.sty
+Package: float 2001/11/08 v1.3d Float enhancements (AL)
+\c@float@type=\count296
+\float@exts=\toks30
+\float@box=\box56
+\@float@everytoks=\toks31
+\@floatcapt=\box57
+)
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/latex/tools/longtable.sty
+Package: longtable 2020/01/07 v4.13 Multi-page Table package (DPC)
+\LTleft=\skip72
+\LTright=\skip73
+\LTpre=\skip74
+\LTpost=\skip75
+\LTchunksize=\count297
+\LTcapwidth=\dimen262
+\LT@head=\box58
+\LT@firsthead=\box59
+\LT@foot=\box60
+\LT@lastfoot=\box61
+\LT@cols=\count298
+\LT@rows=\count299
+\c@LT@tables=\count300
+\c@LT@chunks=\count301
+\LT@p@ftn=\toks32
+) (/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/latex/tools/array.sty
+Package: array 2020/10/01 v2.5c Tabular extension package (FMi)
+\col@sep=\dimen263
+\ar@mcellbox=\box62
+\extrarowheight=\dimen264
+\NC@list=\toks33
+\extratabsurround=\skip76
+\backup@length=\skip77
+\ar@cellbox=\box63
+)
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/latex/wrapfig/wrapfig.sty
+\wrapoverhang=\dimen265
+\WF@size=\dimen266
+\c@WF@wrappedlines=\count302
+\WF@box=\box64
+\WF@everypar=\toks34
+Package: wrapfig 2003/01/31  v 3.6
+)
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/latex/colortbl/colortbl.s
+ty
+Package: colortbl 2020/01/04 v1.0e Color table columns (DPC)
+\everycr=\toks35
+\minrowclearance=\skip78
+)
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/latex/pdflscape/pdflscape
+.sty
+Package: pdflscape 2019/12/05 v0.12 Display of landscape pages in PDF (HO)
+
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/latex/graphics/lscape.sty
+Package: lscape 2020/05/28 v3.02 Landscape Pages (DPC)
+)
+Package pdflscape Info: Auto-detected driver: pdftex on input line 81.
+) (/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/latex/tabu/tabu.sty
+Package: tabu 2019/01/11 v2.9 - flexible LaTeX tabulars (FC+tabu-fixed)
+\c@taburow=\count303
+\tabu@nbcols=\count304
+\tabu@cnt=\count305
+\tabu@Xcol=\count306
+\tabu@alloc=\count307
+\tabu@nested=\count308
+\tabu@target=\dimen267
+\tabu@spreadtarget=\dimen268
+\tabu@naturalX=\dimen269
+\tabucolX=\dimen270
+\tabu@Xsum=\dimen271
+\extrarowdepth=\dimen272
+\abovetabulinesep=\dimen273
+\belowtabulinesep=\dimen274
+\tabustrutrule=\dimen275
+\tabu@thebody=\toks36
+\tabu@footnotes=\toks37
+\tabu@box=\box65
+\tabu@arstrutbox=\box66
+\tabu@hleads=\box67
+\tabu@vleads=\box68
+\tabu@cellskip=\skip79
+)
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/latex/threeparttable/thre
+eparttable.sty
+Package: threeparttable 2003/06/13  v 3.0
+\@tempboxb=\box69
+)
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/latex/threeparttablex/thr
+eeparttablex.sty
+Package: threeparttablex 2013/07/23 v0.3 by daleif
+
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/latex/environ/environ.sty
+Package: environ 2014/05/04 v0.3 A new way to define environments
+
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/latex/trimspaces/trimspac
+es.sty
+Package: trimspaces 2009/09/17 v1.1 Trim spaces around a token list
+))
+\TPTL@width=\skip80
+) (/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/generic/ulem/ulem.sty
+\UL@box=\box70
+\UL@hyphenbox=\box71
+\UL@skip=\skip81
+\UL@hook=\toks38
+\UL@height=\dimen276
+\UL@pe=\count309
+\UL@pixel=\dimen277
+\ULC@box=\box72
+Package: ulem 2019/11/18
+\ULdepth=\dimen278
+)
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/latex/pgfplots/pgfplots.s
+ty
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/generic/pgfplots/pgfplots
+.revision.tex)
+Package: pgfplots 2020/02/29 v1.17 Data Visualization (1.17)
+
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/latex/pgf/frontendlayer/t
+ikz.sty
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/latex/pgf/basiclayer/pgf.
+sty
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/latex/pgf/utilities/pgfrc
+s.sty
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/generic/pgf/utilities/pgf
+util-common.tex
+\pgfutil@everybye=\toks39
+\pgfutil@tempdima=\dimen279
+\pgfutil@tempdimb=\dimen280
+
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/generic/pgf/utilities/pgf
+util-common-lists.tex))
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/generic/pgf/utilities/pgf
+util-latex.def
+\pgfutil@abb=\box73
+)
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/generic/pgf/utilities/pgf
+rcs.code.tex
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/generic/pgf/pgf.revision.
+tex)
+Package: pgfrcs 2020/12/01 v3.1.7a (3.1.7a)
+))
+Package: pgf 2020/12/01 v3.1.7a (3.1.7a)
+
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/latex/pgf/basiclayer/pgfc
+ore.sty
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/latex/pgf/systemlayer/pgf
+sys.sty
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/generic/pgf/systemlayer/p
+gfsys.code.tex
+Package: pgfsys 2020/12/01 v3.1.7a (3.1.7a)
+
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/generic/pgf/utilities/pgf
+keys.code.tex
+\pgfkeys@pathtoks=\toks40
+\pgfkeys@temptoks=\toks41
+
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/generic/pgf/utilities/pgf
+keysfiltered.code.tex
+\pgfkeys@tmptoks=\toks42
+))
+\pgf@x=\dimen281
+\pgf@y=\dimen282
+\pgf@xa=\dimen283
+\pgf@ya=\dimen284
+\pgf@xb=\dimen285
+\pgf@yb=\dimen286
+\pgf@xc=\dimen287
+\pgf@yc=\dimen288
+\pgf@xd=\dimen289
+\pgf@yd=\dimen290
+\w@pgf@writea=\write4
+\r@pgf@reada=\read2
+\c@pgf@counta=\count310
+\c@pgf@countb=\count311
+\c@pgf@countc=\count312
+\c@pgf@countd=\count313
+\t@pgf@toka=\toks43
+\t@pgf@tokb=\toks44
+\t@pgf@tokc=\toks45
+\pgf@sys@id@count=\count314
+
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/generic/pgf/systemlayer/p
+gf.cfg
+File: pgf.cfg 2020/12/01 v3.1.7a (3.1.7a)
+)
+Driver file for pgf: pgfsys-pdftex.def
+
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/generic/pgf/systemlayer/p
+gfsys-pdftex.def
+File: pgfsys-pdftex.def 2020/12/01 v3.1.7a (3.1.7a)
+
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/generic/pgf/systemlayer/p
+gfsys-common-pdf.def
+File: pgfsys-common-pdf.def 2020/12/01 v3.1.7a (3.1.7a)
+)))
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/generic/pgf/systemlayer/p
+gfsyssoftpath.code.tex
+File: pgfsyssoftpath.code.tex 2020/12/01 v3.1.7a (3.1.7a)
+\pgfsyssoftpath@smallbuffer@items=\count315
+\pgfsyssoftpath@bigbuffer@items=\count316
+)
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/generic/pgf/systemlayer/p
+gfsysprotocol.code.tex
+File: pgfsysprotocol.code.tex 2020/12/01 v3.1.7a (3.1.7a)
+))
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pg
+fcore.code.tex
+Package: pgfcore 2020/12/01 v3.1.7a (3.1.7a)
+
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmath.
+code.tex
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmathc
+alc.code.tex
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmathu
+til.code.tex)
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmathp
+arser.code.tex
+\pgfmath@dimen=\dimen291
+\pgfmath@count=\count317
+\pgfmath@box=\box74
+\pgfmath@toks=\toks46
+\pgfmath@stack@operand=\toks47
+\pgfmath@stack@operation=\toks48
+)
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmathf
+unctions.code.tex
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmathf
+unctions.basic.code.tex)
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmathf
+unctions.trigonometric.code.tex)
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmathf
+unctions.random.code.tex)
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmathf
+unctions.comparison.code.tex)
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmathf
+unctions.base.code.tex)
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmathf
+unctions.round.code.tex)
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmathf
+unctions.misc.code.tex)
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmathf
+unctions.integerarithmetics.code.tex)))
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmathf
+loat.code.tex
+\c@pgfmathroundto@lastzeros=\count318
+))
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfint.c
+ode.tex)
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pg
+fcorepoints.code.tex
+File: pgfcorepoints.code.tex 2020/12/01 v3.1.7a (3.1.7a)
+\pgf@picminx=\dimen292
+\pgf@picmaxx=\dimen293
+\pgf@picminy=\dimen294
+\pgf@picmaxy=\dimen295
+\pgf@pathminx=\dimen296
+\pgf@pathmaxx=\dimen297
+\pgf@pathminy=\dimen298
+\pgf@pathmaxy=\dimen299
+\pgf@xx=\dimen300
+\pgf@xy=\dimen301
+\pgf@yx=\dimen302
+\pgf@yy=\dimen303
+\pgf@zx=\dimen304
+\pgf@zy=\dimen305
+)
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pg
+fcorepathconstruct.code.tex
+File: pgfcorepathconstruct.code.tex 2020/12/01 v3.1.7a (3.1.7a)
+\pgf@path@lastx=\dimen306
+\pgf@path@lasty=\dimen307
+)
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pg
+fcorepathusage.code.tex
+File: pgfcorepathusage.code.tex 2020/12/01 v3.1.7a (3.1.7a)
+\pgf@shorten@end@additional=\dimen308
+\pgf@shorten@start@additional=\dimen309
+)
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pg
+fcorescopes.code.tex
+File: pgfcorescopes.code.tex 2020/12/01 v3.1.7a (3.1.7a)
+\pgfpic=\box75
+\pgf@hbox=\box76
+\pgf@layerbox@main=\box77
+\pgf@picture@serial@count=\count319
+)
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pg
+fcoregraphicstate.code.tex
+File: pgfcoregraphicstate.code.tex 2020/12/01 v3.1.7a (3.1.7a)
+\pgflinewidth=\dimen310
+)
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pg
+fcoretransformations.code.tex
+File: pgfcoretransformations.code.tex 2020/12/01 v3.1.7a (3.1.7a)
+\pgf@pt@x=\dimen311
+\pgf@pt@y=\dimen312
+\pgf@pt@temp=\dimen313
+)
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pg
+fcorequick.code.tex
+File: pgfcorequick.code.tex 2020/12/01 v3.1.7a (3.1.7a)
+)
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pg
+fcoreobjects.code.tex
+File: pgfcoreobjects.code.tex 2020/12/01 v3.1.7a (3.1.7a)
+)
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pg
+fcorepathprocessing.code.tex
+File: pgfcorepathprocessing.code.tex 2020/12/01 v3.1.7a (3.1.7a)
+)
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pg
+fcorearrows.code.tex
+File: pgfcorearrows.code.tex 2020/12/01 v3.1.7a (3.1.7a)
+\pgfarrowsep=\dimen314
+)
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pg
+fcoreshade.code.tex
+File: pgfcoreshade.code.tex 2020/12/01 v3.1.7a (3.1.7a)
+\pgf@max=\dimen315
+\pgf@sys@shading@range@num=\count320
+\pgf@shadingcount=\count321
+)
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pg
+fcoreimage.code.tex
+File: pgfcoreimage.code.tex 2020/12/01 v3.1.7a (3.1.7a)
+
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pg
+fcoreexternal.code.tex
+File: pgfcoreexternal.code.tex 2020/12/01 v3.1.7a (3.1.7a)
+\pgfexternal@startupbox=\box78
+))
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pg
+fcorelayers.code.tex
+File: pgfcorelayers.code.tex 2020/12/01 v3.1.7a (3.1.7a)
+)
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pg
+fcoretransparency.code.tex
+File: pgfcoretransparency.code.tex 2020/12/01 v3.1.7a (3.1.7a)
+)
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pg
+fcorepatterns.code.tex
+File: pgfcorepatterns.code.tex 2020/12/01 v3.1.7a (3.1.7a)
+)
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pg
+fcorerdf.code.tex
+File: pgfcorerdf.code.tex 2020/12/01 v3.1.7a (3.1.7a)
+)))
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/generic/pgf/modules/pgfmo
+duleshapes.code.tex
+File: pgfmoduleshapes.code.tex 2020/12/01 v3.1.7a (3.1.7a)
+\pgfnodeparttextbox=\box79
+)
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/generic/pgf/modules/pgfmo
+duleplot.code.tex
+File: pgfmoduleplot.code.tex 2020/12/01 v3.1.7a (3.1.7a)
+)
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/latex/pgf/compatibility/p
+gfcomp-version-0-65.sty
+Package: pgfcomp-version-0-65 2020/12/01 v3.1.7a (3.1.7a)
+\pgf@nodesepstart=\dimen316
+\pgf@nodesepend=\dimen317
+)
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/latex/pgf/compatibility/p
+gfcomp-version-1-18.sty
+Package: pgfcomp-version-1-18 2020/12/01 v3.1.7a (3.1.7a)
+))
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/latex/pgf/utilities/pgffo
+r.sty
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/latex/pgf/utilities/pgfke
+ys.sty
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/generic/pgf/utilities/pgf
+keys.code.tex))
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/latex/pgf/math/pgfmath.st
+y
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmath.
+code.tex))
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/generic/pgf/utilities/pgf
+for.code.tex
+Package: pgffor 2020/12/01 v3.1.7a (3.1.7a)
+
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmath.
+code.tex)
+\pgffor@iter=\dimen318
+\pgffor@skip=\dimen319
+\pgffor@stack=\toks49
+\pgffor@toks=\toks50
+))
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/generic/pgf/frontendlayer
+/tikz/tikz.code.tex
+Package: tikz 2020/12/01 v3.1.7a (3.1.7a)
+
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/generic/pgf/libraries/pgf
+libraryplothandlers.code.tex
+File: pgflibraryplothandlers.code.tex 2020/12/01 v3.1.7a (3.1.7a)
+\pgf@plot@mark@count=\count322
+\pgfplotmarksize=\dimen320
+)
+\tikz@lastx=\dimen321
+\tikz@lasty=\dimen322
+\tikz@lastxsaved=\dimen323
+\tikz@lastysaved=\dimen324
+\tikz@lastmovetox=\dimen325
+\tikz@lastmovetoy=\dimen326
+\tikzleveldistance=\dimen327
+\tikzsiblingdistance=\dimen328
+\tikz@figbox=\box80
+\tikz@figbox@bg=\box81
+\tikz@tempbox=\box82
+\tikz@tempbox@bg=\box83
+\tikztreelevel=\count323
+\tikznumberofchildren=\count324
+\tikznumberofcurrentchild=\count325
+\tikz@fig@count=\count326
+
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/generic/pgf/modules/pgfmo
+dulematrix.code.tex
+File: pgfmodulematrix.code.tex 2020/12/01 v3.1.7a (3.1.7a)
+\pgfmatrixcurrentrow=\count327
+\pgfmatrixcurrentcolumn=\count328
+\pgf@matrix@numberofcolumns=\count329
+)
+\tikz@expandcount=\count330
+
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/generic/pgf/frontendlayer
+/tikz/libraries/tikzlibrarytopaths.code.tex
+File: tikzlibrarytopaths.code.tex 2020/12/01 v3.1.7a (3.1.7a)
+)))
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/generic/pgfplots/pgfplots
+.code.tex
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/generic/pgfplots/pgfplots
+core.code.tex
+\t@pgfplots@toka=\toks51
+\t@pgfplots@tokb=\toks52
+\t@pgfplots@tokc=\toks53
+\pgfplots@tmpa=\dimen329
+\c@pgfplots@coordindex=\count331
+\c@pgfplots@scanlineindex=\count332
+
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/generic/pgfplots/sys/pgfp
+lotssysgeneric.code.tex))
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/generic/pgfplots/libs/pgf
+plotslibrary.code.tex)
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/generic/pgfplots/oldpgfco
+mpatib/pgfplotsoldpgfsupp_loader.code.tex
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/generic/pgf/libraries/pgf
+libraryfpu.code.tex))
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/generic/pgfplots/util/pgf
+plotsutil.code.tex
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/generic/pgfplots/liststru
+cture/pgfplotsliststructure.code.tex)
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/generic/pgfplots/liststru
+cture/pgfplotsliststructureext.code.tex)
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/generic/pgfplots/liststru
+cture/pgfplotsarray.code.tex
+\c@pgfplotsarray@tmp=\count333
+)
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/generic/pgfplots/liststru
+cture/pgfplotsmatrix.code.tex)
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/generic/pgfplots/numtable
+/pgfplotstableshared.code.tex
+\c@pgfplotstable@counta=\count334
+\t@pgfplotstable@a=\toks54
+)
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/generic/pgfplots/liststru
+cture/pgfplotsdeque.code.tex)
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/generic/pgfplots/util/pgf
+plotsbinary.code.tex
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/generic/pgfplots/util/pgf
+plotsbinary.data.code.tex))
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/generic/pgfplots/util/pgf
+plotsutil.verb.code.tex)
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/generic/pgfplots/libs/pgf
+librarypgfplots.surfshading.code.tex
+\c@pgfplotslibrarysurf@no=\count335
+
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/generic/pgfplots/sys/pgfl
+ibrarypgfplots.surfshading.pgfsys-pdftex.def)))
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/generic/pgfplots/util/pgf
+plotscolormap.code.tex
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/generic/pgfplots/util/pgf
+plotscolor.code.tex))
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/generic/pgfplots/pgfplots
+stackedplots.code.tex)
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/generic/pgfplots/pgfplots
+plothandlers.code.tex
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/generic/pgfplots/pgfplots
+meshplothandler.code.tex
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/generic/pgfplots/pgfplots
+meshplotimage.code.tex)))
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/generic/pgfplots/pgfplots
+.scaling.code.tex)
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/generic/pgfplots/pgfplots
+coordprocessing.code.tex)
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/generic/pgfplots/pgfplots
+.errorbars.code.tex)
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/generic/pgfplots/pgfplots
+.markers.code.tex)
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/generic/pgfplots/pgfplots
+ticks.code.tex)
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/generic/pgfplots/pgfplots
+.paths.code.tex)
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/generic/pgf/frontendlayer
+/tikz/libraries/tikzlibrarydecorations.code.tex
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/generic/pgf/modules/pgfmo
+duledecorations.code.tex
+\pgfdecoratedcompleteddistance=\dimen330
+\pgfdecoratedremainingdistance=\dimen331
+\pgfdecoratedinputsegmentcompleteddistance=\dimen332
+\pgfdecoratedinputsegmentremainingdistance=\dimen333
+\pgf@decorate@distancetomove=\dimen334
+\pgf@decorate@repeatstate=\count336
+\pgfdecorationsegmentamplitude=\dimen335
+\pgfdecorationsegmentlength=\dimen336
+)
+\tikz@lib@dec@box=\box84
+)
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/generic/pgf/frontendlayer
+/tikz/libraries/tikzlibrarydecorations.pathmorphing.code.tex
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/generic/pgf/libraries/dec
+orations/pgflibrarydecorations.pathmorphing.code.tex))
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/generic/pgf/frontendlayer
+/tikz/libraries/tikzlibrarydecorations.pathreplacing.code.tex
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/generic/pgf/libraries/dec
+orations/pgflibrarydecorations.pathreplacing.code.tex))
+\pgfplots@numplots=\count337
+\pgfplots@xmin@reg=\dimen337
+\pgfplots@xmax@reg=\dimen338
+\pgfplots@ymin@reg=\dimen339
+\pgfplots@ymax@reg=\dimen340
+\pgfplots@zmin@reg=\dimen341
+\pgfplots@zmax@reg=\dimen342
+)
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/generic/pgf/frontendlayer
+/tikz/libraries/tikzlibraryplotmarks.code.tex
+File: tikzlibraryplotmarks.code.tex 2020/12/01 v3.1.7a (3.1.7a)
+
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/generic/pgf/libraries/pgf
+libraryplotmarks.code.tex
+File: pgflibraryplotmarks.code.tex 2020/12/01 v3.1.7a (3.1.7a)
+)))
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/latex/makecell/makecell.s
+ty
+Package: makecell 2009/08/03 V0.1e Managing of Tab Column Heads and Cells
+\rotheadsize=\dimen343
+\c@nlinenum=\count338
+\TeXr@lab=\toks55
+)
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/latex/caption/caption.sty
+Package: caption 2020/10/26 v3.5g Customizing captions (AR)
+
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/latex/caption/caption3.st
+y
+Package: caption3 2020/10/21 v2.2e caption3 kernel (AR)
+\captionmargin=\dimen344
+\captionmargin@=\dimen345
+\captionwidth=\dimen346
+\caption@tempdima=\dimen347
+\caption@indent=\dimen348
+\caption@parindent=\dimen349
+\caption@hangindent=\dimen350
+Package caption Info: elsarticle document class detected.
+
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/latex/caption/caption-els
+article.sto
+File: caption-elsarticle.sto 2020/08/22 v2.0 Adaption of the caption package to
+ the elsarticle document class (AR)
+))
+\c@caption@flags=\count339
+\c@continuedfloat=\count340
+Package caption Info: float package is loaded.
+Package caption Info: hyperref package is loaded.
+Package caption Info: longtable package is loaded.
+
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/latex/caption/ltcaption.s
+ty
+Package: ltcaption 2020/05/30 v1.4b longtable captions (AR)
+)
+Package caption Info: threeparttable package is loaded.
+Package caption Info: wrapfig package is loaded.
+)
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/latex/l3backend/l3backend
+-pdftex.def
+File: l3backend-pdftex.def 2020-09-24 L3 backend support: PDF output (pdfTeX)
+\l__kernel_color_stack_int=\count341
+\l__pdf_internal_box=\box85
+) (./RieraNoviembre.aux
+
+LaTeX Warning: Label `redMaterial' multiply defined.
+
+
+LaTeX Warning: Label `tab:MzaCaudales' multiply defined.
+
+
+LaTeX Warning: Label `tab:SupCaudales' multiply defined.
+
+
+LaTeX Warning: Label `tab:InfCaudales' multiply defined.
+
+)
+\openout1 = `RieraNoviembre.aux'.
+
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 109.
+LaTeX Font Info:    ... okay on input line 109.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 109.
+LaTeX Font Info:    ... okay on input line 109.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 109.
+LaTeX Font Info:    ... okay on input line 109.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 109.
+LaTeX Font Info:    ... okay on input line 109.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 109.
+LaTeX Font Info:    ... okay on input line 109.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 109.
+LaTeX Font Info:    ... okay on input line 109.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 109.
+LaTeX Font Info:    ... okay on input line 109.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 109.
+LaTeX Font Info:    ... okay on input line 109.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 109.
+LaTeX Font Info:    ... okay on input line 109.
+
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/latex/epstopdf-pkg/epstop
+df-base.sty
+Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
+Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
+85.
+
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/latex/latexconfig/epstopd
+f-sys.cfg
+File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
+e
+))
+Package hyperref Info: Link coloring OFF on input line 109.
+
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/latex/hyperref/nameref.st
+y
+Package: nameref 2019/09/16 v2.46 Cross-referencing by name of section
+
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/latex/refcount/refcount.s
+ty
+Package: refcount 2019/12/15 v3.6 Data extraction from label references (HO)
+)
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/generic/gettitlestring/ge
+ttitlestring.sty
+Package: gettitlestring 2019/12/15 v1.6 Cleanup title references (HO)
+)
+\c@section@level=\count342
+)
+LaTeX Info: Redefining \ref on input line 109.
+LaTeX Info: Redefining \pageref on input line 109.
+LaTeX Info: Redefining \nameref on input line 109.
+(./RieraNoviembre.out) (./RieraNoviembre.out)
+\@outlinefile=\write5
+\openout5 = `RieraNoviembre.out'.
+
+*geometry* driver: auto-detecting
+*geometry* detected driver: pdftex
+*geometry* verbose mode - [ preamble ] result:
+* driver: pdftex
+* paper: <default>
+* layout: <same size as paper>
+* layoutoffset:(h,v)=(0.0pt,0.0pt)
+* modes: 
+* h-part:(L,W,R)=(59.75095pt, 494.7931pt, 59.75095pt)
+* v-part:(T,H,B)=(51.21504pt, 701.07582pt, 42.67912pt)
+* \paperwidth=614.295pt
+* \paperheight=794.96999pt
+* \textwidth=494.7931pt
+* \textheight=701.07582pt
+* \oddsidemargin=-12.51904pt
+* \evensidemargin=-12.51904pt
+* \topmargin=-58.05495pt
+* \headheight=12.0pt
+* \headsep=25.0pt
+* \topskip=10.0pt
+* \footskip=30.0pt
+* \marginparwidth=65.0pt
+* \marginparsep=11.0pt
+* \columnsep=10.0pt
+* \skip\footins=24.0pt
+* \hoffset=0.0pt
+* \voffset=0.0pt
+* \mag=1000
+* \@twocolumnfalse
+* \@twosidefalse
+* \@mparswitchfalse
+* \@reversemarginfalse
+* (1in=72.27pt=25.4mm, 1cm=28.453pt)
+
+
+Package pgfplots Warning: running in backwards compatibility mode (unsuitable t
+ick labels; missing features). Consider writing \pgfplotsset{compat=1.17} into 
+your preamble.
+ on input line 109.
+
+Package caption Info: Begin \AtBeginDocument code.
+Package caption Info: End \AtBeginDocument code.
+LaTeX Font Info:    Trying to load font information for OT1+lmr on input line 1
+11.
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/latex/lm/ot1lmr.fd
+File: ot1lmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
+)
+LaTeX Font Info:    Trying to load font information for OML+lmm on input line 1
+11.
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/latex/lm/omllmm.fd
+File: omllmm.fd 2009/10/30 v1.6 Font defs for Latin Modern
+)
+LaTeX Font Info:    Trying to load font information for OMS+lmsy on input line 
+111.
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/latex/lm/omslmsy.fd
+File: omslmsy.fd 2009/10/30 v1.6 Font defs for Latin Modern
+)
+LaTeX Font Info:    Trying to load font information for OMX+lmex on input line 
+111.
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/latex/lm/omxlmex.fd
+File: omxlmex.fd 2009/10/30 v1.6 Font defs for Latin Modern
+)
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <10> on input line 111.
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <7> on input line 111.
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <5> on input line 111.
+LaTeX Font Info:    Trying to load font information for U+msa on input line 111
+.
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/latex/amsfonts/umsa.fd
+File: umsa.fd 2013/01/14 v3.01 AMS symbols A
+)
+LaTeX Font Info:    Trying to load font information for U+msb on input line 111
+.
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/latex/amsfonts/umsb.fd
+File: umsb.fd 2013/01/14 v3.01 AMS symbols B
+)
+
+Package Fancyhdr Warning: \fancyhead's `E' option without twoside option is use
+less on input line 113.
+
+
+Package Fancyhdr Warning: \fancyhead's `E' option without twoside option is use
+less on input line 114.
+
+LaTeX Font Info:    Trying to load font information for TS1+lmr on input line 1
+26.
+(/Users/SebastianRiera/Library/TinyTeX/texmf-dist/tex/latex/lm/ts1lmr.fd
+File: ts1lmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
+)
+Overfull \hbox (2.22221pt too wide) has occurred while \output is active
+[] 
+ []
+
+[1
+
+{/Users/SebastianRiera/Library/TinyTeX/texmf-var/fonts/map/pdftex/updmap/pdftex
+.map}] [2]
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <9> on input line 300.
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <6> on input line 300.
+[3]
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <8> on input line 409.
+
+LaTeX Warning: Command \' invalid in math mode on input line 417.
+
+[4]
+
+LaTeX Warning: Command \~ invalid in math mode on input line 422.
+
+
+LaTeX Warning: Command \' invalid in math mode on input line 422.
+
+[5]
+<RieraNoviembre_files/figure-latex/AhorroMza-1.pdf, id=124, 787.94376pt x 316.1
+8124pt>
+File: RieraNoviembre_files/figure-latex/AhorroMza-1.pdf Graphic file (type pdf)
+
+<use RieraNoviembre_files/figure-latex/AhorroMza-1.pdf>
+Package pdftex.def Info: RieraNoviembre_files/figure-latex/AhorroMza-1.pdf  use
+d on input line 537.
+(pdftex.def)             Requested size: 494.78409pt x 198.54391pt.
+[6 <./RieraNoviembre_files/figure-latex/AhorroMza-1.pdf>]
+<RieraNoviembre_files/figure-latex/AhorroMzaPerd-1.pdf, id=139, 787.94376pt x 3
+16.18124pt>
+File: RieraNoviembre_files/figure-latex/AhorroMzaPerd-1.pdf Graphic file (type 
+pdf)
+<use RieraNoviembre_files/figure-latex/AhorroMzaPerd-1.pdf>
+Package pdftex.def Info: RieraNoviembre_files/figure-latex/AhorroMzaPerd-1.pdf 
+ used on input line 570.
+(pdftex.def)             Requested size: 494.78409pt x 198.54391pt.
+[7 <./RieraNoviembre_files/figure-latex/AhorroMzaPerd-1.pdf>]
+LaTeX Font Info:    Calculating math sizes for size <11> on input line 628.
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <11> on input line 628.
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <7.69997> on input line 628.
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <5.5> on input line 628.
+[8
+
+]
+<figure/tsSubsist.pdf, id=162, 289.08pt x 361.35pt>
+File: figure/tsSubsist.pdf Graphic file (type pdf)
+<use figure/tsSubsist.pdf>
+Package pdftex.def Info: figure/tsSubsist.pdf  used on input line 707.
+(pdftex.def)             Requested size: 247.39532pt x 309.24417pt.
+
+Overfull \hbox (49.48111pt too wide) in paragraph at lines 707--708
+[][] 
+ []
+
+<RieraNoviembre_files/figure-latex/AhorroSup-1.pdf, id=163, 787.94376pt x 316.1
+8124pt>
+File: RieraNoviembre_files/figure-latex/AhorroSup-1.pdf Graphic file (type pdf)
+
+<use RieraNoviembre_files/figure-latex/AhorroSup-1.pdf>
+Package pdftex.def Info: RieraNoviembre_files/figure-latex/AhorroSup-1.pdf  use
+d on input line 733.
+(pdftex.def)             Requested size: 494.78409pt x 198.54391pt.
+[9
+
+ <./figure/tsSubsist.pdf> <./RieraNoviembre_files/figure-latex/AhorroSup-1.pdf>
+] [10] [11]
+<RieraNoviembre_files/figure-latex/ahorroSist1-1.pdf, id=200, 784.9325pt x 313.
+17pt>
+File: RieraNoviembre_files/figure-latex/ahorroSist1-1.pdf Graphic file (type pd
+f)
+<use RieraNoviembre_files/figure-latex/ahorroSist1-1.pdf>
+Package pdftex.def Info: RieraNoviembre_files/figure-latex/ahorroSist1-1.pdf  u
+sed on input line 868.
+(pdftex.def)             Requested size: 494.79753pt x 197.41281pt.
+<RieraNoviembre_files/figure-latex/ahorroSist-1.pdf, id=201, 787.94376pt x 316.
+18124pt>
+File: RieraNoviembre_files/figure-latex/ahorroSist-1.pdf Graphic file (type pdf
+)
+<use RieraNoviembre_files/figure-latex/ahorroSist-1.pdf>
+Package pdftex.def Info: RieraNoviembre_files/figure-latex/ahorroSist-1.pdf  us
+ed on input line 877.
+(pdftex.def)             Requested size: 494.78409pt x 198.54391pt.
+[12 <./RieraNoviembre_files/figure-latex/ahorroSist1-1.pdf> <./RieraNoviembre_f
+iles/figure-latex/ahorroSist-1.pdf>]
+<RieraNoviembre_files/figure-latex/AhorroInfPerd-1.pdf, id=224, 787.94376pt x 3
+16.18124pt>
+File: RieraNoviembre_files/figure-latex/AhorroInfPerd-1.pdf Graphic file (type 
+pdf)
+<use RieraNoviembre_files/figure-latex/AhorroInfPerd-1.pdf>
+Package pdftex.def Info: RieraNoviembre_files/figure-latex/AhorroInfPerd-1.pdf 
+ used on input line 944.
+(pdftex.def)             Requested size: 494.78409pt x 198.54391pt.
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+[13] [14 <./RieraNoviembre_files/figure-latex/AhorroInfPerd-1.pdf>]
+
+LaTeX Warning: Command \' invalid in math mode on input line 1088.
+
+
+LaTeX Warning: Command \' invalid in math mode on input line 1088.
+
+[15] [16] [17] (./RieraNoviembre.aux)
+Package rerunfilecheck Info: File `RieraNoviembre.out' has not changed.
+(rerunfilecheck)             Checksum: A31B700A52281D7C7D4BA412AC57E7D1;1956.
+
+LaTeX Warning: There were multiply-defined labels.
+
+ ) 
+Here is how much of TeX's memory you used:
+ 36394 strings out of 481346
+ 813818 string characters out of 5916743
+ 1355828 words of memory out of 5000000
+ 52455 multiletter control sequences out of 15000+600000
+ 486322 words of font info for 90 fonts, out of 8000000 for 9000
+ 14 hyphenation exceptions out of 8191
+ 94i,12n,115p,731b,2273s stack positions out of 5000i,500n,10000p,200000b,80000s
+pdfTeX warning (dest): name{Hfootnote.2} has been referenced but does not exi
+st, replaced by a fixed one
+
+pdfTeX warning (dest): name{Hfootnote.1} has been referenced but does not exist
+, replaced by a fixed one
+
+{/Users/SebastianRiera/Library/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-ec.enc}
+{/Users/SebastianRiera/Library/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-ts1.enc
+}{/Users/SebastianRiera/Library/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-mathsy
+.enc}{/Users/SebastianRiera/Library/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-rm
+.enc}{/Users/SebastianRiera/Library/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-ma
+thit.enc}{/Users/SebastianRiera/Library/TinyTeX/texmf-dist/fonts/enc/dvips/lm/l
+m-mathex.enc}</Users/SebastianRiera/Library/TinyTeX/texmf-dist/fonts/type1/publ
+ic/lm/lmbx10.pfb></Users/SebastianRiera/Library/TinyTeX/texmf-dist/fonts/type1/
+public/lm/lmbx12.pfb></Users/SebastianRiera/Library/TinyTeX/texmf-dist/fonts/ty
+pe1/public/lm/lmex10.pfb></Users/SebastianRiera/Library/TinyTeX/texmf-dist/font
+s/type1/public/lm/lmmi10.pfb></Users/SebastianRiera/Library/TinyTeX/texmf-dist/
+fonts/type1/public/lm/lmmi6.pfb></Users/SebastianRiera/Library/TinyTeX/texmf-di
+st/fonts/type1/public/lm/lmmi7.pfb></Users/SebastianRiera/Library/TinyTeX/texmf
+-dist/fonts/type1/public/lm/lmmi8.pfb></Users/SebastianRiera/Library/TinyTeX/te
+xmf-dist/fonts/type1/public/lm/lmmi9.pfb></Users/SebastianRiera/Library/TinyTeX
+/texmf-dist/fonts/type1/public/lm/lmr10.pfb></Users/SebastianRiera/Library/Tiny
+TeX/texmf-dist/fonts/type1/public/lm/lmr12.pfb></Users/SebastianRiera/Library/T
+inyTeX/texmf-dist/fonts/type1/public/lm/lmr5.pfb></Users/SebastianRiera/Library
+/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr6.pfb></Users/SebastianRiera/Libra
+ry/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr7.pfb></Users/SebastianRiera/Lib
+rary/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr8.pfb></Users/SebastianRiera/L
+ibrary/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr9.pfb></Users/SebastianRiera
+/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmri10.pfb></Users/SebastianR
+iera/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmri12.pfb></Users/Sebast
+ianRiera/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmsy10.pfb></Users/Se
+bastianRiera/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmsy6.pfb></Users
+/SebastianRiera/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmsy9.pfb></Us
+ers/SebastianRiera/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/symbo
+ls/msbm10.pfb>
+Output written on RieraNoviembre.pdf (17 pages, 1238637 bytes).
+PDF statistics:
+ 392 PDF objects out of 1000 (max. 8388607)
+ 328 compressed objects within 4 object streams
+ 92 named destinations out of 1000 (max. 500000)
+ 144 words of extra memory for PDF output out of 10000 (max. 10000000)
+

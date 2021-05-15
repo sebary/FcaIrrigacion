@@ -1498,11 +1498,31 @@ redRiegoLong %>%
   xlim(-69.15,-68.95) + ylim(-33.95,-33.82)
   
 
-redRiegoLong %>% filter(subdel=="Rio Tunuyan Superior") %>%
+redRiegoLong %>% filter(subdel=="Rio Mendoza") %>%
   group_by(CodigoCauce) %>% ggplot( ) + 
   geom_sf(aes(fill=id_mat, colour= id_mat)) + #
   geom_sf(data = rios, alpha=0.5,fill = "#05E9FF", col = "#05E9FF") + 
-  xlim(-69.6,-68.82) + ylim(-34.1,-33.1) + theme_bw() 
+  xlim( -68.994664,-68.719274) + ylim(-33.406994,-33.051441) + theme_bw() 
+
+redRiego %>% select(subdel,CodigoCauce, subSist, denominacion,id_mat) %>%
+  filter(subdel=='Rio Mendoza') %>%
+  ggplot() + geom_sf(data = cuenca[ cuenca$CUENCA=="RÃ­o Mendoza", ],fill = "white",col='white') +
+  geom_sf(aes(fill= subSist,colour=subSist)) + 
+  geom_sf(data=rios, fill = "#05E9FF",col = "blue", alpha=0.3) + #lwd=0.7,
+  xlim( -68.994664,-68.719274) + ylim(-33.406994,-33.051441) +
+  theme_bw() + theme(legend.position = 'bottom',legend.title = element_blank()) +
+  geom_sf(data = cuenca[ cuenca$CUENCA!="RÃ­o Mendoza",],col='grey90') +
+  guides(fill = guide_legend(ncol = 2))
+ggsave('figure/mzSubsist.pdf', height = 5, width = 4, units = 'in')
+
+
+redMaterial %>%
+  filter(subdel=="Rio Mendoza") %>%
+  ggplot( col=CodigoCauce) + #geom_sf() + 
+  geom_sf_label( aes( label= CodigoCauce), alpha=0.2) +
+  geom_sf(data = rios, alpha=0.5,fill = "#05E9FF", col = "#05E9FF") + 
+  #xlim( -68.994664,-68.719274) + ylim(-33.406994,-33.051441) + 
+  theme_bw() 
 #+  geom_sf(redMaterial$subdel=="Rio Tunuyan Superior", aes(geometry=geometry)) 
  # geom_sf_text(redMaterial$subdel=="Rio Tunuyan Superior", aes(geometry=geometry, label= CodigoCauce),    alpha=0.3) 
 

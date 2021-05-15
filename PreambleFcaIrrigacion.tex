@@ -1,0 +1,36 @@
+
+\renewcommand{\baselinestretch}{1.5} %{1.2} % Testing for double-space
+\usepackage{placeins} % ensure that tbales and figures remain in the corresponding section
+\usepackage{fancyhdr}
+\usepackage{setspace}
+\let\counterwithout\relax
+\let\counterwithin\relax
+\usepackage{chngcntr} % activates counting within sections
+\setlength{\abovecaptionskip}{0pt plus 0pt minus 2pt}
+\usepackage{lmodern}
+\usepackage{booktabs}
+\setlength{\floatsep}{-.5pt}
+\usepackage{amsmath}
+\usepackage[bottom]{footmisc}
+\usepackage[export]{adjustbox} % loads also graphicx
+\usepackage{float}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{wrapfig}
+\usepackage{colortbl}
+\usepackage{pdflscape}
+\usepackage{tabu}
+\usepackage{threeparttable}
+\usepackage{threeparttablex}
+\usepackage{makecell}
+\usepackage{xcolor}
+\usepackage[colorinlistoftodos,prependcaption,textsize=small]{todonotes}
+\usepackage{xargs}
+
+\newcommandx{\SR}[2][1=]{\todo[linecolor=blue,backgroundcolor=blue!25,bordercolor=blue,#1]{SR: #2}}
+\newcommandx{\BB}[2][1=]{\todo[linecolor=green,backgroundcolor=green!25
+,bordercolor=green,#1]{BB: #2}}
+\newcommandx{\improvement}[2][1=]{\todo[linecolor=Plum,backgroundcolor=
+Plum!25,bordercolor=Plum,#1]{#2}}
+\newcommandx{\thiswillnotshow}[2][1=]{\todo[disable,#1]{#2}}

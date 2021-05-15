@@ -1,0 +1,768 @@
+---
+title: 'Legal and Economic Mechanisms to Address Water Complexities in Mendoza, Argentina'
+address: Departmento de Economía y Política Agraria. Facultad de Ciencias Agrarias.
+  Universidad Nacional de Cuyo
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+output:
+  word_document: default
+  number_sections: yes
+  pdf_document:
+    fig_caption: yes
+bibliography: FcaIrrigacion.bib
+documentclass: elsarticle
+geometry: left=2.1cm,right=2.1cm,top=1.8cm,bottom=1.5cm
+cls: elsarticle.cls
+header-includes:
+- \renewcommand{\baselinestretch}{1.5}
+- \usepackage{placeins}
+- \usepackage{fancyhdr}
+- \usepackage{setspace}
+- \let\counterwithout\relax
+- \let\counterwithin\relax
+- \usepackage{chngcntr}
+- \setlength{\abovecaptionskip}{0pt plus 0pt minus 2pt}
+- \usepackage{lmodern}
+- \usepackage{booktabs}
+- \setlength{\floatsep}{-.5pt}
+- \usepackage{amsmath,mathtools}
+- \usepackage[bottom]{footmisc}
+- \usepackage[export]{adjustbox}
+- \usepackage{multirow}
+- \usepackage{float}
+- \usepackage{longtable}
+- \usepackage{array}
+- \usepackage{wrapfig}
+- \usepackage{colortbl,xcolor}
+- \usepackage{pdflscape}
+- \usepackage{tabu}
+- \usepackage{threeparttable,threeparttablex}
+- \usepackage[normalem]{ulem}
+- \usepackage{pgfplots,tikz}
+- \usepackage{inputenc}
+- \usepackage{makecell}
+- \usepackage{caption}
+- \captionsetup{font=normalsize,labelfont=normalsize}
+---
+
+```{r setup2, include=FALSE, results='hide'}
+knitr::read_chunk("RegulatoryEffort.R")
+knitr::opts_chunk$set(fig.cap="",fig.pos="h", warning= FALSE, cache = FALSE, message = FALSE, echo = FALSE,comment = NA, prompt = FALSE, results = 'asis')
+options(scipen=999) # disable scientific notation
+```
+
+
+```{r SetUp2, include=FALSE, results='hide'}
+SetUp2
+```
+
+```{r DataObras17, results='hide'}
+```
+
+```{r DataObras18, results="hide"}
+```
+
+```{r OtherSum18,results='hide'}
+```
+
+```{r DataObras19, results='hide'}
+```
+
+```{r DataObras20, results='hide'}
+```
+
+```{r SummaryBase, results='hide'}
+```
+
+```{r MainTables, results='hide'}
+```
+
+```{r MendozaTable, results='hide'}
+```
+
+```{r MendozaPlots, results='hide'}
+```
+
+```{r DataObrasFull, results='hide'}
+```
+
+<!--
+
+```{r spdataLoad, results='hide',warning=FALSE}
+```
+
+```{r SupEf, results='hide'}
+```
+
+```{r SuperiorPlots, results='hide'}
+```
+
+```{r ahorroSist2, results='hide'}
+```
+
+```{r InfEf, results='hide'}
+```
+
+```{r InferiorTable, results='hide'}
+```
+
+```{r InferiorPlots, results='hide'}
+```
+
+-->
+
+```{r settty}
+options(digits=5)
+```
+
+\pagestyle{fancy}
+\fancyhead[RE,LO]{Riera, Gennari y Pinto}
+\fancyhead[LE,RO]{Metodología de investigación proyecto FCA-Irrigación}
+
+
+\begin{center} 
+F. Sebastián Riera, Alejandro J. Gennari, Mauricio Pinto
+\end{center}
+\vspace{-1cm}
+
+# Summary
+
+The difficulties of managing water resources are accentuated in scarcity-context and require an in-depth analysis of the circumstances that will contribute to a more resilient management system.
+Considering the characteristics of the irrigation system in the province of Mendoza and the relevance of the General Irrigation Department (DGI),
+the _Potrerillos Fund_ conceptually consists of the opportunity cost of recovering the water that is lost due to infiltration in the canals due to lack of investment.
+
+The economic analysis allows the design of efficient tools to improve water governance in the context of conflict of interest and high transaction costs [@Gomez2018; @MAGyP2011b].
+Historically, the elements of economic policy have not been extensively applied in the management of water resources [@Gruere2018] as they are not always adapted to the management of assets as complex as irrigation water [@Gruere2019].
+@Lago2015 affirms that the main reasons are uncertainty, high transaction costs, legislative reforms and a correct estimate of the impact of the measures.
+
+It is desirable to consider _integral tools_ from the economic and legal point of view that aim to solve the challenge of water supply with increasing demands in periods of scarcity in arid and semi-arid climates [@Pittock2016].
+
+
+# Legal and Economic Aspects
+
+The DGI, through the Honorable Administrative Tribunal (HTA), contemplated the creation of a Fund infrastructure financing when the Potrerillos Dam was built (1999-2002).
+The _Potrerillos_ _Fund_ seeks to mitigate the effect of clear waters and the relative scarcity by waterproofing channels. 
+This mechanism, however, envisioned that waterproofing generated a saving in water that allowed the incorporation of new users, assigning the cost of the works to them (Resolution 175/99 HTA).
+In this way, the regulation of a complex socioeconomic relationship is generated, where the actors with greater financial power can contribute the necessary resources for water saving actions that the agricultural sector cannot always assume; and at the same time, generates water savings to cover the new social needs.
+The study of the practical application experience of the Potrerillos Fund can provide numerous lessons learned in relation to its strengths and failures, and provide elements to expand its application to other cases. 
+
+A preliminary exploration of the subject allows us to observe that its application is exclusively linked to the expansion of residential consumptions that demand reduced volumes that present high economic value, and that administrative practice has been reluctant in the full application of the regulated system, and therefore in all the cases in which this institute applied the struggle between bidders that contemplates the regulation to obtain a greater pecuniary contribution has been excepted, limiting the contribution to the basic cost of the resource. 
+
+It appears as an essential problem of knowledge to determine the economic conditions that contextualize the application of this regime and its limits, where aspects such as land use planning, the value of water, the economic capacity of the different social sectors, and the externalities linked to the destination of the water resource mutate from variables of interest to key-aspects for development.
+
+
+```{r Revestimiento, results='asis'}
+```
+
+It is intended to dismember investments in lining of canals by estimating the change in the volume of water transported in such a way that it is possible to approximate the real cost of increasing the supply of water.
+Despite the financing source of the water infrastructure investment, the executing units optimize their resources and/or there is a tender, which ensures price competition.
+The water saving is calculated according to the following formula,
+
+\vspace{-.5cm}
+\begin{equation}
+\mathbb{A}_i^{O} = \sum_{j=1}^{n} \Delta meters \times Q_{m^{3}/year} \times \Delta loss
+\end{equation}
+
+
+\begin{figure}[H] \begin{center} \begin{tikzpicture}[scale=1.0544]\small
+\begin{axis}[axis line style=gray,
+	samples=120,
+	width=9.0cm,height=6.4cm,
+	xmin=0, xmax=5,
+	ymin=0, ymax=5,
+	restrict y to domain=1:8,
+	ytick={},
+	xtick={},
+	axis equal,
+	axis x line=center,
+	axis y line=center,
+	xlabel=$m^{3} aplicados$,ylabel=$P_{m^{3}}$]
+\addplot[red,domain=1.5:6,ultra thick]{exp(x-3)/2+1.9};
+\addplot[ultra thick,black, domain=0:1.5]{2};
+\addplot[] coordinates {(1,2.5)} node{$\mathbb{A}_0^O$};
+\addplot[red] coordinates {(5,4)} node{$\mathbb{A}_1^O$};
+\path (axis cs:0,0) node [anchor=north west,yshift=0.7cm] {0};
+\end{axis} \end{tikzpicture} \\
+\caption{\label{OfertaAgua}Representación de la oferta de agua $\mathbb{A}_i^O$}
+\end{center}
+\end{figure}
+
+
+# Mendoza River Subdelegation
+\vspace{-.2cm}
+
+The water savings for the year $i$ ($\mathbb{A}_i^O$) is equivalent to the decrease in losses due to infiltration by infrastructure works.
+It is calculated considering the linear meters of lining, the annual average flow per channel ($j$) weighted by the change in the lost volume.
+The conveyance efficiency values ($EfC_j$) correspond to secondary information from surveys and gauging carried out by the DGI where flow volumes, infiltration losses and channel characteristics were considered [@Cuneo2016].
+In the case of the Mendoza River, since 2017
+`r Revestimiento[[4,5]]` meters.
+<!--
+
+```{r MzaCaudales, results='asis'}
+```
+
+```{r MendozaInvTables, results='hide'}
+``` 
+
+
+```{r MzaTable, results='asis'}
+```
+-->
+
+```{r AhorroMza, results='asis',fig.show='hold', fig.height=4.1, fig.width=9, fig.cap="\\label{AhorroMza}Curva de ahorro de agua enfoque eficiencia de conducción",out.extra="", fig.align='center'}
+options(digits = 3)
+```
+
+The so-called loss approach considers the value of conveyance efficiency in earth channels calculated for each management unit;
+this calculation generalizes the values of $EfC_{j}$ possibly underestimating the performance of the management unit (UM).
+
+
+\vspace{-.2cm}
+# Final comments
+\vspace{-.2cm}
+
+In a context of complete availability of information and perfect competition between the companies and institutions that carry out the infrastructure works, the estimation of the additional supply curve is equivalent to the $Marginal \: Cost \: (MC)$ of saving water due to the reduction of infiltration losses.
+This approach considers only the concept of conveyance efficiency ($EfC$) for the estimation of the curve.
+
+This applied theoretical framework takes into account the changes in the availability of water for irrigation and interacts with the real needs for irrigation. The real increases in water availability for irrigation require infrastructure investment; therefore, the correct estimation, application and interpretation of it supports of the real cost of increasing the water available for irrigation.
+
+
+
+<!--
+Among the objectives of this project, the estimation of the cost of saving water by investing in irrigation infrastructure stands out, validated considering the specific demands of the water resource per area of analysis.
+In this way, an estimate of the range of acceptable values is achieved according to the productive characteristics, land uses and associated irrigation systems.
+
+Taken from @Morabito2005
+The application of water in the plot corresponds to the movement of water from the intake of the plot to the crop.
+Chambouleyron (1977) presents a work on irrigation efficiencies in the Mendoza river area. Several concepts of efficiencies are mentioned and essentially divide them into two large groups. The efficiencies of the irrigation network (external efficiencies) and the efficiencies inside the property (internal efficiencies). Internal irrigation efficiency (ERI) is defined as the product of application efficiency and internal conveyance efficiency (ECI). The latter calculated as the quotient between the flow received in the irrigated plot with respect to the flow derived from the farm intake.
+
+From an economic perspective, the valuation of the resource allows the use of various policy elements that affect the scale and / or production patterns and exploitation costs [@Mysiak2015].
+
+From the economic perspective, it is proposed to identify the effects and improve the estimation of the productive results and water governance.
+Ideally, from the economic perspective, the value of the resource should reflect the financial costs of the irrigation infrastructure, the environmental costs of affecting ecosystems and the social costs in the event of a loss of well-being [@Mysiak2015].
+
+It is intended to dismember investments in lining of canals by estimating the change in the volume of water transported in such a way that it is possible to approximate the real cost of increasing the supply of water.
+Despite the financing source of the water infrastructure investment, the executing units optimize their resources and/or there is a tender, which represents a price competition for executing the works.
+This type of approach generates additional information for decision making due to the proximity of the investments to the real marginal cost.
+
+\begin{enumerate}
+\item The effects of investments on the productivity of current and future crops
+\item Estimation of marginal productivity of water
+\item Approximation to opportunity cost (economic)
+\item Effects of modernization in irrigation on economic values
+\end{enumerate}
+-->
+
+
+<!--
+\begin{equation*}
+\textrm{conveyance efficiency} \quad = \frac{EfC_{j}}{length \: channel \: type_{j}} 
+\end{equation*}
+
+Based on the results of the estimate made
+`r OfertaMza$Cauce[[1]]` represents the largest _decrease_ in _leakage losses_ per dollar invested since 2017.
+According to the calculations carried out, the realization of this cladding work reduces the annual losses due to filtration in
+`r round(OfertaMza$AAcum[[1]]/1000, digits=0)` thousands of cubic meters (m$^3$).
+
+
+```{r MendozaInv}
+``` 
+```{r AhorroMzaPerd, results='asis',fig.show='hold', fig.height=4.5, fig.width=11, fig.cap="\\label{AhorroMzaPerd}Curva de ahorro de agua enfoque pérdidas",out.extra="", fig.align='center'}
+```
+
+
+\vspace{-.15cm}
+La tabla anterior expresa valores promedio de las inversiones realizadas para esta cuenca en los años relevados y de las menores pérdidas por filtración en miles de metros cúbicos.
+Según la información disponible, el mínimo de inversión necesaria para disminuir las pérdidas por filtración en 1 hectómetro cúbico (Hm3) fue 
+`r round(OfertaMzaInv$InvAcum[[9]], digits = 0)`.
+
+
+```{r MzaTableComparacion, results='asis'}
+```
+
+
+[^1]: Pérdida por infiltración se calcula con la siguiente fórmula: $F_{m^3/s/km} = \frac{0.018 \times C \times B \times \sqrt{h}}{{\sqrt[4]{\omega}}}$, donde $C$ indica el tipo de terreno y adquiere valores entre 0.30 y 0.49.
+$B$ representa el ancho superficial del canal y $h$ la altura. 
+El área irrigada en m$^2$ es el valor de $\omega$.
+\vspace{.1cm}
+
+[^2]: La estimación de la disminución del agua pérdida se realiza considerando las diferencias en la eficiencia de conducción anterior y posterior al relevamiento. Se toma como base los valores de los estudios de aforo y eficiencia en conducción ordenados en la siguiente fórmula: $\Delta Pérdida = \frac{EfC_{1} - EfC_{0}}{distancia \: media}$
+
+# Subdelegación Tunuyán Superior
+
+```{r SupCaudales, results='asis'}
+```
+
+\begin{wrapfigure}{c}{0.4\textwidth}
+    \includegraphics[width=.5\textwidth]{figure/tsSubsist.pdf}
+\end{wrapfigure}
+
+
+Si bien las curvas de ahorro de agua por menor filtración parecen similares,
+existe una diferencia en el valor medio entre ambas metodologías.
+El enfoque de pérdidas en la eficiencia de conducción, el precio medio por USD/$m^3$ es `r round(mean(Superior$valuePerdBis, na.rm=T), digits=2)` y el precio con mayor frecuencia (mediana) es USD `r round(median(Superior$valuePerdBis, na.rm=T), digits=2)` por m$^3$ de agua ahorrada.
+
+
+Si bien el enfoque de eficiencias de conducción es más atractivo para el análisis aplicado, la información disponible de libre acceso no garantiza el cálculo correcto. 
+Debido a la necesidad de discriminar entre los distintos tipos de cauces revestidos ($j$), asignando el valor de $EfC_{j}$ según el estudio de eficiencias en la conducción para la subdelegación del río Tunuyán Superior.
+Por otro lado, el denominado enfoque de pérdidas considera el valor de eficiencia de conducción por kilómetro calculado para cada unidad de manejo;
+este cálculo generaliza los valores de $EfC_{j}$ promediando las condiciones de infraestructura en la unidad de manejo (UM).
+
+\begin{equation*}
+\textrm{Eficiencias de Conducción} \quad = \frac{EfC_{j}}{longitud \: tipo \:de \: cauce_{j}} 
+\end{equation*}
+
+```{r AhorroSup, results='asis',fig.show='hold', fig.height=4.5, fig.width=11, fig.cap="\\label{AhorroSup}Curva de ahorro de agua enfoque eficiencia de conducción",out.extra="", fig.align='center'}
+```
+
+```{r SupTable, results='asis'}
+```
+
+```{r redMaterialSubSistema, results='asis'}
+```
+
+
+```{r ahorroSist1, results='asis',fig.width=11,fig.cap="\\label{ahorroSist1}Curva de ahorro de agua por subsistemas",out.extra="", fig.align='center'}
+```
+
+```{r ahorroSist, results='asis',fig.width=11,fig.cap="\\label{ahorroSist}Estimación ahorro por subsistemas",out.extra="", fig.align='center'}
+```
+
+\newpage
+
+# Subdelegación Tunuyán Inferior
+
+```{r InfCaudales, results='asis'}
+```
+
+
+```{r AhorroInfPerd, results='asis',fig.show='hold', fig.height=4.5, fig.width=11, fig.cap="\\label{AhorroInfPerd}Curva de ahorro de agua enfoque pérdidas",out.extra="", fig.align='center'}
+```
+
+
+```{r InfTable, results='asis'}
+```
+-->
+
+
+<!--
+# Methods
+\vspace{-.1cm}
+
+Considering the investments in irrigation infrastructure strictly in lining and waterproofing of channels for the years 2017-2019,
+A database was prepared that includes the aforementioned investment amounts and updated data from the _Water Balance_ on resource management and resource management efficiency [@DGI2016].
+Regarding irrigation efficiencies, @Bos1990 clarifies that the conveyance efficiency ($EfC$), is the efficiency of the networks of channels and conduits from the diversion of the river, the reservoir or pumping station to the intakes of the distribution system .
+
+
+The distribution efficiency ($EfD$) is the efficiency of the water distribution channels and conduits that supply water from the transmission network to individual fields.
+Finally, the application efficiency ($EfA$) is the relationship between the water supply at the entrance to the farm field and the amount of water necessary and available for the crop evapotranspiration, in order to avoid the water stress of the cultivation throughout the growth cycle [@Bos1990; @Morabito2005].
+The average flow (m$^3$/year) according to the water balance is improved by lower losses in water distribution as a result of the execution of works.
+It is possible to interpret this decrease in infiltration losses as an improvement in conveyance that enables the _water savings_ to be estimated considering the meters of lined canal, the loss percentages per unit of management and the evaluation of the efficiency in the conveyance.
+The information on loss due to infiltration can be calculated based on measurements _in situ_ such as gauges or also through the _Moritz criteria_,
+which considers the characteristics of the terrain, height of the channel and irrigated area to estimate the loss in m$^3$/sec in the length of the channel.
+
+
+The analysis is based on two information pillars: the state of the infrastructure and the investments made.
+The first includes the most up-to-date surveys and estimates of the conditions of the irrigation network in terms of waterproofed surface and the distribution of the resource.
+In particular, flow measurement data were obtained in networks and suckers, discriminating if they are lined;
+The losses of the system are estimated based on the efficiency in the conveyance of the channels.
+It allows the estimation of the decrease in the loss due to infiltration due to the execution of infrastructure works accompanied by monetary information for economic valuation.
+The second source of information is the investments in channel lining granted by the DGI, where the lining works were distinguished in the corresponding sub-delegations and the values of conveyance efficiency were assigned according to the information received.
+The linking of the data was carried out using the channel codes [@DGI2004].
+When there is no record of capacity in the lined riverbed, the value of $EfC$ is replaced by the one corresponding to the estimate for the Management Unit (UM).
+
+
+## Additional water supply
+\vspace{-.2cm}
+
+This applied theoretical framework takes into account the changes in the availability of water for irrigation and interacts with the real needs for irrigation.
+The real increases in water availability for irrigation require an investment in infrastructure, The correct estimation, application and interpretation of it gives rise to the economic-productive support of the real cost of increasing the water available for irrigation.
+
+```{r SumFull}
+```
+
+
+\vspace{-.3cm}
+\subsection{Aspectos jurídicos}
+\vspace{-.3cm}
+
+Revisión de los antecedentes jurídicos que dan sustento a las resoluciones R576/00 HTA, R34/01 HTA, R945/06 HTA, R299/07 HTA.
+
+## Estimación de la oferta hídrica adicional
+
+Considerando el promedio de años de escasez, se inicia la traza de la curva de oferta de agua $\mathbb{A}_i^O$ específica para una región de análisis ($i$).
+El análisis de las inversiones recientes y la estimación de las inversiones necesarias se ordenan en la curva de oferta de acuerdo a la priorización de obras de infraestructura y el volumen adicional de agua para riego ahorrado.
+
+\vspace{-.5cm}
+\begin{equation}
+\mathbb{A}_i^O = g (\bar{\mathbb{A}}^O, N_i, I_i, m_i^3, OF_i)
+\end{equation}
+
+donde $\bar{\mathbb{A}}^O$ es el promedio de agua entregada por el sistema durante los años de escasez,
+$N_i$ es el volumen de nieve,
+$I_i$ representa las inversiones realizadas en infraestructura con el fin de aumentar la oferta hídrica,
+m$_i^3$ son los metros cúbicos _adicionales_ o _ahorrados_ por la ejecución de las obras,
+$OF_i$ representan otros factores relevantes pero no contemplados hasta el momento.
+La inversión en infraestructura y beneficio de la ejecución se interpreta como extensión de la oferta de agua para riego con pendiente positiva en relación al costo asociado.
+
+El cálculo de inversión por metro cúbico adicional (m$^3$) se realiza contemplando las estimaciones de necesidades de infraestructura y diseño de obras futuras, cómo así también realizadas en un período de 5 años.
+Obteniendo un cálculo referencial de costo en dólares por metro cúbico (USD/$m^3$).
+
+```{r redMaterialSub, results='asis'}
+```
+
+La información disponible en el servidor de mapas IDE [@DGI2018] indica que el sistema de riego relevado de la provincia asciende a 
+`r format(as.numeric(round(redtotaltip[7,7]/1000,1)), big.mark = ".", decimal.mark = ",")` km.
+Dentro del sistema de conducción, la mayor proporción del total relevado corresponde a trazado sobre tierra (`r paste(round(redtotaltip[8,1],1),'%')`).
+Seguido por datos que resta validar 
+(`r paste(round(redtotaltip[8,6],1),'%')`) y hormigón 
+(`r paste(round(redtotaltip[8,2],1),'%')`)
+Los valores que se exponen en la tabla \label{redMaterial} fueron obtenidos del servidor de mapas IDE [@DGI2018] y procesados de acuerdo a las características disponibles.
+
+-->
+
+
+
+<!--
+
+As mentioned above, the global concept of efficiency in the management of water resources should include the estimates of efficiency in the distribution ($EfD$) and efficiency in the application ($EfA$).
+The information presented here can be considered as support for investment decisions in channel lining, but it would not correspond to compare investments that aim to improve different concepts of efficiency.
+
+In other words, at this stage of analysis it is not convenient to relegate investments that aim to improve efficiency in distribution by coating works because we have not reached the development of an inclusive investment valuation methodology for the three efficiency concepts.
+It is desirable to continue the investigation and evaluation of lining works in other sub-delegations to deepen the knowledge of the marginal cost of water savings due to conveyance efficiency.
+The work carried out during 2019 allowed the clarification of a work methodology that will provide results more quickly.
+\vspace{-.3cm}
+# Modelo integral
+\vspace{-.2cm}
+El presente es una adaptación de la teoría económica clásica incorporando aspectos técnicos de política económica en el manejo del agua.
+Se presenta en un gráfico de cuatro (4) cuadrantes. 
+El Primero y el tercero reflejan la tecnología de riego representativa de la explotación agrícola.
+En el segundo cuadrante se ubica la demanda de agua para riego $\mathbb{A}_i^D$ y en el cuarto cuadrante la demanda efectiva de riego o productividad marginal $\mathbb{AE}_i^D$.
+Cambios o adaptaciones tecnológicas generan efectos en las demandas de riego que, identificándose correctamente, muestra el valor real de la productividad marginal del agua.
+
+\begin{figure}[H]
+\begin{center} \begin{tikzpicture}[scale=.85]\small
+\begin{axis}[axis line style=gray,
+	samples=120,
+	width=18.0cm,height=12.8cm,
+	xmin=-5, xmax=5,
+	ymin=-4.5, ymax=4.5,
+	restrict y to domain=-5.5:5.5,
+	ytick={},
+	xtick={},
+	axis equal,
+	axis x line=center,
+	axis y line=center,
+	xlabel=$m^{3} \space aplicados$, ylabel= $P_{m^{3}}$]
+\addplot[ultra thick,blue,domain=0:6]{(x-8)^2/6};
+\addplot[ thick,black, domain=0:6]{(x-6)^2/6};
+\addplot[] coordinates {(5,.5)} node{$\mathbb{A}_0^D$};
+\addplot[blue] coordinates {(6,1.3)} node{$\mathbb{AE}_1^D$};
+\addplot[ultra thick,red,domain=1.5:6]{exp(x-3)/2+1.9};
+\addplot[ thick,black, domain=0:1.5]{2};
+\addplot[] coordinates {(1,2.2)} node{$\mathbb{A}_0^O$};
+\addplot[red] coordinates {(5,4)} node{$\mathbb{A}_1^O$};
+\addplot[brown, very thick, domain=-5:5]{-x};
+\addplot[purple, very thick, domain=-5:5]{-x/3};
+\addplot [<-, thick, magenta] (4,-3) ++ (5,-2) node{$\uparrow EfAplicación$};
+\addplot[ultra thick, teal, domain=-5:0]{-1/35*(x+6)^(3)-0.5};
+\addplot[teal] coordinates {(-6,-.7)} node{$PMg_i^{AE}$};
+\addplot[black] coordinates {(-6,.4)} node{$CMg_{Agua}$};
+\addplot[black] coordinates {(1,-4)} node{$m^3 \ efectivos$};
+\addplot[brown] coordinates {(5.3,-4)} node{$tecnología \ riego$};
+\path (axis cs:0,0) node [anchor=north west,yshift=0.7cm] {0};
+\end{axis} \end{tikzpicture} \\
+\caption{\label{Modelo}Representación de cambios en la demanda de agua $\mathbb{A}_i^D$ acorde a la expansión de la oferta de riego $\mathbb{A}_1^S$}
+\end{center}
+\end{figure}
+
+La eficiencia del riego intra-finca está caraterizada por el _paquete tecnológico_ del productor y las herramientas que utiliza para la producción agrícola.
+En otras palabras, la tecnología disponible en la finca como sistema de riego, sistema de conducción de cultivo y prácticas agrícolas (entre otros) determina la efectividad del agua para riego.
+Es posible estimar el volumen mínimo de riego de acuerdo a las caracterísiticas de la finca y el uso del mejor paquete tecnológico disponible.
+A su vez, esta estimación permite calcular el precio correcto (teórico) del agua para riego. 
+El mismo puede ajustarse a valores referenciales de la finca y ajustarse cambios en la disponibilidad del recurso hídrico.
+ 
+
+<!--
+
+\vspace{-.3cm}
+\subsection{ \textbf{Estimación de demanda de agua para riego}}
+\vspace{-.3cm}
+
+Se propone derivar un esquema integral que permita el análisis de efectos de medidas de política hídrica y económica [@Lago2015; @Gruere2018].
+Esto incluye alteraciones en la demanda y oferta del recurso hídrico para riego agrícola por factores endógenos y exógenos.
+Endógenos o propios de la unidad productiva como por ejemplo: las decisiones productivas como tipo de cultivo, sistema de riego, tecnología existente en la finca.
+A su vez, se consideran factores exógenos que pueden modificar las necesidades de riego. 
+_e.g.:_ contingencias climáticas, política fiscal y/o económica, etc.
+
+La derivación de las curvas de demanda de agua $\mathbb{A}_i^D$ se puede realizar teniendo acceso a los datos específicos de la zona de análisis.
+Inicialmente, puede derivarse la estimación en base a @Riera2018 realizada para el cultivo de vid en la margen derecha de Luján de Cuyo.
+
+\vspace{-.5cm}
+\begin{equation}
+\mathbb{A}_i^D = f (Sup_i, C_i, F_i, P_X)
+\end{equation}
+
+Donde $Sup_i$ es la superficie empadronada para riego (ha), 
+$C_i$ es el vector de cultivos en la finca, 
+$F_i$ es la fuente de agua para riego y
+$P_X$ es el precio de mercado del cultivo.
+La consideración de características de suelo en términos de salinidad, drenaje y otras opciones será considerada de acuerdo a la disponibilidad de datos.
+La demanda de agua para riego debe tener una pendiente negativa respecto al precio que paga el productor y es posible que sea inelástica en un segmento determinado.
+Es decir, que el cultivo requiere un mínimo de agua cualquiera sea el precio para seguir produciendo.
+Además de la estimación tradicional de la demanda, se pretende estimar la productividad marginal del agua _efectivamente_ utilizada [@Gomez2018].
+
+\vspace{-.5cm}
+\begin{equation}
+\mathbb{AE}_i^D = f (Sup_i^{*}, C_i, F_i , S_i, P_X, ET_C, T_i)
+\end{equation}
+
+Esta estimación considera, implícitamente, las (d)eficiencias inherentes a la tecnología de riego utilizada en la finca ($S_i^{*}$);
+como así también, las características naturales del suelo y condicionamientos climáticos específicos.
+$ET_C$ es la evapotranspiración de los cultivos en la finca y 
+$T_i$ es una aproximación del estado del tiempo en el período bajo análisis.
+Las demandas para riego están sujetas a cambios en la restricción presupuestaria del productor, cambios en el ingreso agrícola o también a _shocks_ externos como cambios en la estructura fiscal.
+En la estimación se busca además considerar los incrementos de demanda por mayor disponibilidad de agua, ya sea por cultivos con mayor requerimiento hídrico o aumento de superficie.
+Este fenómeno es también conocido como el _paradigma de Jevons_ [@Alcott2005] o principio de marginalidad equivalente [@Lago2015].
+
+\begin{figure} \begin{center} \begin{tikzpicture}[scale=1.0544]\small
+\begin{axis}[axis line style=gray,
+	samples=120,
+	width=9.0cm,height=6.4cm,
+	xmin=0, xmax=5,
+	ymin=0, ymax=4.5,
+	restrict y to domain=.5:5.5,
+	ytick={},
+	xtick={},
+	axis equal,
+	axis x line=center,
+	axis y line=center,
+	xlabel=$ Hm^{3} \space aplicados$, ylabel= $P_{Hm^{3}}$ ]
+\addplot[ultra thick, blue,domain=0:6]{(x-8)^2/6};
+\addplot[ultra thick,black, domain=0:6]{(x-6)^2/6};
+\addplot[] coordinates {(4.5,1)} node{$\mathbb{A}_0^D$};
+\addplot[blue] coordinates {(5.8,1.3)} node{$\mathbb{AE}_1^D$};
+\path (axis cs:0,0) node [anchor=north west,yshift=0.7cm] {0};
+\end{axis} \end{tikzpicture} \\
+\caption{\label{DemandaAgua}Representación de la demanda de agua y agua efectiva $\mathbb{A}_0^D \ y \ \mathbb{AE}_1^D$}
+\end{center}
+\end{figure}
+
+La eficiencia del riego intra-finca está caraterizada por el _paquete tecnológico_ del productor y las herramientas que utiliza para la producción agrícola.
+En otras palabras, la tecnología disponible en la finca como sistema de riego, sistema de conducción de cultivo y prácticas agrícolas (entre otros) determina la efectividad del agua para riego.
+Es posible estimar el volumen mínimo de riego de acuerdo a las caracterísiticas de la finca y el uso del mejor paquete tecnológico disponible.
+A su vez, esta estimación permite calcular el precio correcto (teórico) del agua para riego. 
+El mismo puede ajustarse a valores referenciales de la finca y ajustarse cambios en la disponibilidad del recurso hídrico.
+ 
+-->
+
+
+
+<!--
+\vspace{-.5cm}
+\subsection{\textbf{Modelo económico aplicado}}
+
+El presente es una adaptación de la teoría económica clásica incorporando aspectos técnicos de política económica en el manejo del agua.
+Se presenta en un gráfico de cuatro (4) cuadrantes. 
+El Primero y el tercero reflejan la tecnología de riego representativa de la explotación agrícola.
+En el segundo cuadrante se ubica la demanda de agua para riego $\mathbb{A}_i^D$ y en el cuarto cuadrante la demanda efectiva de riego o productividad marginal $\mathbb{AE}_i^D$.
+Cambios o adaptaciones tecnológicas generan efectos en las demandas de riego que, identificándose correctamente, muestra el valor real de la productividad marginal del agua.
+
+
+\begin{figure}[h]
+\begin{center} \begin{tikzpicture}[scale=1.0544]\small
+\begin{axis}[axis line style=gray,
+	samples=120,
+	width=18.0cm,height=12.8cm,
+	xmin=-5, xmax=5,
+	ymin=-4.5, ymax=4.5,
+	restrict y to domain=-5.5:5.5,
+	ytick={},
+	xtick={},
+	axis equal,
+	axis x line=center,
+	axis y line=center,
+	xlabel=$ Hm^{3} \space aplicados$, ylabel= $P_{Hm^{3}}$]
+\addplot[ultra thick,blue,domain=0:6]{(x-8)^2/6};
+\addplot[ thick,black, domain=0:6]{(x-6)^2/6};
+\addplot[] coordinates {(5,.5)} node{$\mathbb{A}_0^D$};
+\addplot[blue] coordinates {(6,1.3)} node{$\mathbb{AE}_1^D$};
+\addplot[ultra thick,red,domain=1.5:6]{exp(x-3)/2+1.9};
+\addplot[ thick,black, domain=0:1.5]{2};
+\addplot[] coordinates {(1,2.2)} node{$\mathbb{A}_0^O$};
+\addplot[red] coordinates {(5,4)} node{$\mathbb{A}_1^O$};
+\addplot[brown, thick, domain=-5:5]{-x};
+\addplot[ultra thick, teal, domain=-5:0]{-1/35*(x+6)^(3)-0.5};
+\addplot[teal] coordinates {(-6,-.7)} node{$PMg_i^{AE}$};
+\addplot[black] coordinates {(-6,.4)} node{$CMg_{Agua}$};
+\addplot[black] coordinates {(1,-4)} node{$Hm^3 \ efectivos$};
+\addplot[brown] coordinates {(5.3,-4)} node{$tecnología \ riego$};
+\path (axis cs:0,0) node [anchor=north west,yshift=0.7cm] {0};
+\end{axis} \end{tikzpicture} \\
+\caption{\label{Modelo}Representación de cambios en la demanda de agua $\mathbb{A}_i^D$ acorde a la expansión de la oferta de riego $\mathbb{A}_1^S$}
+\end{center}
+\end{figure}
+
+$PMg_i^{AE}$ es el producto marginal del agua efectivamente irrigada.
+Inicialmente, su estimación se realizará en base a la demanda efectiva de agua adaptando los cambios en precios de mercado de los productos agrícolas.
+Este análisis en conjunto busca mejorar la interpretación del paradigma de eficiencia de riego [@Grafton2018].
+ 
+\vspace{-.2cm}
+\section{Información necesaria}
+\vspace{-.5cm}
+
+Un detalle completo de la información solicitada se encuentra en el siguiente [link. ![]("/Users/SebastianRiera/Google Drive/Laboro/LinkJpg1".png)](https://docs.google.com/spreadsheets/d/1rKCaHeRMpwR0M2NwEQ8US5PhWzLmjBk8p1piFmwWNHk/edit?usp=sharing)
+
+\begin{table}[h]
+\centering
+\begin{tabular}{|l|l|l|}
+Infraestructura & Productiva &  Impactos inversión  \\ 
+Inversión       & Superficie cultivada & Superficie incremental   \\
+Volumen de agua & Distribución del agua &  Ahorro de agua  \\
+Impermeabilización de canales          & Tipo de cultivos &  Ahorro de energía \\ \bottomrule
+\end{tabular}
+\caption{\label{tab:Info}Información requerida}
+\end{table}
+
+
+
+
+\section{Esfuerzos de regulación con efectos de spill-over}
+\vspace{-.5cm}
+
+Esta sección representa otra etapa de la investigación con posterioridad a la determinación del costo marginal y costo de oportunidad del agua para riego.
+Busca analizar las interacciones entre los agentes de riego y las instituciones que administran el recurso.
+
+ 
+[Modelo de línea base - Versión estática](https://www.rpubs.com/tanglePillowHolder/315910): 
+Se consideran _n_ sectores que interactúan entre ellos $\imath \space \in \{1,\dots,n\}$ y cada uno posee un nivel de calidad ambiental, $s_{i} > 0$.
+Simultáneamente, cada sector elige un nivel de esfuerzo $e_{i} \geq 0$ en orden de equilibrar sus costos y beneficios marginales.
+Inicialmente, se consideran costos cuasi-lineales $c_{i}: \mathbb{R}_i \rightarrow \mathbb{R}_i$, 
+los cuales están relacionados con el nivel de esfuerzo $c_{i}(e_{i}) = \beta_{i} ( \frac{e_i^2}{n} + e_{i})$
+
+Los beneficios por la mejora la calidad ambiental se estiman en dos pasos.
+En primer lugar, hay una recompensa por mejorar la mejora ambiental provocada por el sistema de riego 
+$log(1 + \frac{e_{i}}{s_{i}}+\gamma_{i}e_{j})$.
+La razón $\frac{e_{i}}{s_{i}}$ emula el beneficio marginal de las mejoras ambientales cuando la calidad ambiental ($s_{i}$) se encuentra en un nivel alto.
+El término $(\gamma_{i}e_{j})$ interpreta la externalidad generada por la mejora ambiental del vecino ($\gamma_{i} \geq 0$);
+cuando las mejoras ambientales no estén relacionadas entre las partes $\gamma_{i} = 0$.
+Es posible que un agente _i_ sea beneficiado por los esfuerzos generales consumados ($\frac{e_{1}+\dots+e_{n}}{n}$).
+Luego, los beneficios totales serán
+
+\begin{equation}
+\alpha_{i} \Big( \lambda \quad log(1 + \frac{e_{i}}{s_{i}} + \gamma_{i}e_{j})+ \frac{(1-\lambda)e_{1}+\dots+e_{n}}{n} \Big)
+\end{equation}
+
+donde $\lambda \in [0,1]$ revela sobre las combinaciones convexas que relacionan los dos tipos de beneficios y $\alpha_{i} >0$ representa una escala de los beneficios en relación a los costos.
+Por lo tanto, la función de utilidad final es:
+
+\begin{equation}
+u_{i}(e, s;\alpha_{i},\beta_{i},\gamma_{i},\lambda) =
+\alpha_{i} \Big( \lambda log(1 + \frac{e_{i}}{s_{i}} + \gamma_{i}e_{j})+ \frac{(1-\lambda)e_{1}+\dots+e_{n}}{n} \big) 
+- \beta_{i} \big(\frac{e_i^2}{n} + e_{i}\big)\Big) 
+\end{equation}
+
+En el caso que $\lambda \approx 1$, el enfoque se aproxima a un análisis costo-beneficio; mientras que, si $\lambda \approx 0$ el enfoque se asimila a la provisión de bienes públicos.
+Cada agente enfrenta un problema de optimización,
+\begin{equation}
+\max_{e_i \geq 0} u_i(e, s; \alpha_i, \beta_i, \gamma_i, \lambda),
+\end{equation}
+
+bajo las condiciones Karush-Kuhn-Tucker para cada sector/agente:
+
+\begin{equation}
+ \begin{aligned} \alpha_i\left(\frac{\lambda}{s_i\left(1 + \frac{e_i}{s_i} + \gamma_ie_j\right)} + 
+\frac{(1-\lambda)}{2}\right) - \beta_i(1+e_i) + \kappa_i &= 0 \\
+\kappa_ie_i &= 0, \\ 
+\kappa_i &\geq 0, \\ 
+e_i &\geq 0, 
+  \end{aligned}
+\end{equation}
+
+
+
+https://tex.s2cms.com/g/
+
+\xymatrix{
+  A \ar[r]^f \ar[d]_g &
+  B \ar[d]^{g'} \\
+  D \ar[r]_{f'} &
+  C
+}
+
+\begin{picture}(76,20)
+\put(0,0){$A$}
+\put(69,0){$B$}
+\put(14,3){\line(1,0){50}}
+\put(39,3){\vector(0,1){15}}
+\put(14,3){\circle*{2}}
+\put(64,3){\circle*{2}}
+\end{picture}
+
+\vspace{-.3cm}
+\begin{equation}
+\begin{aligned}
+Water \space Balance_{i} & = Water \space Supply_{i} \space - Water \space Demand_{i} \\
+ & = (irrigation + AW_{i} + rain) - (dep_{i} - ET_{0} \times K_{c} \times days \times hail)
+\end{aligned}
+\end{equation}
+
+Calculations were made for every month from August until March and included adjustments for rainfall and available water in the soil ($AW_{i}$)[^1].
+The estimation of water demanded by the vines considered density, training system, evapotranspiration ($ET_{0}$), plant transpiration ($K_{c}$), soil percolation requirements, and the use of hail protection nets for grapevines. 
+The calculated variable is a realiable approximation of the water usage and consumption relationship based on the available information.
+
+[^1]: The formula for available water is $$AW_{i} = CR_{i} \times H_{i} \times IT_{i} \times CA_{i} \times SS_{i}$$ The variables and their values in the Carrizal ecosystem are: 
+$CR_{i}$ represents the soil retention capacity (0.12-0.17mm);
+$H_{i}$ the depth of explorable soil by the vine roots (530-780 mm); 
+$IT_{i}$ is the irrigation threshold and represents the drainage capacity values (0.5-0.8);
+$CA_{i}$ is the percentage of covered area by irrigation (30-100%); 
+$SS_{i}$ represents the stone share in the soil (50-100%) [@Crescimanno2013;@Hernandez2012;@Maffei2003; @Maas1990].
+
+
+``` {r GraphTest, fig.width=8, fig.height=4, warning=FALSE, eval=TRUE, message=FALSE, tidy=TRUE, dev='png', echo=FALSE, fig.show='hold', fig.align='center'}
+dat <- data.frame(x=c(1:10),y=c(11:20),z=c(21:30),name=rep(c("a","b"),each=5))
+
+ex <- function(data){
+  p1 <- ggplot(data=data, aes(x=x,y=y))
+  p1 <- p1+geom_point()
+  return(p1) 
+}
+
+for (i in 1:2){
+plot(ex(dat))
+}
+```
+
+
+-->
+<!-- # C_i(e_i) = Beta_i (e_iˆ2/n + e_i)
+
+# Benefits for improving quality
+#  = log(1 + \frac{e_{i}}{s_{i}} + \gamma_{i} \times e_{j})
+#           - marginal improvement when + spill-over effect
+
+
+A fortiori, it is quasi-concave; in particular, it is either decreasing everywhere (so that \(e_i^* = 0\)) or it is increasing and then decreasing. Either implies the existence of some \(\overline{e}_i\) such that \(u_i\) is decreasing in \(e_i\) for all \(e_i > \overline{e}_i\). We therefore remove no candidate solutions by focusing only on the Euclidean compactum \([0,\overline{e}_i]\). \(u_i\) being continuous and quasi-concave, and the modified set of alternatives being a Euclidean compactum, the Debreu-Glicksberg-Fan theorem applies, so an equilibrium exists in pure strategies.
+
+
+\(\alpha_i\) and \(\beta_i\). Let’s see how things change across values of \(\alpha_1\).
+
+eqByPar() that reads in an exogenous parameter, a proposed parameter to take values across, a range, and a length for the sequence. It spits out a graph. We can just run the function rather simply to think about comparative statics across interesting values of the parameter. 
+
+# Total benefit 
+
+# throughout, we will have the endogeneous vector (Effort), e, and
+# the exogenous parameters, th.
+This is an R Markdown format used for publishing markdown documents to GitHub. When you click the **Knit** button all R code chunks are run and a markdown file (.md) suitable for publishing to GitHub is generated.
+-->
+
+\vspace{-.2cm}
+# Referencias bibliográficas
+\vspace{-.1cm}
+
+
+
+
+
+
+
+
