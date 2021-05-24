@@ -10,26 +10,19 @@ RegulatoryEffort <- c("foreach","ggthemes","kableExtra","qwraps2","tidyverse","d
 library(rmsfuns)
 load_pkg(RegulatoryEffort)
 
-# Caudales
 
 CaudalWeb <- read.csv("/Users/SebastianRiera/Google Drive/Biblio/Base de datos/DGI/CaudalesWeb.csv", sep = ",")
-
 CaudalWeb <-  CaudalWeb %>%
-  mutate(fecha_desde = ymd(fecha_desde), fecha_fin = ymd(fecha_fin))
+  mutate(fecha_desde = ymd(fecha_desde)) %>%  mutate(fecha_fin = ymd(fecha_fin))
 CaudalWeb <-  CaudalWeb %>%
-  mutate(fecha_desde = ymd(fecha_desde), fecha_fin = ymd(fecha_fin))
+  mutate(fecha_desde = ymd(fecha_desde)) %>%  mutate(fecha_fin = ymd(fecha_fin))
 colnames(CaudalWeb)[2] <- "CodigoCauce"
 glimpse(CaudalWeb)
 
-
 CaudalWebQ <- do.call(data.frame, round(aggregate(CaudalWeb$valor_promedio_relevado/1000, 
-  by=list(CaudalWeb$CodigoCauce), 
-  FUN = function(x) c(Qwebav = mean(x), Qwebyear = sum(x) ))
-  ,3)) 
+                                                  by=list(CaudalWeb$CodigoCauce), 
+                                                  FUN = function(x) c(Qwebav = mean(x), Qwebyear = sum(x) )),3)) 
 colnames(CaudalWebQ) <- c("CodigoCauce","Qwebav","Qwebyear") # m3/s
-#write_csv(CaudalWebQ, 'DgiData/CaudalWebQ.csv', na = "NA", append = FALSE, quote_escape = "double")
-
-
 
 # Obras Full ----
 ## @knitr DataObrasFull 
@@ -62,10 +55,6 @@ DgiFull$InvUsd   <- as.numeric(DgiFull$inversion/DgiFull$TdC)
 DgiFull$InvMtUsd <- as.numeric(round(DgiFull$InvUsd/DgiFull$metros, digits = 1))
 
 options(qwraps2_markup = "latex")
-
-# Cuadro summary
-#ObrasFull <- DgiFull %>% select(Ano,CodigoCauce,Subdelegacion,inversion,InvUsd,InvMtUsd,metros,Padrones,hectareas) %>%
- #            filter(InvUsd>0 & metros>0 & InvMtUsd>0)
 
 ## @knitr SumFull
 SummaryObras <- list(
@@ -260,22 +249,24 @@ Mendoza <- Mendoza %>%
 
 Mendoza <- Mendoza %>% arrange(Ano,valueAhorro2)
 
-write_csv(Mendoza, 'DgiData/Estimaciones/MzaAhorro.csv', na = "NA", append = FALSE, quote_escape = "double")
-#write_csv(Mendoza, 'DgiData/Estimaciones/MzaAhorroNov.csv', na = "NA", append = FALSE, quote_escape = "double")
+#write_csv(Mendoza, 'DgiData/Estimaciones/MzaAhorro.csv', na = "NA", append = FALSE, quote_escape = "double")
 
 
-MzaTableComparacion <- as.data.frame(Mendoza %>% arrange(Ano) %>% 
-  select(Obra,UM,Modalidad,metros,InvMtUsd,EfAnte,EfPost,DeltaPerdida,ACaudalAnualUm,ahorroAgua2,valuePerdBis,valueEfBis,valueAhorro2)) %>%
+MzaTableComparacion <- as.data.frame(Mendoza %>% arrange(Ano,UM) %>% 
+  mutate(GananciaEfC= paste0(GananciaEfC= (EfPost-EfAnte)*100,"%")) %>%
+  select(Obra,UM,Modalidad,metros,InvMtUsd,GananciaEfC,ahorroAgua2,valueAhorro2)) %>%
   filter(!is.na(valueAhorro2)) %>% mutate_all(linebreak) %>%
-  kable(format = "latex",caption = "\\label{tab:MzaTableComparacion}Río Mendoza - Comparación metodologías", align = c("l", "c",rep("r", 12)),
-    row.names = FALSE, booktabs = TRUE,  
-    col.names = c("Obra","Zona","Modalidad","Metros","USD/mt","ex-ante","ex-post","pérdida","EfC",'nuevo',"perd","efc","nuevo")) %>%
+  mutate_all(funs(replace_na(., "-"))) %>%
+  kable(format = "latex",caption = "\\label{tab:MzaTableComparacion}Río Mendoza - Comparación metodologías", 
+        align = c("l", "c",'c',rep("r", 6)), row.names = FALSE, booktabs = TRUE,  
+    col.names = c("Obra","Zona","Modalidad","Metros","USD/mt","EfC","m3/km",'')) %>%
   kable_styling(latex_options = c("HOLD_position","scale_down"), position = "center", full_width = FALSE, font_size=11) %>% # latex_options = c("striped", "scale_down")
-  add_header_above(c(" "=5,"Ef.Conducción" =2, "Ahorro m3/km" = 3,  "USD/m3 (ajuste)" = 3)) %>%
-  pack_rows("2017", 1,7) %>% pack_rows("2018", 9,10) %>% pack_rows("2019", 11,16) %>% #pack_rows("2020", 17,17) %>% # Arroyo Morteritos es Alta montaña y no hay datos
-  pack_rows("2021", 18,30) %>%
+  add_header_above(c(" "=5,"Ganancia" =1, "Ahorro" = 1, "USD/m3" = 1)) %>%
+  pack_rows("2017", 1,7) %>% pack_rows("2018", 8,10) %>% pack_rows("2019", 11,16) %>% #pack_rows("2020", 17,17) %>% # Arroyo Morteritos es Alta montaña y no hay datos
+  pack_rows("2021", 17,30) %>%
   footnote( general = "Elab. propia en base DGI (2021).", general_title = "Fuente: ", title_format = "italic", 
             footnote_as_chunk=TRUE, escape=FALSE,threeparttable = T) 
+
 
 MzaTablePpt <- as.data.frame(Mendoza %>% arrange(Ano) %>% filter(!is.na(ahorroAgua2)) %>%
   select(Obra,Zona,Modalidad,Q0,metros,InvMtUsd,ahorroAgua2,valueAhorro2)) %>% 
@@ -311,8 +302,7 @@ Mendoza %>% select(Ano,CodigoCauce, Obra,Q0, Qwebav,Qwebyear,KmTierra,metros,Per
   mutate_all(linebreak) %>%
   mutate_all(funs(replace_na(., "-"))) %>%
   kable(format = "latex",caption = "\\label{tab:MzaCaudales}Mendoza - Caudal por obra información disponible (m3/s)", align = c("c", "l",rep("c", 10)),
-    row.names = FALSE, booktabs = TRUE,  col.names = c("Código","Obra", #'estimado m3/s','web m3/s',
-                                                       'm3/año',"GananciaEfC")) %>% 
+    row.names = FALSE, booktabs = TRUE, col.names = c("Código","Obra", 'm3/año',"GananciaEfC")) %>% 
 footnote( general = "Elaboración propia en base a DGI (2015), Datos abiertos (2019) y entrevistas (2020,2021).", general_title = "Fuente: ", title_format = "italic",
     footnote_as_chunk=TRUE, escape=FALSE, threeparttable = T)
 #landscape()
@@ -339,7 +329,7 @@ OfertaMza <- Mendoza %>% select(Obra,metros,SUP_HA,Hectareas,InvUsd,InvMtUsd,met
   arrange(valueEfBis)
 
 round(mean(OfertaMza$valueAhorro2, na.rm=T), digits = 3)
-CProm <- round(mean(OfertaMza$valueAhorro2, na.rm=T), digits = 3)
+mzaProm <- round(mean(OfertaMza$valueAhorro2, na.rm=T), digits = 3)
 
 
 ## Curva Costo marginal enfoque de diferencias en EfC
@@ -390,10 +380,16 @@ ggsave('DgiData/Graphs/OfertaMza_perd.png', height = 4, width = 12)
 
 OfertaMza <- arrange(OfertaMza,valueAhorro2) 
 OfertaMza$AAcum2   <- cumsum(OfertaMza$ahorroAgua2) 
+a2dato <- OfertaMza$Obra[[1]]
+a2dato2 <- OfertaMza$AAcum2[[1]]/1000
 OfertaMza$InvAcum2  <- cumsum(OfertaMza$InvUsd) 
+OfertaMza$valorInv2  <- (OfertaMza$ahorroAgua2 * OfertaMza$valueAhorro2) 
 media2   <- round(mean(OfertaMza$valueAhorro2,na.rm = T), 3)
 mediana2 <- round(median(OfertaMza$valueAhorro2,na.rm = T),2)
 
+mzaVol <- OfertaMza %>% arrange(valueAhorro2) %>% mutate(valorInvMza2=cumsum(OfertaMza$valorInv2) ) %>%
+  slice(which.min(abs(valueAhorro2-mean(OfertaMza$valueAhorro2, na.rm=T)))) %>%
+  select(valueAhorro2,AAcum2,InvAcum2,valorInv2,valorInvMza2)
 
 AhorroMza2 <- ggplot(OfertaMza) + 
   geom_step(aes(y= valueAhorro2, x=AAcum2/1000),color = "#0073D9", size = 1) + 
@@ -459,7 +455,7 @@ AhorroMza4 + theme(axis.text.x = element_text(size = 9, angle=75, vjust = .4),
   xlab("superficie beneficiada ('000 ha)") + ylab("Dólares por m3 anual ahorrado")
 
 ## @knitr CtoPromedio
-cat(CProm)
+cat(mzaProm)
 
 
 ## @knitr MendozaInvTables
@@ -498,7 +494,7 @@ median(OfertaMza$valueAhorro2,na.rm = T)*median(OfertaMza$ahorroAgua2,na.rm =T)
 OfertaMza %>% select(ahorroAgua2,valueAhorro2,AAcum2,InvAcum2,InvMtUsd,Obra) %>% arrange(AAcum2)
 
 # T.Superior ----
-
+### Orden de datos ----
 ## @knitr SupEf
 {options(digits = 3)
 EfSuperior <- as.data.frame(read.csv("DgiData/EfConduccion/TunuyanSuperior/EfCondTunSup.csv", sep = ",")) #, header = TRUE, sep=",")
@@ -555,24 +551,47 @@ Superior$EfPost  <- ifelse(grepl("Rev. | Revestimiento | revestimiento | Canaliz
        ifelse(grepl("Mej. | Mejora", Superior$Obra), 0.99, 
        ifelse(grepl("Ent. | Entubado | Entubamiento | entubado | entubamiento | ENTUBADO | ENTUBAMIENTO", Superior$Obra), 1,  0.98)))
 
+### Ahorro Superior ----
 # Estimación de ahorro por menor infiltración
 #write_csv(Superior, 'DgiData/Superior.csv', na = "NA", append = FALSE, quote_escape = "double")
-Superior <- Superior %>% mutate(ahorroAgua1 = if_else(clasif!='Hijuela' & (!is.na(canEfc)), 
-  VolHa * canSup * canEfc/canLongTierra * EfPost * (metros/1000),VolHa * hijSup * hijEfc/hijLongTierra * EfPost * (metros/1000)))
-Superior <- Superior %>% mutate(ahorroAgua1 = if_else(is.na(ahorroAgua1) & !is.na(canEfc),
-  VolHa * canSup * canEfc/canLongTierra * EfPost * (metros/1000), ahorroAgua1 ))
-Superior <- Superior %>% mutate(ahorroAgua1= if_else(is.na(ahorroAgua1) & (clasif=='Hijuela' | clasif=='otro'),
-  VolHa * canSup * canEfc/canLongTierra * EfPost * (metros/1000),ahorroAgua1))
-Superior <- Superior %>% mutate(ahorroAgua1= if_else(is.na(ahorroAgua1) & is.na(canSup),
-  VolHa * (hectareas/4) * canEfc/canLong * EfPost * (metros/1000),ahorroAgua1))
 
-Superior <- Superior %>% mutate(ahorroAgua2 = if_else(clasif!='Hijuela' & (!is.na(canEfc)), VolHa * hectareas * canEfc/kmTotal * 0.99 * (metros/1000),
-                      VolHa * hectareas * hijEfc/kmTotal * EfPost * (metros/1000)))
-Superior <- Superior %>% mutate(ahorroAgua3 = if_else(clasif!='Hijuela' & (!is.na(canEfc)), VolHa * hectareas * canEfc/canLongTierra * EfPost * (metros/1000),
-                      VolHa * hectareas * hijEfc/hijLongTierra * EfPost * (metros/1000)))
-Superior <- Superior %>% mutate(ahorroAgua4 = if_else(clasif!='Hijuela' & (!is.na(canEfc)), VolHa * haObrador * canEfc/longitud * EfPost * (metros/1000),
-         VolHa * haObrador * hijEfc/longitud * EfPost * (metros/1000)))
+Superior$efAnte <- ifelse(Superior$clasif=='Hijuela' & !is.na(Superior$hijEfc), Superior$hijEfc, 
+        ifelse(Superior$clasif!='Hijuela' & Superior$clasif!='Canal' & !is.na(Superior$hijEfc),Superior$hijEfc, 
+        ifelse(Superior$clasif=='Canal' & !is.na(Superior$canEfc),Superior$canEfc, 
+               ifelse(Superior$clasif!='Hijuela' & Superior$clasif!='Canal' & !is.na(Superior$ramEfc),Superior$ramEfc, median(Superior$canEfc,na.rm = TRUE)))))
+summary(Superior$efAnte)
 
+Superior$superficie <- Superior$hectareas
+Superior$superficie <- ifelse(!is.na(Superior$canSup) & Superior$clasif=='Canal', Superior$canSup, 
+  ifelse(Superior$clasif=='Hijuela' & !is.na(Superior$hijSup), Superior$hijSup, Superior$superficie))
+Superior$superficie <- ifelse(Superior$CodigoCauce==5014 | Superior$CodigoCauce==5022 | Superior$CodigoCauce==5772 | Superior$CodigoCauce==5774, Superior$hectareas, Superior$superficie)
+
+Superior$longTierra <- ifelse(Superior$clasif=='Hijuela' & !is.na(Superior$hijLongTierra), Superior$hijLongTierra, 
+  ifelse((Superior$clasif!='Hijuela' & Superior$clasif!='Canal') & !is.na(Superior$ramLongTierra),Superior$ramLongTierra, 
+  ifelse(Superior$clasif=='Canal' & !is.na(Superior$canLongTierra),Superior$canLongTierra, median(Superior$hijLongTierra,na.rm = TRUE))))
+
+Superior %>% select(longTierra,clasif,canLongTierra,hijLongTierra,canLong,hijLong,longitud,metros,CodigoCauce,VolHa)
+Superior %>% select(CodigoCauce,metros,superficie,hijSup,canSup,hectareas,haObrador,clasif,Obra) %>% arrange(superficie)
+Superior$hectareas <- ifelse(Superior$Obra=='Las Tunas', Superior$hectareas/3,Superior$hectareas)
+
+Superior <- Superior %>% mutate(ahorroAgua1 = if_else(clasif=='Canal' & (!is.na(canLongTierra)), 
+  VolHa * canSup * efAnte/canLongTierra * EfPost * (metros/1000),
+  if_else((clasif=='Hijuela') & !is.na(hijLongTierra),
+          VolHa * hijSup * efAnte/hijLongTierra * EfPost * (metros/1000), VolHa * hectareas * efAnte/longTierra * EfPost * (metros/1000))))
+Superior %>% select(CodigoCauce,clasif,canLongTierra,hijLongTierra,longTierra,canSup,hijSup,hectareas,ahorroAgua1,Obra) %>% arrange(desc(ahorroAgua1))
+
+Superior <- Superior %>% mutate(ahorroAgua2 = VolHa * superficie * EfPost * (metros/1000) * efAnte/longTierra)
+
+Superior <- Superior %>% mutate(ahorroAgua3 = if_else(clasif!='Hijuela' & !is.na(canLongTierra), 
+     VolHa * superficie * efAnte/canLongTierra * EfPost * (metros/1000), 
+     if_else(clasif=='Hijuela' & !is.na(hijLongTierra), 
+             VolHa * superficie * efAnte/hijLongTierra * EfPost * (metros/1000), 
+     VolHa * superficie * efAnte/longTierra * EfPost * (metros/1000))))
+
+Superior <- Superior %>% mutate(ahorroAgua4 = if_else(clasif!='Hijuela' & (!is.na(canEfc)), VolHa * hectareas * efAnte/longTierra * EfPost * (metros/1000),
+     VolHa * hectareas * efAnte/longTierra * EfPost * (metros/1000)))
+
+### Valoración ahorro ----
 # Valor del agua ahorrada
 Superior <- Superior %>% mutate(vAhorro1 = round(InvUsd/ahorroAgua1,3),
                                 vAhorro2 = round(InvUsd/ahorroAgua2,3),
@@ -585,6 +604,10 @@ Superior <- Superior %>%
          vAhorro3 = if_else(( Modalidad=="Licitación" | Modalidad=="Licitacion" | Modalidad=="LICITADA" | Modalidad=="Lic." | Modalidad=="Lic"), vAhorro3, vAhorro3*1.32),
          vAhorro4 = if_else(( Modalidad=="Licitación" | Modalidad=="Licitacion" | Modalidad=="LICITADA" | Modalidad=="Lic." | Modalidad=="Lic"), vAhorro4, vAhorro4*1.32))
 Superior <- Superior %>% arrange(Ano,vAhorro1)
+Superior %>% 
+  select(VolHa,clasif,superficie,canSup,hijSup,hectareas,metros,clasif,efAnte,InvMtUsd,ahorroAgua1:ahorroAgua4,longTierra,canLongTierra,hijLongTierra,vAhorro1:vAhorro4,InvUsd,CodigoCauce, Obra) %>%
+  arrange(desc(vAhorro2))# %>% filter(vAhorro2>2)
+summary(Superior$vAhorro1)
 #write_csv(Superior, 'DgiData/Estimaciones/Ahorro.csv', na = "NA", append = FALSE, quote_escape = "double")
 
 
@@ -601,15 +624,111 @@ SupTableComparacion <- Superior %>% select(Ano,Obra, Modalidad, metros,InvMtUsd,
   footnote( general = "Elab. propia en base DGI (2021).", general_title = "Fuente: ", title_format = "italic", 
             footnote_as_chunk=TRUE, escape=FALSE,threeparttable = T) 
 
-SupTable <- Superior %>% arrange(InvUsd) %>% 
-  select(Obra, metros,InvUsd,ahorroAgua1,InvMtUsd,vAhorro1) %>% filter(!is.na(ahorroAgua1)) %>%
+SupTable <- Superior %>% arrange(Ano) %>% 
+  mutate(GananciaEfC= paste0(GananciaEfC= round(if_else(clasif!='Hijuela' & !is.na(canEfc),(EfPost-canEfc)*100,(EfPost-hijEfc)*100),4),'%'),
+         ahorroAgua1=ahorroAgua1/1000) %>%
+  select(Ano,Obra, metros,InvUsd,GananciaEfC,ahorroAgua1,InvMtUsd,vAhorro1) %>% filter(!is.na(ahorroAgua1)) %>%
   mutate_all(linebreak) %>%
-  kable(format = "latex",caption = "\\label{tab:SupTable}Tunuyán Superior - Valores por obra de revestimiento ejecutada", align = c("l", "c",rep("r", 4)),
-        booktabs = TRUE,  col.names = c("Obra","Metros","Inv (USD)","A(m3/km)", "Inv.(USD/mt)","USD/m3")) %>%
-  kable_styling(latex_options = c("scale_down","HOLD_position"), position = "center", full_width = FALSE, font_size=10) %>%
-  column_spec(1,bold = F) %>% collapse_rows(columns = 1, latex_hline = "major", valign = "middle") %>%
+  kable(format = "latex",caption = "\\label{tab:SupTable}Tunuyán Superior - Valores por obra de revestimiento ejecutada", align = c("l", "l",rep("r", 6)),
+        booktabs = T,  col.names = c('Año',"Obra","Metros","Inv (USD)",'Ganancia EfC',"A(m3/km)", "Inv.(USD/mt)","USD/m3"),
+        longtable= T,) %>%
+  kable_styling(latex_options = c("scale_down","HOLD_position","repeat_header"), position = "center", full_width = FALSE, font_size=10) %>%
+  #column_spec(1,bold = F) %>% 
+  #pack_rows('2020', 1,6) %>% pack('2001',7,7) %>% pack('2003',8,8) %>% pack('2004',9,11) %>% pack('2005',12,14) %>% pack('2006',15,15) %>%
+  #pack('2007',16,18) %>% pack('2008',19,21) %>% pack('',,) %>% pack('',,) %>% pack('',,) %>% pack('',,) %>%
+  #pack('',,) %>% pack('',,) %>% pack('',,50) %>%
+    collapse_rows(columns = 1, latex_hline = "major", valign = "middle") %>%
   footnote( general = "Elab. propia en base DGI (2021).", general_title = "Fuente: ", title_format = "italic", 
             footnote_as_chunk=TRUE, escape=FALSE,threeparttable = T) 
+SupTable
+
+
+### CMgAhorro ----
+## Curva Costo marginal enfoque de eficiencia en distancia revestida (pérdida)
+
+OfertaSup           <- Superior %>% select(CodigoCauce,Obra,metros,hectareas,InvUsd,InvMtUsd,metros,ahorroAgua1:ahorroAgua4,vAhorro1:vAhorro4) %>% arrange(vAhorro1)
+OfertaSup$AAcum1    <- cumsum(OfertaSup$ahorroAgua1) 
+OfertaSup$InvAcum1  <- cumsum(OfertaSup$InvUsd) 
+OfertaSup$valorInv1  <- (OfertaSup$ahorroAgua1 * OfertaSup$vAhorro1) 
+media1              <- round(mean(OfertaSup$vAhorro1,na.rm = T), 3)
+mediana1            <- round(median(OfertaSup$vAhorro1,na.rm = T),2)
+
+supVol <- OfertaSup %>% arrange(vAhorro1) %>% mutate(valorInvSup1=cumsum(OfertaSup$valorInv1) ) %>%
+  slice(which.min(abs(vAhorro1-mean(OfertaSup$vAhorro1, na.rm=T)))) %>%
+  select(vAhorro1,AAcum1,InvAcum1,valorInv1,valorInvSup1)
+
+
+AhorroSup1 <- ggplot(OfertaSup) + 
+  geom_step(aes(y= vAhorro1, x=AAcum1/1000),color = "#0073D9", size = 1) + 
+  geom_text(aes(y= vAhorro1, x=AAcum1/1000, label = Obra, angle=0),
+            vjust=-1, hjust=1, size=3, check_overlap = T, inherit.aes = T,nudge_x = -10, nudge_y = 0) +
+  scale_x_continuous(breaks= round(OfertaSup$AAcum1/1000, digits = 0), guide = guide_axis(check.overlap = TRUE))
+
+## Curva CMg: eficiencia en distancia revestida (pérdida) volúmen anual de agua con superficie según mapas
+OfertaSup <- OfertaSup %>% arrange(vAhorro2)
+OfertaSup$AAcum2    <- cumsum(OfertaSup$ahorroAgua2)
+OfertaSup$InvAcum2  <- cumsum(OfertaSup$InvUsd) 
+media2              <- round(mean(OfertaSup$vAhorro2,na.rm = T), 3)
+mediana2            <- round(median(OfertaSup$vAhorro2,na.rm = T),2)
+
+AhorroSup2 <- ggplot(OfertaSup) + 
+  geom_step(aes(y= vAhorro2, x=AAcum2/1000),color = "#0073D9", size = 1) + 
+  geom_text(aes(y= vAhorro2, x=AAcum2/1000, label = Obra, angle=0),
+            vjust=-1, hjust=1, size=3, check_overlap = T, inherit.aes = T,nudge_x = -10, nudge_y = 0) +
+  scale_x_continuous(breaks= round(OfertaSup$AAcum2/1000, digits = 0), guide = guide_axis(check.overlap = TRUE))
+
+## Curva CMg: eficiencia en distancia revestida (pérdida) volúmen anual de agua con superficie según mapas
+OfertaSup <- OfertaSup %>% arrange(vAhorro4)
+OfertaSup$AAcum4    <- cumsum(OfertaSup$ahorroAgua4) 
+OfertaSup$InvAcum4  <- cumsum(OfertaSup$InvUsd) 
+media4              <- round(mean(OfertaSup$vAhorro4,na.rm = T), 3)
+mediana4            <- round(median(OfertaSup$vAhorro4,na.rm = T),2)
+
+AhorroSup4 <- ggplot(OfertaSup) + 
+  geom_step(aes(y= vAhorro4, x=AAcum4/1000),color = "#0073D9", size = 1) + 
+  geom_text(aes(y= vAhorro4, x=AAcum4/1000, label = Obra, angle=0),
+            vjust=-1, hjust=1, size=3, check_overlap = T, inherit.aes = T,nudge_x = -10, nudge_y = 0) +
+  scale_x_continuous(breaks= round(OfertaSup$AAcum4/1000, digits = 0), guide = guide_axis(check.overlap = TRUE))
+
+
+## @knitr ahorroSup1
+AhorroSup1 + theme(axis.text.x = element_text(size = 9, angle=75, vjust = .4), 
+                   axis.text.y = element_text(size = 10), panel.background = element_rect(fill = "white"), 
+                   axis.title = element_text(size = 9)) + 
+  geom_text(aes(1, media1,   label = paste('prom.', media1), vjust = -1,hjust=-.1), color = "#E69F00", fontface='plain',size=8/.pt) + 
+  geom_text(aes(1, mediana1, label = paste('med.', mediana1), vjust = -1,hjust=-.1), color = "#E69F00",  size=3) + 
+  ylim(-.1,2) + 
+  geom_hline(yintercept = mediana1, color = "#E69F00", linetype="dashed", size=0.5) +
+  geom_hline(yintercept = media1, color = "#E79F01", linetype="dashed", size=0.5) +
+  theme(axis.line = element_line(colour = "grey50")) + 
+  xlab("metros cúbicos anuales ('000)") + ylab("Dólares por m3 anual ahorrado")
+#ggsave('DgiData/Graphs/OfertaSup_Ahorro1.png', height = 10, width = 12)
+
+## @knitr ahorroSup2
+AhorroSup2 + theme(axis.text.x = element_text(size = 9, angle=75, vjust = .4), 
+                   axis.text.y = element_text(size = 10), panel.background = element_rect(fill = "white"), 
+                   axis.title = element_text(size = 9)) + 
+  geom_text(aes(1, media2,   label = paste('prom.', media2), vjust = -1,hjust=-.1), color = "#E69F00", fontface='plain',size=8/.pt) + 
+  geom_text(aes(1, mediana2, label = paste('med.', mediana2), vjust = -1,hjust=-.1), color = "#E69F00",  size=3) + 
+  ylim(-.1,1.2) + 
+  geom_hline(yintercept = mediana2, color = "#E69F00", linetype="dashed", size=0.5) +
+  geom_hline(yintercept = media2, color = "#E79F01", linetype="dashed", size=0.5) +
+  theme(axis.line = element_line(colour = "grey50")) + 
+  xlab("metros cúbicos anuales ('000)") + ylab("Dólares por m3 anual ahorrado")
+#ggsave('DgiData/Graphs/OfertaSup_Ahorro2.png', height = 10, width = 12)
+
+## @knitr AhorroSup4
+AhorroSup4 + theme(axis.text.x = element_text(size = 9, angle=75, vjust = .4), 
+                   axis.text.y = element_text(size = 10), panel.background = element_rect(fill = "white"), 
+                   axis.title = element_text(size = 9)) + 
+  geom_text(aes(1, media4,   label = paste('prom.', media4), vjust = -1,hjust=-.1), color = "#E69F00", fontface='plain',size=8/.pt) + 
+  geom_text(aes(1, mediana4, label = paste('med.', mediana4), vjust = -1,hjust=-.1), color = "#E69F00",  size=3) + 
+  ylim(-.1,1.5) + 
+  geom_hline(yintercept = mediana4, color = "#E69F00", linetype="dashed", size=0.5) +
+  geom_hline(yintercept = media4, color = "#E79F01", linetype="dashed", size=0.5) +
+  theme(axis.line = element_line(colour = "grey50")) + 
+  xlab("metros cúbicos anuales ('000)") + ylab("Dólares por m3 anual ahorrado")
+#ggsave('DgiData/Graphs/OfertaSup_Ahorro4.png', height = 10, width = 12)
 
 
 ## @knitr SupCaudales
@@ -637,79 +756,13 @@ SupTable
 SupTable %>% 
   landscape()
 
-## Curva Costo marginal enfoque de eficiencia en distancia revestida (pérdida)
-## @knitr ahorroSup1
-
-OfertaSup           <- Superior %>% select(CodigoCauce,Obra,metros,hectareas,InvUsd,InvMtUsd,metros,ahorroAgua1:ahorroAgua4,vAhorro1:vAhorro4) %>% arrange(vAhorro1)
-OfertaSup$AAcum1    <- cumsum(OfertaSup$ahorroAgua1) 
-OfertaSup$InvAcum1  <- cumsum(OfertaSup$InvUsd) 
-media1              <- round(mean(OfertaSup$vAhorro1,na.rm = T), 3)
-mediana1            <- round(median(OfertaSup$vAhorro1,na.rm = T),2)
-
-AhorroSup1 <- ggplot(OfertaSup) + 
-  geom_step(aes(y= vAhorro1, x=AAcum1/1000),color = "#0073D9", size = 1) + 
-  geom_text(aes(y= vAhorro1, x=AAcum1/1000, label = Obra, angle=0),
-            vjust=-1, hjust=1, size=3, check_overlap = T, inherit.aes = T,nudge_x = -10, nudge_y = 0) +
-  scale_x_continuous(breaks= round(OfertaSup$AAcum1/1000, digits = 0), guide = guide_axis(check.overlap = TRUE))
-
-AhorroSup1 + theme(axis.text.x = element_text(size = 9, angle=75, vjust = .4), 
-                   axis.text.y = element_text(size = 10), panel.background = element_rect(fill = "white"), 
-                   axis.title = element_text(size = 9)) + 
-  geom_text(aes(1, media1,   label = paste('prom.', media1), vjust = -1,hjust=-.1), color = "#E69F00", fontface='plain',size=8/.pt) + 
-  geom_text(aes(1, mediana1, label = paste('med.', mediana1), vjust = -1,hjust=-.1), color = "#E69F00",  size=3) + 
-  ylim(-.1,2) + 
-  geom_hline(yintercept = mediana1, color = "#E69F00", linetype="dashed", size=0.5) +
-  geom_hline(yintercept = media1, color = "#E79F01", linetype="dashed", size=0.5) +
-  theme(axis.line = element_line(colour = "grey50")) + 
-  xlab("metros cúbicos anuales ('000)") + ylab("Dólares por m3 anual ahorrado")
-ggsave('DgiData/Graphs/OfertaSup_Ahorro1.png', height = 10, width = 12)
-
-## Curva CMg: eficiencia en distancia revestida (pérdida) volúmen anual de agua con superficie según mapas
-
-## @knitr AhorroSup4
-
-OfertaSup <- OfertaSup %>% arrange(vAhorro4)
-OfertaSup$AAcum4    <- cumsum(OfertaSup$ahorroAgua4) 
-OfertaSup$InvAcum4  <- cumsum(OfertaSup$InvUsd) 
-media4              <- round(mean(OfertaSup$vAhorro4,na.rm = T), 3)
-mediana4            <- round(median(OfertaSup$vAhorro4,na.rm = T),2)
-
-AhorroSup4 <- ggplot(OfertaSup) + 
-  geom_step(aes(y= vAhorro4, x=AAcum4/1000),color = "#0073D9", size = 1) + 
-  geom_text(aes(y= vAhorro4, x=AAcum4/1000, label = Obra, angle=0),
-            vjust=-1, hjust=1, size=3, check_overlap = T, inherit.aes = T,nudge_x = -10, nudge_y = 0) +
-  scale_x_continuous(breaks= round(OfertaSup$AAcum4/1000, digits = 0), guide = guide_axis(check.overlap = TRUE))
-
-AhorroSup4 + theme(axis.text.x = element_text(size = 9, angle=75, vjust = .4), 
-                   axis.text.y = element_text(size = 10), panel.background = element_rect(fill = "white"), 
-                   axis.title = element_text(size = 9)) + 
-  geom_text(aes(1, media4,   label = paste('prom.', media4), vjust = -1,hjust=-.1), color = "#E69F00", fontface='plain',size=8/.pt) + 
-  geom_text(aes(1, mediana4, label = paste('med.', mediana4), vjust = -1,hjust=-.1), color = "#E69F00",  size=3) + 
-  ylim(-.1,201) + 
-  geom_hline(yintercept = mediana4, color = "#E69F00", linetype="dashed", size=0.5) +
-  geom_hline(yintercept = media4, color = "#E79F01", linetype="dashed", size=0.5) +
-  theme(axis.line = element_line(colour = "grey50")) + 
-  xlab("metros cúbicos anuales ('000)") + ylab("Dólares por m3 anual ahorrado")
-ggsave('DgiData/Graphs/OfertaSup_Ahorro4.png', height = 10, width = 12)
-
-
-
-
 
 # estancado
 ctunsup <- cuenca %>% select(CUENCA, TIPO,NOMBRE,SUP_HA,ALT_MEDIA) %>% filter(CUENCA=="RÃ­o TunuyÃ¡n Superior")
-#umendoza <- cuenca %>% filter(CUENCA=="RÃ­o Mendoza" & TIPO=='UM') %>% select(NOMBRE,SUP_HA) %>% arrange(NOMBRE)
-# umendoza$Inspeccion <- as.numeric(as.character(NA))
-#  umendoza$Inspeccion[58] <- 24 # "Tulumaya"
-#  umendoza$Inspeccion <- ifelse(is.na(umendoza$Inspeccion),1,umendoza$Inspeccion)
-#  umendoza$Inspeccion <- factor(umendoza$Inspeccion, levels = c(1,2),labels = c('otro','Algarrobal'))
-# colnames(EfSuperior)[20:23] <- c('caudalCanal','caudalHijuela','caudalTierra','caudalRama')
-
-
 
 # T. Inferior ----
 
-## Orden de datos ----
+### Orden de datos ----
 ## @knitr InfEf
 tInf <- as.data.table(DgiFull %>%
         filter(Subdelegacion=="Tun. Inferior" & Estado!="NO EJECUTADA" & (metros!= "global" | metros!="-" | metros!="a determinar" | metros!="NA")) %>%
@@ -722,7 +775,6 @@ indxx <- c("UM","Cauce","CodigoCauce","EfC","haBalance2015","LongitudRed","Reves
            'hasLuqui','caudalLuqui','volHaLuqui',"RevestPorc")
 EfInferior[indxx] <- lapply(EfInferior[indxx], function(x) as.numeric(as.character(x)))
 
-## @knitr InferiorTable
 
 Inferior <- tInf[ !is.na(CodigoCauce),]
 Inferior <- merge(x= Inferior,y= EfInferior,
@@ -736,7 +788,7 @@ Inferior$EfPost     <- Inferior[, ifelse(grepl("Ent. | Entubado | Entubamiento |
                             ifelse(grepl("Mej. | Mejora", Inferior$Obra), 0.987,  0.98)))]
 Inferior$EfAnte     <- Inferior$EfC/100 # ifelse(!is.na(Inferior$EfTierra),Inferior$EfTierra,Inferior$EfGlobal)
 
-## Ahorro Inferior ----
+### Ahorro Inferior ----
 
 # ahorro agua 1, volumen, superficie según Luqui. Extension canales (Balance 2015)
 Inferior <- Inferior %>% mutate(ahorroAgua1= 
@@ -750,7 +802,7 @@ Inferior <- Inferior %>% mutate(ahorroAgua3 =
 
 #if_else(is.na(ahorroAgua1) & is.na(canInf),VolHa * (hectareas/4) * canEfc/canLong * EfPost * (metros/1000),ahorroAgua1))
 
-## Valoración ahorro ----
+### Valoración ahorro ----
 # Valor del agua ahorrada
 
 Inferior <- Inferior %>% mutate(vAhorro1 = round(InvUsd/ahorroAgua1,3),
@@ -765,8 +817,20 @@ Inferior <- Inferior %>% arrange(Ano,vAhorro1)
 
 Inferior %>% select(CodigoCauce,volHaLuqui,hasLuqui,SinRevestir,Ano,InvMtUsd,metros,EfAnte,EfPost,ahorroAgua1:vAhorro3) %>% arrange(vAhorro1)
 
-## Curva Costo marginal enfoque de eficiencia en distancia revestida (pérdida) ----
-## @knitr ahorroInf1
+
+InfTable <- as.data.frame(Inferior %>% 
+ mutate(GananciaEfC= round(if_else(!is.na(EfAnte),(EfPost-EfAnte)*100,(EfPost-median(EfAnte, na.rm = T))*100))) %>%   
+ select(Ano,Obra,Modalidad,metros,InvMtUsd,GananciaEfC,ahorroAgua2,vAhorro2)) %>%
+  mutate_all(linebreak) %>%
+  kable(format = "latex",caption = "\\label{tab:InfTable}Tunuyán Inferior", align = c("l", "c",rep("r", 12)),
+        row.names = FALSE, booktabs = TRUE,  col.names = c('Año',"Obra","Modalidad","Metros","USD/mt","Ganancia EfC (%)","Ahorro","USD/m3"), longtable= T) %>%
+  kable_styling(latex_options = c("scale_down","HOLD_position","repeat_header"), position = "center", full_width = TRUE, font_size=10) %>% 
+  collapse_rows(columns = 1, latex_hline = "major", valign = "middle") %>%
+  footnote( general = "Elab. propia en base DGI (2021).", general_title = "Fuente: ", title_format = "italic", 
+            footnote_as_chunk=TRUE, escape=FALSE,threeparttable = T) 
+
+### CMgAhorro ----
+# Curva Costo marginal enfoque de eficiencia en distancia revestida (pérdida)
 OfertaInf           <- Inferior %>% select(CodigoCauce,Obra,metros,hectareas,hasLuqui,haBalance2015,InvUsd,InvMtUsd,metros,ahorroAgua1:ahorroAgua3,vAhorro1:vAhorro3) %>% arrange(vAhorro1)
 OfertaInf$AAcum1    <- cumsum(OfertaInf$ahorroAgua1) 
 OfertaInf$InvAcum1  <- cumsum(OfertaInf$InvUsd) 
@@ -779,24 +843,16 @@ AhorroInf1 <- ggplot(OfertaInf) +
             vjust=-1, hjust=1, size=3, check_overlap = T, inherit.aes = T,nudge_x = -10, nudge_y = 0) +
   scale_x_continuous(breaks= round(OfertaInf$AAcum1/1000, digits = 0), guide = guide_axis(check.overlap = TRUE))
 
-AhorroInf1 + theme(axis.text.x = element_text(size = 9, angle=75, vjust = .4), 
-                   axis.text.y = element_text(size = 10), panel.background = element_rect(fill = "white"), 
-                   axis.title = element_text(size = 9)) + 
-  geom_text(aes(1, media1,   label = paste('prom.', media1), vjust = -1,hjust=-.1), color = "#E69F00", fontface='plain',size=8/.pt) + 
-  geom_text(aes(1, mediana1, label = paste('med.', mediana1), vjust = -1,hjust=-.1), color = "#E69F00",  size=3) + 
-  ylim(-.1,2) + 
-  geom_hline(yintercept = mediana1, color = "#E69F00", linetype="dashed", size=0.5) +
-  geom_hline(yintercept = media1, color = "#E79F01", linetype="dashed", size=0.5) +
-  theme(axis.line = element_line(colour = "grey50")) + 
-  xlab("metros cúbicos anuales ('000)") + ylab("Dólares por m3 anual ahorrado")
-ggsave('DgiData/Graphs/OfertaInf_Ahorro1.png', height = 10, width = 12)
-
-## @knitr ahorroInf2
 OfertaInf           <- OfertaInf %>% arrange(vAhorro2)
 OfertaInf$AAcum2    <- cumsum(OfertaInf$ahorroAgua2) 
 OfertaInf$InvAcum2  <- cumsum(OfertaInf$InvUsd) 
+OfertaInf$valorInv2  <- (OfertaInf$ahorroAgua2 * OfertaInf$vAhorro2) 
 media2              <- round(mean(OfertaInf$vAhorro2,na.rm = T), 3)
 mediana2            <- round(median(OfertaInf$vAhorro2,na.rm = T),2)
+
+infVol <- as.data.frame(OfertaInf %>% arrange(ahorroAgua2) %>% mutate(valorInvInf2=cumsum(OfertaInf$valorInv2) ) %>%
+  slice(which.min(abs(vAhorro2-mean(OfertaInf$vAhorro2, na.rm=T)))) %>%
+  select(vAhorro2,AAcum2,InvAcum2,valorInv2,valorInvInf2))
 
 AhorroInf2 <- ggplot(OfertaInf) + 
   geom_step(aes(y= vAhorro2, x=AAcum2/1000),color = "#0073D9", size = 1) + 
@@ -804,19 +860,6 @@ AhorroInf2 <- ggplot(OfertaInf) +
             vjust=-1, hjust=1, size=3, check_overlap = T, inherit.aes = T,nudge_x = -10, nudge_y = 0) +
   scale_x_continuous(breaks= round(OfertaInf$AAcum2/1000, digits = 0), guide = guide_axis(check.overlap = TRUE))
 
-AhorroInf2 + theme(axis.text.x = element_text(size = 9, angle=75, vjust = .4), 
-                   axis.text.y = element_text(size = 10), panel.background = element_rect(fill = "white"), 
-                   axis.title = element_text(size = 9)) + 
-  geom_text(aes(1, media2,   label = paste('prom.', media2), vjust = -1,hjust=-.1), color = "#E69F00", fontface='plain',size=8/.pt) + 
-  geom_text(aes(1, mediana2, label = paste('med.', mediana2), vjust = -1,hjust=-.1), color = "#E69F00",  size=3) + 
-  ylim(-.1,2) + 
-  geom_hline(yintercept = mediana2, color = "#E69F00", linetype="dashed", size=0.5) +
-  geom_hline(yintercept = media2, color = "#E79F01", linetype="dashed", size=0.5) +
-  theme(axis.line = element_line(colour = "grey50")) + 
-  xlab("metros cúbicos anuales ('000)") + ylab("Dólares por m3 anual ahorrado")
-ggsave('DgiData/Graphs/OfertaInf_Ahorro2.png', height = 10, width = 12)
-
-## @knitr ahorroInf3
 OfertaInf           <- OfertaInf %>% arrange(vAhorro3)
 OfertaInf$AAcum3    <- cumsum(OfertaInf$ahorroAgua3) 
 OfertaInf$InvAcum3  <- cumsum(OfertaInf$InvUsd) 
@@ -829,6 +872,33 @@ AhorroInf3 <- ggplot(OfertaInf) +
             vjust=-1, hjust=1, size=3, check_overlap = T, inherit.aes = T,nudge_x = -10, nudge_y = 0) +
   scale_x_continuous(breaks= round(OfertaInf$AAcum3/1000, digits = 0), guide = guide_axis(check.overlap = TRUE))
 
+## @knitr ahorroInf1
+AhorroInf1 + theme(axis.text.x = element_text(size = 9, angle=75, vjust = .4), 
+                   axis.text.y = element_text(size = 10), panel.background = element_rect(fill = "white"), 
+                   axis.title = element_text(size = 9)) + 
+  geom_text(aes(1, media1,   label = paste('prom.', media1), vjust = -1,hjust=-.1), color = "#E69F00", fontface='plain',size=8/.pt) + 
+  geom_text(aes(1, mediana1, label = paste('med.', mediana1), vjust = -1,hjust=-.1), color = "#E69F00",  size=3) + 
+  ylim(-.1,2) + 
+  geom_hline(yintercept = mediana1, color = "#E69F00", linetype="dashed", size=0.5) +
+  geom_hline(yintercept = media1, color = "#E79F01", linetype="dashed", size=0.5) +
+  theme(axis.line = element_line(colour = "grey50")) + 
+  xlab("metros cúbicos anuales ('000)") + ylab("Dólares por m3 anual ahorrado")
+#ggsave('DgiData/Graphs/OfertaInf_Ahorro1.png', height = 10, width = 12)
+
+## @knitr ahorroInf2
+AhorroInf2 + theme(axis.text.x = element_text(size = 9, angle=75, vjust = .4), 
+                   axis.text.y = element_text(size = 10), panel.background = element_rect(fill = "white"), 
+                   axis.title = element_text(size = 9)) + 
+  geom_text(aes(1, media2,   label = paste('prom.', media2), vjust = -1,hjust=-.1), color = "#E69F00", fontface='plain',size=8/.pt) + 
+  geom_text(aes(1, mediana2, label = paste('med.', mediana2), vjust = -1,hjust=-.1), color = "#E69F00",  size=3) + 
+  ylim(-.1,2) + 
+  geom_hline(yintercept = mediana2, color = "#E69F00", linetype="dashed", size=0.5) +
+  geom_hline(yintercept = media2, color = "#E79F01", linetype="dashed", size=0.5) +
+  theme(axis.line = element_line(colour = "grey50")) + 
+  xlab("metros cúbicos anuales ('000)") + ylab("Dólares por m3 anual ahorrado")
+#ggsave('DgiData/Graphs/OfertaInf_Ahorro2.png', height = 10, width = 12)
+
+## @knitr ahorroInf3
 AhorroInf3 + theme(axis.text.x = element_text(size = 9, angle=75, vjust = .4), 
                    axis.text.y = element_text(size = 10), panel.background = element_rect(fill = "white"), 
                    axis.title = element_text(size = 9)) + 
@@ -839,73 +909,15 @@ AhorroInf3 + theme(axis.text.x = element_text(size = 9, angle=75, vjust = .4),
   geom_hline(yintercept = media3, color = "#E79F01", linetype="dashed", size=0.5) +
   theme(axis.line = element_line(colour = "grey50")) + 
   xlab("metros cúbicos anuales ('000)") + ylab("Dólares por m3 anual ahorrado")
-ggsave('DgiData/Graphs/OfertaInf_Ahorro3.png', height = 10, width = 12)
+#ggsave('DgiData/Graphs/OfertaInf_Ahorro3.png', height = 10, width = 12)
 
-# hay que revisar código de cauce de las obras viejas, consultar pendientes y agregar volúmenes anuales x código
+#write_csv(Inferior, 'DgiData/Estimaciones/InfAhorro.csv', na = "NA", append = FALSE, quote_escape = "double")
 
-# Cálculo en base a "Pérdida x km": 
-# Diferencia de caudales en la distancia medida ponderada x la eficiencia de la UM en cauces revestidos
-# 1ro: Ganancia de caudal en la distancia relevada con la EfC de revestimiento
-Inferior <- merge(x= Inferior,                   
-                  y= CaudalWebQ,                   
-                  by= c("CodigoCauce"), all.x=TRUE)
-glimpse(Inferior)
-
-Inferior$Q0   <- Inferior$Qwebyear
-#Inferior$Q0   <- ifelse(is.na(Inferior$Qwebyear),mean(Inferior$Qwebyear,na.rm = T),Inferior$Qwebyear) 
-summary(Inferior$Q0)
-
-Inferior$PerdidaxKm   <- round(Inferior[, (Q0) * EfAnte/(LongitudRed/1000) ], digits = 3) # EfAnterior/ longitud de red (en metros) x kilómetro en la UM
-Inferior$DeltaPerdida <- round(Inferior[, (PerdidaxKm * EfPost * metros/1000 * 4147200)], digits=0) 
-
-# 48 turnos anuales. un turno cada 5 días de 24 horas cada turno
-# segundos x minutos x horas x turnos
-#  60" x 60' x 24hs x 80 = 6912000
-#  60" x 60' x 24hs x 48 = 4147200
-
-# Cálculo en base a EfC
-# 1ro: Caudal de entrada x (ganancia de eficiencia) / distancia del aforo en km
-# 2do: kilómetros revestidos (metros/1000)
-# 3ro: x segundos anuales de riego (1 turno semanal durante 8 meses)
-#Inferior$ACaudal       <- round(Inferior[, (Q0) * (EfPost - EfAnte) / (Distancia)], digits = 2) # KmTierra # total inspección 
-#Inferior$ACaudalAnual  <- round(Inferior[, (Q0) * (EfPost - EfAnte) / (Distancia)  *  metros/1000 * 2764800], digits=1) 
-
-# 2do Cálculo ahorro Valores de Ef.Conducción de Unidad de Manejo
-#Inferior$ACaudalUm       <- round(Inferior[, Q0 * ((EfRevest * Revestida) + (EfTierra * LongHijuelas))/ (LongRevest + LongHijuelas) ], digits = 3)
-#summary(Inferior$ACaudalUm)
-#Inferior$ACaudalAnualUm  <- round(Inferior[, ACaudalUm * metros/1000 * 1036800], digits=0) 
-
-Inferior$valuePerd  <- round(Inferior[, InvUsd / DeltaPerdida], digits = 2)
-#Inferior$valueEf    <- round(Inferior[, InvUsd / ACaudalAnualUm], digits = 2)
-
-Inferior$valuePerdBis <- round(Inferior[, ifelse(Modalidad=="Lic." | Modalidad=="Licitación" | Modalidad=="Licitacion" | Modalidad=="LICITADA",
-  valuePerd, valuePerd * 1.32)], digits = 2)
-#Inferior$valueEfBis <- round(Inferior[, ifelse(Modalidad=="Lic." | Modalidad=="Licitación" | Modalidad=="Licitacion" | Modalidad=="LICITADA", #grepl("Licitacion | Licitación | LICITADA", Inferior$Modalidad),                                              valueEf, valueEf * 1.32)], digits = 2)
-
-
-Inferior <- Inferior[order(Ano,valuePerdBis)]
-
-write_csv(Inferior, 'DgiData/Estimaciones/InfAhorro.csv', na = "NA", append = FALSE, quote_escape = "double")
-
-
-InfTable <- as.data.frame(Inferior[ , c(8,7,3,4,18,17,22:24)]) %>%
-  mutate_all(linebreak) %>%
-  mutate(EfPost=round(EfPost,1),EfAnte=round(EfAnte,2),PerdidaxKm=round(PerdidaxKm,2)) %>%
-  kable(format = "latex",caption = "\\label{tab:InfTable}Tunuyán Inferior", align = c("l", "c",rep("r", 12)),
-        row.names = FALSE, booktabs = TRUE,  
-        col.names = c("Obra","Modalidad","Metros","USD/mt","ex-ante","ex-post","Pérdida","Delta pérdida","USD/m3")) %>%
-  kable_styling(latex_options = c("HOLD_position","scale_down"), position = "center", full_width = FALSE, font_size=11) %>% # latex_options = c("striped", "scale_down")
-  #add_header_above(c(" "=4,"Ef.Conducción" =2, "Ahorro m3/km" = 2, "USD/m3" = 2, "USD/m3 (ajuste)" = 2), align = "c") %>%
-  pack_rows("2017", 1,7) %>%
-  pack_rows("2018", 8,15) %>%
-  pack_rows("2019", 15,22) %>%
-  pack_rows("2020", 23,29) %>%
-  footnote( general = "Elab. propia en base DGI (2020).", general_title = "Fuente: ", title_format = "italic", 
-            footnote_as_chunk=TRUE, escape=FALSE,threeparttable = T) 
-
+## @knitr InfTable
+InfTable %>% landscape()
 
 ## @knitr InfCaudales
-Inferior %>% select(Ano,CodigoCauce, Obra,Qwebav,Qwebyear,metros,PerdidaxKm,EfPost,EfAnte) %>%
+Inferior %>% select(Ano,CodigoCauce, Obra,metros,PerdidaxKm,EfPost,EfAnte) %>%
   #select(Ano,CodigoCauce, Cauce, Obra,Q0,CaudalDiseno, Qweb,KmTierra,metros,PerdidaxKm, ACaudalUm,EfPost,EfAnte) %>%
   mutate(GananciaEfC= paste0(GananciaEfC= round((EfPost-EfAnte)*100,4),"%")) %>%
   mutate(EfPost=round(EfPost,2),EfAnte=round(EfAnte,2),Qwebav=round(Qwebav,2),Qwebyear=round(Qwebyear,2)) %>%
@@ -917,9 +929,6 @@ Inferior %>% select(Ano,CodigoCauce, Obra,Qwebav,Qwebyear,metros,PerdidaxKm,EfPo
         row.names = FALSE, booktabs = TRUE,  col.names = c("Código","Obra","Q_prom","Q_anual","Ef1","Ef0","GananciaEfC")) %>%
   footnote( general = "Elaboración propia en base a DGI (2015), Datos abiertos (2019) y entrevistas (2020).", general_title = "Fuente: ", title_format = "italic", #Datos de caudal del Río Mendoza extrapolados
             footnote_as_chunk=TRUE, escape=FALSE, threeparttable = T) #landscape()
-
-## @knitr InfTable
-InfTable 
 
 
 ## @knitr InferiorPlots
@@ -1075,7 +1084,7 @@ redRiego$subSist <- ifelse(
 
 redRiego$subSist <- ifelse( (redRiego$codigo==9774 | redRiego$codigo==9705 | redRiego$codigo==9713), 1, redRiego$subSist)
 redRiego$subSist <- factor(redRiego$subSist, levels = c(1:2,4:9,999),
-  labels = c('Las Tunas','Arroyo Grande y Diq. Valle de Uco',#'Diq. Valle de Uco',
+  labels = c('Las Tunas','A. Grande y Diq. Valle de Uco',#'Diq. Valle de Uco',
    'Yaucha-Aguanda','Mendoza','T.Inferior','Malargue','Diamante','Atuel','otro'))
 
 ## @knitr subSistemas
@@ -1094,7 +1103,7 @@ redRiego %>% select(subdel,CodigoCauce, subSist, denominacion,id_mat) %>%
   theme_bw() + theme(legend.position = 'bottom',legend.title = element_blank()) +
   geom_sf(data = cuenca[ cuenca$CUENCA!="RÃ­o TunuyÃ¡n Superior",],col='grey90') +
   guides(fill = guide_legend(ncol = 2))
-ggsave('figure/tsSubsistemas.pdf', height = 5, width = 4, units = 'in')
+#ggsave('figure/tsSubsistemas.pdf', height = 5, width = 4, units = 'in')
 
 ## @knitr subsist_control
 # polygon fill Currently we need to manually merge the two together
@@ -1130,23 +1139,24 @@ redCodigo$CodigoCauce <- as.numeric(as.character(redCodigo$CodigoCauce))
 arrange(redCodigo,CodigoCauce)
 arrange(OfertaSup,CodigoCauce)
 
+#OfertaSup %>% filter(subSist=='Arroyo Grande y Diq. Valle de Uco') %>% 
+ # select(metros,ahorroAgua2,hectareas,vAhorro2,CodigoCauce,Obra) %>%
+  #arrange(vAhorro2)
+
 ## Estimaciones ahora geoespaciales ----
 OfertaSup <- merge(x= OfertaSup, 
  y= redCodigo[redCodigo$subdel=='Rio Tunuyan Superior',c("CodigoCauce","subSist","Canal","Hijuela","Puente Canal",
  "Rama","Sifon","Linea Auxiliar","Proyectado","Arroyo", "Canal Viejo","Desagüe","Ramo","Rio","Hormigon")], 
  by = c('CodigoCauce'), all.x = TRUE)
 
-OfertaSup$totalTipo <- rowSums(OfertaSup[,20:32], na.rm = T)
-colnames(OfertaSup)[33] <- 'geometry'
-arrange(OfertaSup,vAhorro1)
+OfertaSup$totalTipo <- rowSums(OfertaSup[,24:35], na.rm = T)
+colnames(OfertaSup)[36] <- 'geometry'
+#arrange(OfertaSup,vAhorro1)
 
 OfertaSup$subSist <- ifelse((OfertaSup$CodigoCauce==9774 | OfertaSup$CodigoCauce==9705 | OfertaSup$CodigoCauce==9713), 
-                      1, OfertaSup$subSist)
-OfertaSup <- OfertaSup %>% 
-  mutate(subSist = if_else((CodigoCauce==9724 & is.na(subSist)), 2, subSist))
-
+                      1, ifelse(OfertaSup$CodigoCauce==9724, 2, OfertaSup$subSist))
 OfertaSup$subSist <- factor(OfertaSup$subSist, levels = c(1:3),
-    labels = c('Las Tunas','Arroyo Grande y Diq. Valle de Uco','Yaucha-Aguanda'))
+    labels = c('Las Tunas','A. Grande y diq. Valle de Uco','Yaucha-Aguanda'))
 
 
 ahorroSist <- OfertaSup %>% select(vAhorro1,AAcum1,Obra,subSist) %>%
@@ -1155,33 +1165,50 @@ ahorroSist <- OfertaSup %>% select(vAhorro1,AAcum1,Obra,subSist) %>%
             vjust=-1, hjust=1, size=3, check_overlap = T, inherit.aes = T,nudge_x = -10, nudge_y = 0) +
   scale_x_continuous(breaks= round(OfertaSup$AAcum1/1000, digits = 0), guide = guide_axis(check.overlap = TRUE))
 
+mediaTunas    <- round(mean(OfertaSup$vAhorro1[OfertaSup$subSist=='Las Tunas'],na.rm = T),3)
+medianaTunas  <- round(median(OfertaSup$vAhorro1[OfertaSup$subSist=='Las Tunas'],na.rm = T),3)
+mediaVdU      <- round(mean(OfertaSup$vAhorro1[OfertaSup$subSist=='A. Grande y diq. Valle de Uco'],na.rm = T),3)
+medianaVdU    <- round(median(OfertaSup$vAhorro1[OfertaSup$subSist=='A. Grande y diq. Valle de Uco'],na.rm = T),3)
+mediaYA       <- round(mean(OfertaSup$vAhorro1[OfertaSup$subSist=='Yaucha-Aguanda'],na.rm = T),3)
+medianaYA     <- round(median(OfertaSup$vAhorro1[OfertaSup$subSist=='Yaucha-Aguanda'],na.rm = T),3)
 
 ## @knitr ahorroSist
 ahorroSist + theme(axis.text.x = element_text(size = 9, angle=75, vjust = .4), 
                    axis.text.y = element_text(size = 10), panel.background = element_rect(fill = "white"), 
                    axis.title = element_text(size = 9)) + 
-  geom_text(aes(1, media1,   label = paste('prom.', media1), vjust = -1,hjust=-.1), color = "#E69F00", fontface='plain',size=8/.pt) + 
-  geom_text(aes(1, mediana1, label = paste('med.', mediana1), vjust = -1,hjust=-.1), color = "#E69F00",  size=3) + 
   ylim(-.1,2) + 
-  geom_hline(yintercept = mediana1, color = "#E69F00", linetype="dashed", size=0.5) +
+  geom_text(aes(1, media1,   label = paste('prom.', media1), vjust = -1,hjust=-.1), color = "#E69F00", fontface='plain',size=8/.pt) + 
   geom_hline(yintercept = media1, color = "#E79F01", linetype="dashed", size=0.5) +
+  geom_text(aes(1, mediana1, label = paste('med.', mediana1), vjust = -1,hjust=-.1), color = "#E69F00",  size=3) + 
+  geom_hline(yintercept = mediana1, color = "#E69F00", linetype="dashed", size=0.5) +
   theme(axis.line = element_line(colour = "grey50")) + 
   xlab("metros cúbicos anuales ('000)") + ylab("Dólares por m3 anual ahorrado") + facet_wrap(~subSist, nrow = 1)
-ggsave('DgiData/Graphs/ofertaSist1.png', height = 4, width = 12)
+#ggsave('DgiData/Graphs/ofertaSist.png', height = 4, width = 12)
 
 
-## @knitr ahorroSist1
+## @knitr ahorroSist3
 OfertaSup %>% select(vAhorro1,AAcum1,Obra,subSist) %>%
-  ggplot(.) + geom_step(aes(y= vAhorro1, x=AAcum1/1000,colour=subSist)) + #color = "#0073D9", size = 1) + 
+  ggplot(.) + geom_step(aes(y= vAhorro1, x=AAcum1/1000,colour=subSist)) + 
   geom_text(aes(y= vAhorro1, x=AAcum1/1000, label = Obra, angle=0,colour=subSist),
-            vjust=3, hjust=.2, size=3, check_overlap = T, inherit.aes = T) + #,nudge_x = -10, nudge_y = -10) +
+            vjust=3, hjust=.2, size=3, check_overlap = T, inherit.aes = T) + 
   scale_x_continuous(breaks= round(OfertaSup$AAcum1/1000, digits = 0), guide = guide_axis(check.overlap = TRUE)) + 
-  ylim(0,1) + theme_bw() + 
-  theme(legend.position = 'bottom',#c(0.25,0.75), legend.direction = 'horizontal',
-        legend.title = element_blank()) + 
+  ylim(0,2) + theme_bw() + 
+  geom_text(aes(1, media1,   label = paste('prom.', media1), vjust = -1,hjust=-.1), color = "#E69F00", fontface='plain',size=8/.pt) + 
+  geom_hline(yintercept = media1, color = "#E79F01", linetype="dashed", size=0.5) +
+  xlab("metros cúbicos anuales ('000)") + ylab("Dólares por m3 anual ahorrado") + 
+  theme(legend.position = 'bottom', legend.title = element_blank(),
+        panel.background = element_rect(fill = "white")) + 
   facet_wrap(~subSist, nrow = 1)
-ggsave('DgiData/Graphs/ofertaSist2.png', height = 4, width = 12)
+#ggsave('DgiData/Graphs/ofertaSist1.png', height = 4, width = 12)
 
+## @knitr ahorroSist4
+OfertaSup %>% select(vAhorro1,AAcum1,Obra,subSist) %>%
+  ggplot(.,aes(x=vAhorro1, fill=subSist, colour=subSist)) + geom_density(alpha=.2) +  
+  theme_bw() + scale_y_continuous(labels = NULL) + #xlim(0,2.3) + 
+  labs(x="Dólares norteamericanos ('000 m3/km)") +
+  theme(legend.position = 'bottom',#c(0.3,0.7), 
+        axis.title = element_text(size = 8), legend.title = element_blank(), legend.text = element_text(size = 8))
+#ggsave('DgiData/Graphs/ofertaSist_densidad.png', height = 4, width = 12)
 
 ## @knitr spdataLoad2
 
